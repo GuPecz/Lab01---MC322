@@ -1,5 +1,3 @@
-package lab02;
-
 public class Cliente
 {
     private String nome;
@@ -69,7 +67,7 @@ public class Cliente
 
     public String toString()
     {
-        return String.format("Nome: %s\nCPF: %s\nData de nascimento: %s\nIdade: %d\nEndereço: %s\n", nome, cpf, dataNascimento, idade, endereco);
+        return String.format("Suas informações\nNome: %s\nCPF: %s\nData de nascimento: %s\nIdade: %d\nEndereço: %s\n", nome, cpf, dataNascimento, idade, endereco);
     }
 
     private int digitoVerificador(int[] cpf, int ini, int fim)
@@ -94,24 +92,24 @@ public class Cliente
         }
     }
 
-    public boolean validarCPF(String cpf)
+    public boolean validarCPF()
     {
-        int[] cpfInt;
+        int[] cpfInt = new int[]{0};
         boolean todosIguais = true;
         int verificadorUm;
         int verificadorDois;
         
-        cpf = cpf.replaceAll(".", "");
-        cpf = cpf.replaceAll("-", "");
 
-        if (cpf.length() != 11)
+        String cpfNumeros = cpf.replaceAll("\\D", "");
+
+        if (cpfNumeros.length() != 11)
         {            
             return false;
         }
 
         for (int i = 0; i < 11; i++)
         {
-            cpfInt[i] = cpf.charAt(i) - '0';
+            cpfInt[i] = cpfNumeros.charAt(i) - '0';
         }
 
         for (int i = 1; i < 11; i++)
