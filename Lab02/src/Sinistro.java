@@ -1,4 +1,5 @@
 package lab02;
+import java.util.Random;
 
 public class Sinistro
 {
@@ -6,9 +7,11 @@ public class Sinistro
     private String data;
     private String endereco;
 
-    public Sinistro(int id, String data, String endereco)
+    public Sinistro(String data, String endereco)
     {
-        this.id = id;
+        Random rng = new Random(); /* Random Number Generator, ou seja, Gerador de Número Aleatório */
+
+        this.id = rng.nextInt(1000);
         this.data = data;
         this.endereco = endereco;
     }
