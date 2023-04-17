@@ -93,12 +93,11 @@ public class Cliente
         this.listaVeiculos = listaVeiculos;
     }
 
-    public String toString()
+    public String toString() 
     {
-        /* Stub
-           Como lidar com Date?
-           Como lidar com vetor de Veiculos? 
-           return String.format("Nome: %s\nEndereço: %s\nData de licença: %s\nEducação: %d\nGênero: %s\nClasse econômica: %s\n", nome, endereco, dataNascimento, idade, endereco); */
-        return "oi";
+        return "Informações do cliente\nNome: " + nome + "\nEndereco: " + endereco + 
+                "\nData da licença: " + dataLicenca + "\nEducação: " + educacao +
+                "\nGênero: " + genero + "\nClasse econômica: " + classeEconomica +
+                "\nLista de veículos: " + listaVeiculos + "\n";
     }
 }

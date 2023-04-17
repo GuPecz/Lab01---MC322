@@ -55,7 +55,8 @@ public class Veiculo
 
     public String toString() 
     {
-        // Stub
-        return "";
+        return "Informações do veículo\nPlaca: " + placa +
+                "\nModelo: " + modelo + "\nMarca: " + marca + 
+                "\nAno de fabricação: " + anoFabricacao + "\n";
     }
 }

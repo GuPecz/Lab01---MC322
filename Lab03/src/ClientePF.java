@@ -31,12 +31,15 @@ public class ClientePF extends Cliente
     @Override
     public String toString()
     {
-        // Stub
-        return "oi";
+        return "Informações do cliente\nNome: " + super.getNome() + "\nEndereco: " + super.getEndereco() + 
+                "\nData de licença: " + super.getDataLicenca() + "\nEducação: " + super.getEducacao() +
+                "\nGênero: " + super.getGenero() + "\nClasse econômica: " + super.getClasseEconomica() +
+                "\nLista de veículos: " + super.getListaVeiculos() + "\nCPF: " + cpf + 
+                "\nData de nascimento: " + dataNascimento + "\n";
     }
 
     // Método do Lab 2, verificar funcionamento agora
-    private int digitoVerificador(int[] cpf, int ini, int fim)
+    public static int digitoVerificador(int[] cpf, int ini, int fim)
     {
         int multiplicador = 10;
         int verificador = 0;
@@ -58,9 +61,9 @@ public class ClientePF extends Cliente
         }
     }
 
-    public boolean validarCPF(String cpf)
+    public static boolean validarCPF(String cpf)
     {
-        int[] cpfInt = new int[]{0};
+        int[] cpfInt = new int[11];
         boolean todosIguais = true;
         int verificadorUm;
         int verificadorDois;
@@ -92,8 +95,8 @@ public class ClientePF extends Cliente
             return false;
         }
 
-        verificadorUm = digitoVerificador(cpfInt, 0, 10);
-        verificadorDois = digitoVerificador(cpfInt, 1, 11);
+        verificadorUm = digitoVerificador(cpfInt, 0, 9);
+        verificadorDois = digitoVerificador(cpfInt, 1, 10);
 
         if (cpfInt[9] == verificadorUm && cpfInt[10] == verificadorDois)
         {

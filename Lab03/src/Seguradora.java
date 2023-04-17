@@ -81,37 +81,92 @@ public class Seguradora
 
     public boolean cadastrarCliente(Cliente cliente)
     {
-        // Stub
-        return true;
+        if (listaClientes.contains(cliente))
+        {
+            System.out.println("ERRO: Cliente já cadastrado!");
+            return false;
+        }
+        else
+        {
+            System.out.println("Cadastro realizado");
+            listaClientes.add(cliente);
+            return true;
+        }
     }
 
     public boolean removerCliente(String cliente)
     {
-        // Stub
-        return true;
+
+        if (listaClientes.isEmpty() == true)
+        {
+            System.out.println("Não há clientes para serem removidos");
+            return false;
+        }
+        
+        int tam = listaClientes.size();
+        for (int i = 0; i < tam; i++)
+        {
+            if (listaClientes.get(i).getNome() == cliente)
+            {
+                System.out.println("Cliente" + cliente + " removido");
+                listaClientes.remove(i);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public List<Cliente> listarClientes(String tipoCliente)
     {
-        // Stub
+        // Stub?????
         return listaClientes;
     }
 
-    public boolean gerarSinistro()
+    public boolean gerarSinistro(Sinistro sinistro)
     {
-        // Stub
-        return true;
+        if (!listaSinistros.contains(sinistro))
+        {
+            System.out.println("ERRO: Sinistro já registrado");
+            return false;
+        }
+        else if (listaClientes.isEmpty() == true)
+        {
+            System.out.println("ERRO: Não há cliente cadastrado para gerar este sinistro");
+            return false;
+        }
+        else
+        {
+            listaSinistros.add(sinistro);
+            return true;
+        }
     }
 
     public boolean visualizarSinistro(String cliente)
     {
-        // Stub
-        return true;
+        if (listaSinistros.isEmpty() == true || listaClientes.isEmpty() == true)
+        {
+            return false;
+        }
+
+        int tam = listaSinistros.size();
+        for (int i = 0; i < tam; i++)
+        {
+            Sinistro sin = listaSinistros.get(i);
+            
+            if (sin.getCliente().getNome() == cliente)
+            {
+                System.out.println(sin);
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public List<Sinistro> listarSinistros()
     {
-        // Stub
+        // Stub?????
         return listaSinistros;
     }
 }
