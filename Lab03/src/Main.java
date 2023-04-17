@@ -121,6 +121,7 @@ class Main
         String tipoCliente;
         int qtdVeiculos;
         String sn = ""; // Sim ou não
+        String cliente;
 
         System.out.println(seguradora);
         System.out.println("\n--------------------//--------------------\n");
@@ -158,21 +159,35 @@ class Main
             System.out.println(veiculo);
 
             seguradora.getListaClientes().get(ultimoCliente).getListaVeiculos().add(veiculo);
-
-            System.out.println("Deseja gerar um sinistro para este veículo? [s/n]");
+            
+            // Opção não está funcionando, então por enquanto todo veículo instanciado terá sinistro
+            System.out.println("Deseja gerar um sinistro para este veículo? [s/n]"); 
             sn = input.nextLine();
             
-            if (sn == "s")
-            {
+            //if (sn == "s")
+            //{
                 Sinistro sinistro = instanciarSinistro(input, seguradora, veiculo, seguradora.getListaClientes().get(ultimoCliente));
                 ultimoSinistro = seguradora.getListaSinistros().size() - 1;
                 System.out.println(sinistro);
                 seguradora.gerarSinistro(sinistro);
-            }
+            //}
         }
 
         System.out.println("\n--------------------//--------------------\n");
 
+        System.out.println("Clientes cadastrados\n");
+        System.out.println("Pessoas físicas");
+        seguradora.listarClientes("f");
 
+        System.out.println("Pessoas jurídicas");
+        seguradora.listarClientes("j");
+
+        System.out.println("Pesquisar sinistro por nome");
+        cliente = input.nextLine();
+        seguradora.visualizarSinistro(cliente);
+
+        System.out.println("Remover cliente por nome");
+        cliente = input.nextLine();
+        seguradora.removerCliente(cliente);
     }
 }

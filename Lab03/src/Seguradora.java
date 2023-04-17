@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Seguradora
@@ -119,8 +120,29 @@ public class Seguradora
 
     public List<Cliente> listarClientes(String tipoCliente)
     {
-        // Stub?????
-        return listaClientes;
+        List<Cliente> lista = new ArrayList<>();
+
+        for (Cliente cliente: this.listaClientes)
+        {
+            switch (tipoCliente)
+            {
+                case "f":
+                if (cliente instanceof ClientePF)
+                {
+                    lista.add(cliente);
+                }
+                break;
+
+                case "j":
+                if (cliente instanceof ClientePJ)
+                {
+                    lista.add(cliente);
+                }
+                break;
+            }
+        }
+
+        return lista;
     }
 
     public boolean gerarSinistro(Sinistro sinistro)
