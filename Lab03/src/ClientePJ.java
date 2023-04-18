@@ -1,24 +1,24 @@
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ClientePJ extends Cliente
 {
     private final String cnpj;
-    private Date dataFundacao;
+    private LocalDate dataFundacao;
     
-    public ClientePJ(String nome, String endereco, Date dataLicenca, String educacao, String genero, String classeEconomica, List<Veiculo> listaVeiculos, String cnpj, Date dataFundacao)
+    public ClientePJ(String nome, String endereco, LocalDate dataLicenca, String educacao, String genero, String classeEconomica, List<Veiculo> listaVeiculos, String cnpj, LocalDate dataFundacao)
     {
         super(nome, endereco, dataLicenca, educacao, genero, classeEconomica, listaVeiculos);
         this.cnpj = cnpj;
         this.dataFundacao = dataFundacao;
     }
     
-    public Date getDataFundacao() 
+    public LocalDate getDataFundacao() 
     {
         return dataFundacao;
     }
     
-    public void setDataFundacao(Date dataFundacao) 
+    public void setDataFundacao(LocalDate dataFundacao) 
     {
         this.dataFundacao = dataFundacao;
     }
@@ -34,7 +34,7 @@ public class ClientePJ extends Cliente
         return "Informações do cliente\nNome: " + super.getNome() + "\nEndereco: " + super.getEndereco() + 
                 "\nData de licença: " + super.getDataLicenca() + "\nEducação: " + super.getEducacao() +
                 "\nGênero: " + super.getGenero() + "\nClasse econômica: " + super.getClasseEconomica() +
-                "\nLista de veículos: " + super.getListaVeiculos() + "\nCNPJ: " + cnpj + 
+                "\nLista de veículos: " + super.imprimirVeiculos() + "\nCNPJ: " + cnpj + 
                 "\nData de fundação: " + dataFundacao + "\n";
     }
     public static int digitoVerificador(int[] cnpj, int ini, int fim)

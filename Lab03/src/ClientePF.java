@@ -1,24 +1,24 @@
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class ClientePF extends Cliente
 {
     private final String cpf;
-    private Date dataNascimento;
+    private LocalDate dataNascimento;
     
-    public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, String genero, String classeEconomica, List<Veiculo> listaVeiculos, String cpf, Date dataNascimento)
+    public ClientePF(String nome, String endereco, LocalDate dataLicenca, String educacao, String genero, String classeEconomica, List<Veiculo> listaVeiculos, String cpf, LocalDate dataNascimento)
     {
         super(nome, endereco, dataLicenca, educacao, genero, classeEconomica, listaVeiculos);
         this.cpf = cpf;
         this.dataNascimento = dataNascimento;
     }
     
-    public Date getDataNascimento() 
+    public LocalDate getDataNascimento() 
     {
         return dataNascimento;
     }
     
-    public void setDataNascimento(Date dataNascimento) 
+    public void setDataNascimento(LocalDate dataNascimento) 
     {
         this.dataNascimento = dataNascimento;
     }
@@ -34,7 +34,7 @@ public class ClientePF extends Cliente
         return "Informações do cliente\nNome: " + super.getNome() + "\nEndereco: " + super.getEndereco() + 
                 "\nData de licença: " + super.getDataLicenca() + "\nEducação: " + super.getEducacao() +
                 "\nGênero: " + super.getGenero() + "\nClasse econômica: " + super.getClasseEconomica() +
-                "\nLista de veículos: " + super.getListaVeiculos() + "\nCPF: " + cpf + 
+                "\nLista de veículos: " + super.imprimirVeiculos() + "\nCPF: " + cpf + 
                 "\nData de nascimento: " + dataNascimento + "\n";
     }
 

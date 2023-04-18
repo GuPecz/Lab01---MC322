@@ -1,5 +1,5 @@
 import java.util.Scanner;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -30,8 +30,18 @@ class Main
         List<Veiculo> listaVeiculos = new ArrayList<>();
         cliente.setListaVeiculos(listaVeiculos);
 
-        Date dataLicenca = new Date();
+        LocalDate dataLicenca = LocalDate.now();
         cliente.setDataLicenca(dataLicenca);
+    }
+
+    public static LocalDate converteString(String data)
+    {
+        data = data.replaceAll("\\D", "");
+        int dia = Integer.parseInt(data.substring(0, 2));
+        int mes = Integer.parseInt(data.substring(2, 4));
+        int ano = Integer.parseInt(data.substring(4, 8));
+
+        return LocalDate.of(ano, mes, dia);
     }
 
     public static ClientePF instanciarPF(Scanner input)
@@ -47,10 +57,11 @@ class Main
             valido = ClientePF.validarCPF(cpf);
         }
         
-        System.out.println("Insira sua data de nascimento: ");
-        input.nextLine();
+        System.out.println("Insira sua data de nascimento [dd/mm/aaaa]: ");
+        String data = input.nextLine();
+        LocalDate dataNascimento = converteString(data);
 
-        ClientePF cliente = new ClientePF(null, null, null, null, null, null, null, cpf, new Date());
+        ClientePF cliente = new ClientePF(null, null, null, null, null, null, null, cpf, dataNascimento);
 
         IniciarCliente(cliente, input);
 
@@ -71,9 +82,10 @@ class Main
         }
 
         System.out.println("Insira sua data de fundação: ");
-        input.nextLine();
+        String data = input.nextLine();
+        LocalDate dataFundacao = converteString(data);
 
-        ClientePJ cliente = new ClientePJ(null, null, null, null, null, null, null, cnpj, new Date());
+        ClientePJ cliente = new ClientePJ(null, null, null, null, null, null, null, cnpj, dataFundacao);
 
         IniciarCliente(cliente, input);
 
@@ -116,20 +128,19 @@ class Main
                                            "Rua Tchurusbangutudusbagu, 24", 
                                            new ArrayList<Sinistro>(), new ArrayList<Cliente>());
         int ultimoCliente = 0;
-        int ultimoSinistro = 0;
         Scanner input = new Scanner(System.in);
         String tipoCliente;
         int qtdVeiculos;
-        String sn = ""; // Sim ou não
         String cliente;
 
-        System.out.println(seguradora);
+        System.out.println(seguradora.getNome());
         System.out.println("\n--------------------//--------------------\n");
 
         System.out.println("Deseja cadastrar uma pessoa física ou jurídica? [f/j]");
 
         tipoCliente = input.nextLine();
 
+        System.out.println("Iniciando cadastro do cliente");
         switch (tipoCliente)
         {
             case "f":
@@ -155,34 +166,31 @@ class Main
         input.nextLine();
         for (int i = 0; i < qtdVeiculos; i++)
         {
+            System.out.println("Iniciando cadastro do veículo");
             Veiculo veiculo = instanciarVeiculo(input);
             System.out.println(veiculo);
 
             seguradora.getListaClientes().get(ultimoCliente).getListaVeiculos().add(veiculo);
             
-            // Opção não está funcionando, então por enquanto todo veículo instanciado terá sinistro
-            System.out.println("Deseja gerar um sinistro para este veículo? [s/n]"); 
-            sn = input.nextLine();
-            
-            //if (sn == "s")
-            //{
-                Sinistro sinistro = instanciarSinistro(input, seguradora, veiculo, seguradora.getListaClientes().get(ultimoCliente));
-                ultimoSinistro = seguradora.getListaSinistros().size() - 1;
-                System.out.println(sinistro);
-                seguradora.gerarSinistro(sinistro);
-            //}
+            System.out.println("Iniciando registro do sinistro");
+            Sinistro sinistro = instanciarSinistro(input, seguradora, veiculo, seguradora.getListaClientes().get(ultimoCliente));
+            System.out.println(sinistro);
+            seguradora.gerarSinistro(sinistro);
         }
 
         System.out.println("\n--------------------//--------------------\n");
 
         System.out.println("Clientes cadastrados\n");
         System.out.println("Pessoas físicas");
-        seguradora.listarClientes("f");
+        System.out.println(seguradora.listarClientes("f"));
 
         System.out.println("Pessoas jurídicas");
-        seguradora.listarClientes("j");
+        System.out.println(seguradora.listarClientes("j"));
 
-        System.out.println("Pesquisar sinistro por nome");
+        System.out.println("Sinistros registrados\n");
+        System.out.println(seguradora.listarSinistros());
+
+        System.out.println("Pesquisar sinistro por cliente");
         cliente = input.nextLine();
         seguradora.visualizarSinistro(cliente);
 

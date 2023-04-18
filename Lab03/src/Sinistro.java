@@ -84,8 +84,8 @@ public class Sinistro
     public String toString() 
     {
         return "Informações do sinistro\nID: " + id + "\nData:" + data + 
-                "\nEndereço: " + endereco + "\nSeguradora: " + seguradora + 
-                "\nVeiculo: " + veiculo + "\nCliente: " + cliente + "\n";
+                "\nEndereço: " + endereco + "\nSeguradora: " + seguradora.getNome() + 
+                "\nVeiculo: " + veiculo.getPlaca() + "\nCliente: " + cliente.getNome() + "\n";
     }
 
     public static void main(String[] args)

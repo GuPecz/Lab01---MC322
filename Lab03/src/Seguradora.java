@@ -147,7 +147,7 @@ public class Seguradora
 
     public boolean gerarSinistro(Sinistro sinistro)
     {
-        if (!listaSinistros.contains(sinistro))
+        if (listaSinistros.contains(sinistro))
         {
             System.out.println("ERRO: Sinistro já registrado");
             return false;
@@ -183,6 +183,7 @@ public class Seguradora
             }
         }
 
+        System.out.print("ERRO: Cliente não encontrado");
         return false;
     }
 
