@@ -4,15 +4,59 @@ import java.util.List;
 public class ClientePF extends Cliente
 {
     private final String cpf;
+    private String genero;
+    private LocalDate dataLicenca;
+    private String educacao;
     private LocalDate dataNascimento;
+    private String classeEconomica;
     
-    public ClientePF(String nome, String endereco, LocalDate dataLicenca, String educacao, String genero, String classeEconomica, List<Veiculo> listaVeiculos, String cpf, LocalDate dataNascimento)
+    
+    public ClientePF(String nome, String endereco, List<Veiculo> listaVeiculos, String cpf, String genero, LocalDate dataLicenca, String educacao, LocalDate dataNascimento, String classeEconomica)
     {
-        super(nome, endereco, dataLicenca, educacao, genero, classeEconomica, listaVeiculos);
+        super(nome, endereco, listaVeiculos);
         this.cpf = cpf;
+        this.genero = genero;
+        this.dataLicenca = dataLicenca;
+        this.educacao = educacao;
+        this.classeEconomica = classeEconomica;
         this.dataNascimento = dataNascimento;
     }
     
+    public String getCpf() 
+    {
+        return cpf;
+    }
+
+    public String getGenero() 
+    {
+        return genero;
+    }
+
+    public void setGenero(String genero) 
+    {
+        this.genero = genero;
+    }
+
+    public LocalDate getDataLicenca() 
+    {
+        return dataLicenca;
+    }
+
+    public void setDataLicenca(LocalDate dataLicenca) 
+    {
+        this.dataLicenca = dataLicenca;
+    }
+
+    public String getEducacao() 
+    {
+        return educacao;
+    }
+
+    public void setEducacao(String educacao) 
+    {
+        this.educacao = educacao;
+    }
+
     public LocalDate getDataNascimento() 
     {
         return dataNascimento;
@@ -22,19 +66,23 @@ public class ClientePF extends Cliente
     {
         this.dataNascimento = dataNascimento;
     }
-
-    public String getCpf() 
+    
+    public String getClasseEconomica() 
     {
-        return cpf;
+        return classeEconomica;
+    }
+
+    public void setClasseEconomica(String classeEconomica) 
+    {
+        this.classeEconomica = classeEconomica;
     }
 
     @Override
     public String toString()
     {
-        return "Informações do cliente\nNome: " + super.getNome() + "\nEndereco: " + super.getEndereco() + 
-                "\nData de licença: " + super.getDataLicenca() + "\nEducação: " + super.getEducacao() +
-                "\nGênero: " + super.getGenero() + "\nClasse econômica: " + super.getClasseEconomica() +
-                "\nLista de veículos: " + super.imprimirVeiculos() + "\nCPF: " + cpf + 
+        return super.toString() + "CPF: " + cpf + "\nData de licença: " + dataLicenca + 
+                "\nEducação: " + educacao + "\nGênero: " + genero + 
+                "\nClasse econômica: " + classeEconomica +
                 "\nData de nascimento: " + dataNascimento + "\n";
     }
 

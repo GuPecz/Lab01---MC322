@@ -118,7 +118,7 @@ public class Seguradora
         return false;
     }
 
-    public List<Cliente> listarClientes(String tipoCliente)
+    public void listarClientes(String tipoCliente)
     {
         List<Cliente> lista = new ArrayList<>();
 
@@ -141,8 +141,6 @@ public class Seguradora
                 break;
             }
         }
-
-        return lista;
     }
 
     public boolean gerarSinistro(Sinistro sinistro)
@@ -187,9 +185,8 @@ public class Seguradora
         return false;
     }
 
-    public List<Sinistro> listarSinistros()
+    public void listarSinistros()
     {
         // Stub?????
-        return listaSinistros;
     }
 }

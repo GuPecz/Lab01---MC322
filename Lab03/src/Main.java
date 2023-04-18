@@ -15,23 +15,8 @@ class Main
         String endereco = input.nextLine();
         cliente.setEndereco(endereco);
 
-        System.out.println("Insira seu grau de escolaridade: ");
-        String educacao = input.nextLine();
-        cliente.setEducacao(educacao);
-
-        System.out.println("Insira seu gênero: ");
-        String genero = input.nextLine();
-        cliente.setGenero(genero);
-
-        System.out.println("Insira sua classe econômica: ");
-        String classeEconomica = input.nextLine();
-        cliente.setClasseEconomica(classeEconomica);
-
         List<Veiculo> listaVeiculos = new ArrayList<>();
         cliente.setListaVeiculos(listaVeiculos);
-
-        LocalDate dataLicenca = LocalDate.now();
-        cliente.setDataLicenca(dataLicenca);
     }
 
     public static LocalDate converteString(String data)
@@ -49,7 +34,7 @@ class Main
         System.out.println("Insira seu CPF: ");
         String cpf = input.nextLine();;
         boolean valido = ClientePF.validarCPF(cpf);
-
+        
         while (!valido)
         {
             System.out.println("ERRO: CPF inválido\nTente novamente");
@@ -57,14 +42,30 @@ class Main
             valido = ClientePF.validarCPF(cpf);
         }
         
+        ClientePF cliente = new ClientePF(null, null, null, cpf, null, null, null, null, null);
+        
+        IniciarCliente(cliente, input);
+        
+        System.out.println("Insira seu gênero: ");
+        String genero = input.nextLine();
+        cliente.setGenero(genero);
+
+        LocalDate dataLicenca = LocalDate.now();
+        cliente.setDataLicenca(dataLicenca);
+
+        System.out.println("Insira seu grau de escolaridade: ");
+        String educacao = input.nextLine();
+        cliente.setEducacao(educacao);
+
+        System.out.println("Insira sua classe econômica: ");
+        String classeEconomica = input.nextLine();
+        cliente.setClasseEconomica(classeEconomica);
+
         System.out.println("Insira sua data de nascimento [dd/mm/aaaa]: ");
         String data = input.nextLine();
         LocalDate dataNascimento = converteString(data);
-
-        ClientePF cliente = new ClientePF(null, null, null, null, null, null, null, cpf, dataNascimento);
-
-        IniciarCliente(cliente, input);
-
+        cliente.setDataNascimento(dataNascimento);
+        
         return cliente;
     }
 
@@ -81,13 +82,14 @@ class Main
             valido = ClientePJ.validarCNPJ(cnpj);
         }
 
+        ClientePJ cliente = new ClientePJ(null, null, null, cnpj, null);
+
+        IniciarCliente(cliente, input);
+
         System.out.println("Insira sua data de fundação: ");
         String data = input.nextLine();
         LocalDate dataFundacao = converteString(data);
-
-        ClientePJ cliente = new ClientePJ(null, null, null, null, null, null, null, cnpj, dataFundacao);
-
-        IniciarCliente(cliente, input);
+        cliente.setDataFundacao(dataFundacao);
 
         return cliente;
     }
@@ -111,7 +113,7 @@ class Main
 
     public static Sinistro instanciarSinistro(Scanner input, Seguradora seguradora, Veiculo veiculo, Cliente cliente)
     {
-        System.out.println("Insira a data: ");
+        System.out.println("Insira a data [dd/mm/aaaa]: ");
         String data = input.nextLine();
 
         System.out.println("Insira o endereço: ");
@@ -173,7 +175,8 @@ class Main
             seguradora.getListaClientes().get(ultimoCliente).getListaVeiculos().add(veiculo);
             
             System.out.println("Iniciando registro do sinistro");
-            Sinistro sinistro = instanciarSinistro(input, seguradora, veiculo, seguradora.getListaClientes().get(ultimoCliente));
+            Scanner input2 = new Scanner(System.in);
+            Sinistro sinistro = instanciarSinistro(input2, seguradora, veiculo, seguradora.getListaClientes().get(ultimoCliente));
             System.out.println(sinistro);
             seguradora.gerarSinistro(sinistro);
         }
@@ -182,13 +185,13 @@ class Main
 
         System.out.println("Clientes cadastrados\n");
         System.out.println("Pessoas físicas");
-        System.out.println(seguradora.listarClientes("f"));
+        seguradora.listarClientes("f");
 
         System.out.println("Pessoas jurídicas");
-        System.out.println(seguradora.listarClientes("j"));
+        seguradora.listarClientes("j");
 
         System.out.println("Sinistros registrados\n");
-        System.out.println(seguradora.listarSinistros());
+        seguradora.listarSinistros();
 
         System.out.println("Pesquisar sinistro por cliente");
         cliente = input.nextLine();
