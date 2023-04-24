@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class Seguradora
@@ -95,33 +94,64 @@ public class Seguradora
         }
     }
 
-    public boolean removerCliente(String cliente)
+    public boolean removerCliente(String documento)
     {
-
         if (listaClientes.isEmpty() == true)
         {
-            System.out.println("Não há clientes para serem removidos");
+            System.out.println("ERRO: Não há clientes para serem removidos");
             return false;
         }
-        
-        int tam = listaClientes.size();
-        for (int i = 0; i < tam; i++)
+        else if (!ClientePF.validarCPF(documento) || !ClientePJ.validarCNPJ(documento))
         {
-            if (listaClientes.get(i).getNome() == cliente)
+            System.out.println("ERRO: Documento inválido");
+            return false;
+        }
+
+        String tipoCliente;
+        if (ClientePF.validarCPF(documento))
+            tipoCliente = "f";
+        else
+            tipoCliente = "j";
+
+        for (Cliente cliente: listaClientes)
+        {
+            switch (tipoCliente)
             {
-                System.out.println("Cliente" + cliente + " removido");
-                listaClientes.remove(i);
-                return true;
+                case "f":
+                if (cliente instanceof ClientePF)
+                {
+                    ClientePF clientePF = (ClientePF)cliente;
+
+                    if (clientePF.getCpf().equals(documento))
+                    {
+                        listaClientes.remove(clientePF);
+                        System.out.println("Cliente" + clientePF.getNome() + "removido");
+                        return true;
+                    }
+                }
+                break;
+
+                case "j":
+                if (cliente instanceof ClientePJ)
+                {
+                    ClientePJ clientePJ = (ClientePJ)cliente;
+
+                    if (clientePJ.getCnpj().equals(documento))
+                    {
+                        listaClientes.remove(clientePJ);
+                        System.out.println("Cliente" + clientePJ.getNome() + "removido");
+                        return true;
+                    }
+                }
             }
         }
 
+        System.out.println("ERRO: Não há cliente com este documento cadastrado");
         return false;
     }
 
     public void listarClientes(String tipoCliente)
     {
-        List<Cliente> lista = new ArrayList<>();
-
         for (Cliente cliente: this.listaClientes)
         {
             switch (tipoCliente)
@@ -129,14 +159,14 @@ public class Seguradora
                 case "f":
                 if (cliente instanceof ClientePF)
                 {
-                    lista.add(cliente);
+                    System.out.println(cliente);
                 }
                 break;
 
                 case "j":
                 if (cliente instanceof ClientePJ)
                 {
-                    lista.add(cliente);
+                    System.out.println(cliente);
                 }
                 break;
             }
@@ -162,31 +192,49 @@ public class Seguradora
         }
     }
 
-    public boolean visualizarSinistro(String cliente)
+    public boolean visualizarSinistro(String documento)
     {
-        if (listaSinistros.isEmpty() == true || listaClientes.isEmpty() == true)
+        if (listaSinistros.isEmpty())
         {
+            System.out.println("ERRO: Não há sinistros registrados");
+            return false;
+        }
+        else if (listaClientes.isEmpty())
+        {
+            System.out.println("ERRO: Não há clientes cadastrados");
+            return false;
+        }
+        else if (!ClientePF.validarCPF(documento) || !ClientePJ.validarCNPJ(documento))
+        {
+            System.out.println("ERRO: Documento inválido");
             return false;
         }
 
-        int tam = listaSinistros.size();
-        for (int i = 0; i < tam; i++)
+        for (Sinistro sinistro: listaSinistros)
         {
-            Sinistro sin = listaSinistros.get(i);
-            
-            if (sin.getCliente().getNome() == cliente)
+            if (sinistro.getCliente() instanceof ClientePF)
             {
-                System.out.println(sin);
-                return true;
+                ClientePF cliente = (ClientePF)sinistro.getCliente();
+                if (cliente.getCpf().equals(documento))
+                    System.out.println(sinistro);
+            }
+            else
+            {
+                ClientePJ cliente = (ClientePJ)sinistro.getCliente();
+                if (cliente.getCnpj().equals(documento))
+                    System.out.println(sinistro);
             }
         }
 
-        System.out.print("ERRO: Cliente não encontrado");
+        System.out.println("ERRO: Não há cliente com este documento cadastrado");
         return false;
     }
 
     public void listarSinistros()
     {
-        // Stub?????
+        for (Sinistro sinistro: listaSinistros)
+        {
+            System.out.println(sinistro);
+        }
     }
 }
