@@ -1,0 +1,14 @@
+ctrl + shift + p
+
+"Configure user snippets"
+
+"New global snippets file"
+
+Neste caso, o nome do arquivo pode ser "vsc_snippets"
+
+O snippet:
+/*	"System.out.println":
+	{
+		"prefix": "pln",
+		"body": ["System.out.println(\"$1\");$2"]
+	} */
