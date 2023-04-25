@@ -101,7 +101,7 @@ public class Seguradora
             System.out.println("ERRO: Não há clientes para serem removidos");
             return false;
         }
-        else if (!ClientePF.validarCPF(documento) || !ClientePJ.validarCNPJ(documento))
+        else if (!ClientePF.validarCPF(documento) && !ClientePJ.validarCNPJ(documento))
         {
             System.out.println("ERRO: Documento inválido");
             return false;
@@ -125,7 +125,7 @@ public class Seguradora
                     if (clientePF.getCpf().equals(documento))
                     {
                         listaClientes.remove(clientePF);
-                        System.out.println("Cliente" + clientePF.getNome() + "removido");
+                        System.out.println("Cliente " + clientePF.getNome() + " removido");
                         return true;
                     }
                 }
@@ -139,7 +139,7 @@ public class Seguradora
                     if (clientePJ.getCnpj().equals(documento))
                     {
                         listaClientes.remove(clientePJ);
-                        System.out.println("Cliente" + clientePJ.getNome() + "removido");
+                        System.out.println("Cliente " + clientePJ.getNome() + " removido");
                         return true;
                     }
                 }
@@ -204,7 +204,7 @@ public class Seguradora
             System.out.println("ERRO: Não há clientes cadastrados");
             return false;
         }
-        else if (!ClientePF.validarCPF(documento) || !ClientePJ.validarCNPJ(documento))
+        else if (!ClientePF.validarCPF(documento) && !ClientePJ.validarCNPJ(documento))
         {
             System.out.println("ERRO: Documento inválido");
             return false;
@@ -217,12 +217,16 @@ public class Seguradora
                 ClientePF cliente = (ClientePF)sinistro.getCliente();
                 if (cliente.getCpf().equals(documento))
                     System.out.println(sinistro);
+
+                return true;
             }
             else
             {
                 ClientePJ cliente = (ClientePJ)sinistro.getCliente();
                 if (cliente.getCnpj().equals(documento))
                     System.out.println(sinistro);
+
+                return true;
             }
         }
 
