@@ -153,8 +153,7 @@ public class Validacao
     {
         for (char c: nome.toCharArray())
         {
-            if (!Character.isLetter(c))
-                if (c != ' ')
+            if (!Character.isLetter(c) && c != ' ')
                     return false;
         }
 

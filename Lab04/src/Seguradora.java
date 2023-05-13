@@ -101,14 +101,14 @@ public class Seguradora
             System.out.println("ERRO: Não há clientes para serem removidos");
             return false;
         }
-        else if (!ClientePF.validarCPF(documento) && !ClientePJ.validarCNPJ(documento))
+        else if (!Validacao.validarCPF(documento) && !Validacao.validarCNPJ(documento))
         {
             System.out.println("ERRO: Documento inválido");
             return false;
         }
 
         String tipoCliente;
-        if (ClientePF.validarCPF(documento))
+        if (Validacao.validarCPF(documento))
             tipoCliente = "f";
         else
             tipoCliente = "j";
@@ -204,7 +204,7 @@ public class Seguradora
             System.out.println("ERRO: Não há clientes cadastrados");
             return false;
         }
-        else if (!ClientePF.validarCPF(documento) && !ClientePJ.validarCNPJ(documento))
+        else if (!Validacao.validarCPF(documento) && !Validacao.validarCNPJ(documento))
         {
             System.out.println("ERRO: Documento inválido");
             return false;
