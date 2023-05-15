@@ -94,7 +94,7 @@ public class Seguradora
         }
     }
     
-    public boolean gerarSinistro(Sinistro sinistro)
+    public boolean cadastrarSinistro(Sinistro sinistro)
     {
         if (listaSinistros.contains(sinistro))
         {
