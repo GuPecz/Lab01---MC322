@@ -1,19 +1,18 @@
 import java.util.Random;
+import java.time.LocalDate;
 
 public class Sinistro
 {
-    private int id; /* Implementar um método para gerar ID conforme correção do Lab 02 */
-    private String data; /* Reimplementar como Date */
+    private final int id;
+    private LocalDate data;
     private String endereco;
     private Seguradora seguradora;
     private Veiculo veiculo;
     private Cliente cliente;
     
-    public Sinistro(String data, String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente) 
+    public Sinistro(LocalDate data, String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente) 
     {
-        Random rng = new Random(); /* Random Number Generator, ou seja, Gerador de Número Aleatório */
-
-        this.id = rng.nextInt(899) + 100; /* Para que sejam gerados apenas números com 3 algarismos */
+        id = gerarId();
         this.data = data;
         this.endereco = endereco;
         this.seguradora = seguradora;
@@ -21,22 +20,24 @@ public class Sinistro
         this.cliente = cliente;
     }
 
+    public int gerarId()
+    {
+        Random rng = new Random(); /* Random Number Generator, ou seja, Gerador de Número Aleatório */
+
+        return rng.nextInt(899) + 100; /* Para que sejam gerados apenas números com 3 algarismos */
+    }
+
     public int getId()
     {
         return id;
     }
     
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-    
-    public String getData()
+    public LocalDate getData()
     {
         return data;
     }
     
-    public void setData(String data)
+    public void setData(LocalDate data)
     {
         this.data = data;
     }

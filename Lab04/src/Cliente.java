@@ -57,15 +57,28 @@ public class Cliente
         this.valorSeguro = valorSeguro;
     }
 
-    public String imprimirVeiculos()
+    public boolean excluirVeiculo(String placa)
+    {
+        for (Veiculo veiculo: listaVeiculos)
+        {
+            if (veiculo.getPlaca().equals(placa))
+            {
+                listaVeiculos.remove(veiculo);
+                System.out.println("Veículo " + placa + " removido");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public String listarVeiculosPorCliente()
     {
         String veiculos = "";
         int tam = listaVeiculos.size();
 
         if (tam <= 0)
-        {
             return "";
-        }
         else
         {
             for (int i = 0; i < tam - 1; i++)
@@ -79,15 +92,16 @@ public class Cliente
         }
     }
 
-    public String toString() 
-    {
-        return "Informações do cliente\nNome: " + nome + "\nEndereco: " + endereco + 
-                "\nLista de veículos: " + imprimirVeiculos() + "\n";
-    }
-
     public double calculaScore()
     {
         // Stub
         return 0.0;
     }
+
+    public String toString() 
+    {
+        return "Informações do cliente\nNome: " + nome + "\nEndereco: " + endereco + 
+                "\nLista de veículos: " + listarVeiculosPorCliente() + "\n";
+    }
+
 }
