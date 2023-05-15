@@ -212,27 +212,22 @@ public class Seguradora
         return false;
     }
 
-    public void listarClientesPorSeguradora(String tipoCliente)
+    public void listarClientesPorSeguradora()
     {
-        for (Cliente cliente: listaClientes)
-            switch (tipoCliente)
-            {
-                case "f":
-                if (cliente instanceof ClientePF)
-                {
-                    System.out.println(cliente);
-                }
-                break;
+        int tam = listaClientes.size();
 
-                case "j":
-                if (cliente instanceof ClientePJ)
-                {
-                    System.out.println(cliente);
-                }
-                break;
-            }
+        for (int i = 0; i < tam; i++)
+        {
+            Cliente cliente = listaClientes.get(i);
+            System.out.print((i + 1) + cliente.getNome());
+            
+            if (cliente instanceof ClientePF)
+                System.out.println(" (PF)");
+            else
+                System.out.println(" (PJ)");
+        }
     }
-    
+
     public boolean listarSinistrosPorCliente(String documento)
     {
         boolean listouSinistros = false;

@@ -19,8 +19,17 @@ public class Main
 		System.out.println("Insira seu endereço: ");
 		String endereco = input.nextLine();
 
-		return new Seguradora(nome, telefone, email, endereco, null, null);
-	
+		return new Seguradora(nome, telefone, email, endereco, new ArrayList<Sinistro>(), new ArrayList<Cliente>());
+	}
+
+	public static void listarSeguradoras(List<Seguradora> listaSeguradoras)
+	{
+		int tam = listaSeguradoras.size();
+
+		System.out.println("Seguradoras cadastradas: ");
+
+		for (int i = 0; i < tam - 1; i++)
+			System.out.println((i + 1) + " - " + listaSeguradoras.get(i).getNome());
 	}
 
 	public static void IniciarCliente(Cliente cliente, Scanner input)
@@ -197,7 +206,7 @@ public class Main
 		return opUsuarioConst;
 	}
 	
-	private static void executarOpcaoMenuExterno(MenuOperacoes op)
+	private static void executarOpcaoMenuExterno(MenuOperacoes op, List<Seguradora> listaSeguradoras) 
 	{
 		switch(op) 
 		{
@@ -206,7 +215,7 @@ public class Main
 			case LISTAR:
 
 			case EXCLUIR:
-				executarSubmenu(op);
+				executarSubmenu(op, listaSeguradoras);
 				break;
 
 			case GERAR_SINISTRO:
@@ -225,41 +234,112 @@ public class Main
 			break;
 		}
 	}
-	
-	public static void executarOpcaoSubMenu(SubmenuOperacoes opSubmenu) 
+
+	public static Seguradora selecionarSeguradora(List<Seguradora> listaSeguradoras)
 	{
+		Seguradora seguradora;
+		Scanner input = new Scanner(System.in);
+
+		if (listaSeguradoras.isEmpty())
+		{
+			System.out.println("Por favor, cadastre uma seguradora primeiro");
+			seguradora = instanciarSeguradora(input);
+			listaSeguradoras.add(seguradora);
+		}
+		else
+		{
+			listarSeguradoras(listaSeguradoras);
+			System.out.println("Selecione uma seguradora");
+			seguradora = listaSeguradoras.get(input.nextInt());
+			input.nextLine();
+		}
+
+		return seguradora;
+	}
+
+	public static Cliente cadastrarCliente()
+	{
+		Scanner input = new Scanner(System.in);
+		String tipoCliente;
+
+		System.out.println("Iniciando cadastro de cliente");
+		System.out.println("Pessoa física ou jurídica? [f/j]");
+
+		do
+		{
+			tipoCliente = input.nextLine();
+		} while (!(tipoCliente.equals("f") || tipoCliente.equals("j")));
+		
+		if (tipoCliente.equals("f"))
+			return instanciarPF(input);
+		else
+			return instanciarPJ(input);
+	}
+
+	public static void cadastrarVeiculo(Seguradora seguradora)
+	{
+		Scanner input = new Scanner(System.in);
+		Cliente cliente;
+		String tipoCliente;
+
+		if (seguradora.getListaClientes().isEmpty())
+		{
+			System.out.println("Por favor, cadastre um cliente primeiro");
+			cliente = cadastrarCliente();
+			seguradora.getListaClientes().add(cliente);
+		}
+		else
+		{
+			System.out.println("Selecione um cliente: ");
+			seguradora.listarClientesPorSeguradora();
+			cliente = seguradora.getListaClientes().get(input.nextInt() - 1);
+			input.nextLine();
+		}
+
+		System.out.println("Iniciando cadastro de veículo");
+		cliente.getListaVeiculos().add(instanciarVeiculo(input));
+	}
+
+	public static void executarOpcaoSubMenu(SubmenuOperacoes opSubmenu, List<Seguradora> listaSeguradoras) 
+	{
+		Scanner input = new Scanner(System.in);
+		Seguradora seguradora = selecionarSeguradora(listaSeguradoras);
+
 		switch(opSubmenu) 
 		{
 		case CADASTRAR_CLIENTE:
-			System.out.println("Iniciando cadastro de cliente");
+			seguradora.getListaClientes().add(cadastrarCliente());
 			break;
 
 		case CADASTRAR_VEICULO:
-			System.out.println("Iniciando cadastro de veículo");
+			cadastrarVeiculo(seguradora);
 			break;
 
 		case CADASTRAR_SEGURADORA:
 			System.out.println("Iniciando cadastro de seguradora");
+			listaSeguradoras.add(instanciarSeguradora(input));
 			break;
 
 		case LISTAR_CLIENTES_POR_SEGURADORA:
-			System.out.println("Chamar metodo listar clientes");
+			seguradora.listarClientesPorSeguradora();
 			break;
 
 		case LISTAR_SINISTROS_POR_SEGURADORA:
-			System.out.println("Chamar metodo listar sinistros por seguradora");
+			seguradora.listarSinistrosPorSeguradora();
 			break;
 
 		case LISTAR_SINISTROS_POR_CLIENTE:
-			System.out.println("Chamar metodo listar sinistros por cliente");
 			break;
 
 		case LISTAR_VEICULOS_POR_SEGURADORA:
-			System.out.println("Chamar metodo listar veiculos por seguradora");
+			seguradora.listarVeiculosPorSeguradora();
 			break;
 
 		case LISTAR_VEICULOS_POR_CLIENTE:
-			System.out.println("Chamar metodo listar veiculos por cliente");
+			seguradora.listarClientesPorSeguradora();
+			int opcao = input.nextInt();
+			input.nextLine();
+			seguradora.getListaClientes().get(opcao).listarVeiculosPorCliente();
 			break;
 
 		case EXCLUIR_CLIENTE:
@@ -279,7 +359,7 @@ public class Main
 		}
 	}
 	
-	private static void executarSubmenu(MenuOperacoes op) 
+	private static void executarSubmenu(MenuOperacoes op, List<Seguradora> listaSeguradoras) 
 	{
 		SubmenuOperacoes opSubmenu;
 
@@ -287,13 +367,14 @@ public class Main
 		{
 			exibirSubmenu(op);
 			opSubmenu = lerOpcaoSubmenu(op);
-			executarOpcaoSubMenu(opSubmenu);
+			executarOpcaoSubMenu(opSubmenu, listaSeguradoras);
 		} while(opSubmenu != SubmenuOperacoes.VOLTAR);
 	}
 	
 	public static void main(String[] args) 
 	{
 		MenuOperacoes op;
+		List<Seguradora> listaSeguradoras = new ArrayList<>();
 
 		System.out.println("/-------- Sistema de seguros Mirinho SA --------/");
 
@@ -301,7 +382,7 @@ public class Main
 		{
 			exibirMenuExterno();
 			op = lerOpcaoMenuExterno();
-			executarOpcaoMenuExterno(op);
+			executarOpcaoMenuExterno(op, listaSeguradoras);
 		} while(op != MenuOperacoes.SAIR);
 
 		System.out.println("Saiu do sistema");
