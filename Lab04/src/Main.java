@@ -5,6 +5,24 @@ import java.util.List;
 
 public class Main 
 {
+	public static Seguradora instanciarSeguradora(Scanner input)
+	{
+		System.out.println("Inisira seu nome: ");
+		String nome = input.nextLine();
+
+		System.out.println("Insira seu telefone: ");
+		String telefone = input.nextLine();
+
+		System.out.println("Insira seu e-mail: ");
+		String email = input.nextLine();
+
+		System.out.println("Insira seu endereço: ");
+		String endereco = input.nextLine();
+
+		return new Seguradora(nome, telefone, email, endereco, null, null);
+	
+	}
+
 	public static void IniciarCliente(Cliente cliente, Scanner input)
     {
         System.out.println("Insira seu nome: ");
@@ -213,15 +231,15 @@ public class Main
 		switch(opSubmenu) 
 		{
 		case CADASTRAR_CLIENTE:
-			System.out.println("Chamar metodo cadastrar cliente");
+			System.out.println("Iniciando cadastro de cliente");
 			break;
 
 		case CADASTRAR_VEICULO:
-			System.out.println("Chamar metodo cadastrar veiculo");
+			System.out.println("Iniciando cadastro de veículo");
 			break;
 
 		case CADASTRAR_SEGURADORA:
-			System.out.println("Chamar metodo cadastrar seguradora");
+			System.out.println("Iniciando cadastro de seguradora");
 			break;
 
 		case LISTAR_CLIENTES_POR_SEGURADORA:
@@ -276,6 +294,8 @@ public class Main
 	public static void main(String[] args) 
 	{
 		MenuOperacoes op;
+
+		System.out.println("/-------- Sistema de seguros Mirinho SA --------/");
 
 		do 
 		{
