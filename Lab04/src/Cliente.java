@@ -78,7 +78,7 @@ public class Cliente
         int tam = listaVeiculos.size();
 
         if (tam <= 0)
-            return "";
+            return "Nenhum veículo registrado";
         else
         {
             for (int i = 0; i < tam - 1; i++)
@@ -94,8 +94,7 @@ public class Cliente
 
     public double calculaScore()
     {
-        // Stub
-        return 0.0;
+        return CalcSeguro.VALOR_BASE.getValor() * listaVeiculos.size();
     }
 
     public String toString() 

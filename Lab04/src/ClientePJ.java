@@ -48,10 +48,9 @@ public class ClientePJ extends Cliente
         "\nData de fundação: " + dataFundacao + "\n";
     }
     
-    @Override /* ? */
+    @Override
     public double calculaScore()
     {
-        // Stub
-        return 0.0;
+        return CalcSeguro.VALOR_BASE.getValor() * (1 + (qtdeFuncionarios/100)) * super.getListaVeiculos().size();
     }
 }

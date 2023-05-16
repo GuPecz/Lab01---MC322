@@ -86,10 +86,31 @@ public class ClientePF extends Cliente
                 "\nData de nascimento: " + dataNascimento + "\n";
     }
 
-    @Override /* ? */
+    private int calculaIdade(LocalDate dataNascimento)
+    {
+        return LocalDate.now().getYear() - dataNascimento.getYear();
+    }
+
+    @Override
     public double calculaScore()
     {
-        // Stub
-        return 0.0;
+        double fator_idade = 1.0, valor_base = CalcSeguro.VALOR_BASE.getValor();
+        int idade = calculaIdade(dataNascimento);
+        int qtdeCarros = super.getListaVeiculos().size();
+
+
+        if (18 <= idade &&  idade < 30)
+            fator_idade = CalcSeguro.FATOR_18_30.getValor();
+        else if (30 <= idade && idade < 60)
+            fator_idade = CalcSeguro.FATOR_18_30.getValor();
+        else if (60 <= idade && idade < 90)
+            fator_idade = CalcSeguro.FATOR_60_90.getValor();
+        
+        return valor_base * fator_idade * qtdeCarros;
+    }
+
+    public static void main(String[] args)
+    {
+
     }
 }

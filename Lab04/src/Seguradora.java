@@ -94,7 +94,7 @@ public class Seguradora
         }
     }
     
-    public boolean cadastrarSinistro(Sinistro sinistro)
+    public boolean gerarSinistro(Sinistro sinistro)
     {
         if (listaSinistros.contains(sinistro))
         {
@@ -186,6 +186,7 @@ public class Seguradora
             {
                 listaSinistros.remove(sinistro);
                 System.out.println("Sinistro " + sinistro.getId() + " removido");
+                sinistro.getCliente().setValorSeguro(calcularPrecoSeguroCliente(sinistro.getCliente()));
                 return true;
             }
         }
@@ -205,7 +206,10 @@ public class Seguradora
         for (Cliente cliente: listaClientes)
         {
             if (cliente.excluirVeiculo(placa))
+            {
+                cliente.setValorSeguro(calcularPrecoSeguroCliente(cliente));
                 return true;
+            }
         }
 
         System.out.println("ERRO: Não há veículo com esta placa cadastrado");
@@ -216,10 +220,13 @@ public class Seguradora
     {
         int tam = listaClientes.size();
 
+        if (tam == 0)
+            System.out.println("ERRO: Não há clientes cadastrados nesta seguradora");
+
         for (int i = 0; i < tam; i++)
         {
             Cliente cliente = listaClientes.get(i);
-            System.out.print((i + 1) + cliente.getNome());
+            System.out.print((i + 1) + " - " + cliente.getNome());
             
             if (cliente instanceof ClientePF)
                 System.out.println(" (PF)");
@@ -232,17 +239,7 @@ public class Seguradora
     {
         boolean listouSinistros = false;
 
-        if (listaSinistros.isEmpty())
-        {
-            System.out.println("ERRO: Não há sinistros registrados");
-            return false;
-        }
-        else if (listaClientes.isEmpty())
-        {
-            System.out.println("ERRO: Não há clientes cadastrados");
-            return false;
-        }
-        else if (!Validacao.validarCPF(documento) && !Validacao.validarCNPJ(documento))
+        if (!Validacao.validarCPF(documento) && !Validacao.validarCNPJ(documento))
         {
             System.out.println("ERRO: Documento inválido");
             return false;
@@ -277,28 +274,61 @@ public class Seguradora
 
     public void listarSinistrosPorSeguradora()
     {
+        if (listaSinistros.isEmpty())
+            System.out.println("ERRO: Não há sinistros registrados nesta seguradora");
+
         for (Sinistro sinistro: listaSinistros)
             System.out.println(sinistro);
     }
 
     public void listarVeiculosPorSeguradora()
     {
+        boolean existemVeiculos = false;
+
+        if (listaClientes.isEmpty())
+            System.out.println("ERRO: Não há clientes cadastrados");
+
         for (Cliente cliente: listaClientes)
         {
-            System.out.println("Veículos de " + cliente.getNome() + ":");
+            System.out.println("Veículos de " + cliente.getNome() + ": ");
 
-            for (Veiculo veiculo: cliente.getListaVeiculos())
-                System.out.println(veiculo);
+            if (cliente.getListaVeiculos().isEmpty())
+                System.out.println("Nenhum registrado");
+            else
+            {  
+                existemVeiculos = true;
+                for (Veiculo veiculo: cliente.getListaVeiculos())
+                    System.out.println(veiculo);
+            }
         }
+
+        if (!existemVeiculos)
+            System.out.println("ERRO: Nenhum veículo registrado nesta seguradora");
     }
 
-    public void calcularPrecoSeguroCliente()
+    private int CalculaQtdeSinistros(Cliente cliente)
     {
-        // Stub
+        int qtdeSinistros = 0;
+
+        for (Sinistro sinistro: listaSinistros)
+            if (sinistro.getCliente().equals(cliente))
+                qtdeSinistros++;
+
+        return qtdeSinistros;
     }
 
-    public void calcularReceita()
+    public double calcularPrecoSeguroCliente(Cliente cliente)
     {
-        // Stub
+        return cliente.calculaScore() * (1 + CalculaQtdeSinistros(cliente));
+    }
+
+    public double calcularReceita()
+    {
+        double receita = 0.0;
+
+        for (Cliente cliente: listaClientes)
+            receita += calcularPrecoSeguroCliente(cliente);
+
+        return receita;
     }
 }

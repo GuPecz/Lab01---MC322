@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Main 
@@ -28,7 +29,7 @@ public class Main
 
 		System.out.println("Seguradoras cadastradas: ");
 
-		for (int i = 0; i < tam - 1; i++)
+		for (int i = 0; i < tam; i++)
 			System.out.println((i + 1) + " - " + listaSeguradoras.get(i).getNome());
 	}
 
@@ -176,14 +177,15 @@ public class Main
 	
 	private static MenuOperacoes lerOpcaoMenuExterno() 
 	{
-		Scanner scanner = new Scanner(System.in);
+		Scanner input = new Scanner(System.in);
 		int opUsuario;
 		MenuOperacoes opUsuarioConst;
 
 		do 
 		{
 			System.out.println("Digite uma opção: ");
-			opUsuario = scanner.nextInt();
+			opUsuario = input.nextInt();
+			input.nextLine();
 		} while(opUsuario <= 0 || opUsuario > MenuOperacoes.values().length);
 
 		opUsuarioConst = MenuOperacoes.values()[opUsuario - 1];
@@ -192,14 +194,15 @@ public class Main
 	
 	private static SubmenuOperacoes lerOpcaoSubmenu(MenuOperacoes op) 
 	{
-		Scanner scanner = new Scanner(System.in);
+		Scanner input = new Scanner(System.in);
 		int opUsuario;
 		SubmenuOperacoes opUsuarioConst;
 
 		do 
 		{
 			System.out.println("Digite uma opção: ");
-			opUsuario = scanner.nextInt();
+			opUsuario = input.nextInt();
+			input.nextLine();
 		} while(opUsuario <= 0 || opUsuario > op.getSubmenu().length);
 
 		opUsuarioConst = op.getSubmenu()[opUsuario - 1];
@@ -208,6 +211,9 @@ public class Main
 	
 	private static void executarOpcaoMenuExterno(MenuOperacoes op, List<Seguradora> listaSeguradoras) 
 	{
+		Scanner input = new Scanner(System.in);
+		Seguradora seguradora;
+
 		switch(op) 
 		{
 			case CADASTRAR:
@@ -219,15 +225,35 @@ public class Main
 				break;
 
 			case GERAR_SINISTRO:
-				System.out.println("Executar metodo gerar Sinistro");
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				Cliente cliente = selecionarCliente(seguradora);
+				Veiculo veiculo = selecionarVeiculo(cliente);
+				System.out.println("Iniciando registro do sinistro");
+				seguradora.gerarSinistro(instanciarSinistro(input, seguradora, veiculo, cliente));
+				cliente.setValorSeguro(seguradora.calcularPrecoSeguroCliente(cliente));
 				break;
 
 			case TRANSFERIR_SEGURO:
-				System.out.println("Executar metodo tranferir seguro");
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				Cliente transferente = selecionarCliente(seguradora), recebedor = selecionarCliente(seguradora);
+
+				Collections.copy(recebedor.getListaVeiculos(), transferente.getListaVeiculos());
+				for (Veiculo v: transferente.getListaVeiculos())
+					transferente.getListaVeiculos().remove(v);
+
+				recebedor.setValorSeguro(seguradora.calcularPrecoSeguroCliente(recebedor));
+				transferente.setValorSeguro(seguradora.calcularPrecoSeguroCliente(transferente));
 				break;
 
 			case CALCULAR_RECEITA:
-				System.out.println("Executar metodo calcular receita");
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				double receita = seguradora.calcularReceita();
+
+				System.out.print("Receita = ");
+				if (receita == 0.0)
+					System.out.println("0.0");
+				else
+					System.out.println(receita);
 				break;
 
 			case SAIR:
@@ -250,11 +276,55 @@ public class Main
 		{
 			listarSeguradoras(listaSeguradoras);
 			System.out.println("Selecione uma seguradora");
-			seguradora = listaSeguradoras.get(input.nextInt());
+			seguradora = listaSeguradoras.get(input.nextInt() - 1);
 			input.nextLine();
 		}
 
 		return seguradora;
+	}
+
+	public static Cliente selecionarCliente(Seguradora seguradora)
+	{
+		Scanner input = new Scanner(System.in);
+		Cliente cliente;
+
+		if (seguradora.getListaClientes().isEmpty())
+		{
+			System.out.println("Por favor, cadastre um cliente primeiro");
+			cliente = cadastrarCliente();
+			seguradora.getListaClientes().add(cliente);
+		}
+		else
+		{
+			System.out.println("Selecione um cliente: ");
+			seguradora.listarClientesPorSeguradora();
+			cliente = seguradora.getListaClientes().get(input.nextInt() - 1);
+			input.nextLine();
+		}
+
+		return cliente;
+	}
+
+	public static Veiculo selecionarVeiculo(Cliente cliente)
+	{
+		Scanner input = new Scanner(System.in);
+		Veiculo veiculo;
+
+		System.out.println(cliente.listarVeiculosPorCliente());
+
+		if (cliente.getListaVeiculos().isEmpty())
+		{
+			System.out.println("Por favor, registre um veículo primeiro");
+			veiculo = instanciarVeiculo(input);
+			cliente.getListaVeiculos().add(veiculo);
+		}
+		else
+		{
+			int opcao = input.nextInt() - 1;
+			veiculo = cliente.getListaVeiculos().get(opcao);
+		}
+
+		return veiculo;
 	}
 
 	public static Cliente cadastrarCliente()
@@ -279,83 +349,105 @@ public class Main
 	public static void cadastrarVeiculo(Seguradora seguradora)
 	{
 		Scanner input = new Scanner(System.in);
-		Cliente cliente;
-		String tipoCliente;
-
-		if (seguradora.getListaClientes().isEmpty())
-		{
-			System.out.println("Por favor, cadastre um cliente primeiro");
-			cliente = cadastrarCliente();
-			seguradora.getListaClientes().add(cliente);
-		}
-		else
-		{
-			System.out.println("Selecione um cliente: ");
-			seguradora.listarClientesPorSeguradora();
-			cliente = seguradora.getListaClientes().get(input.nextInt() - 1);
-			input.nextLine();
-		}
+		Cliente cliente = selecionarCliente(seguradora);
 
 		System.out.println("Iniciando cadastro de veículo");
 		cliente.getListaVeiculos().add(instanciarVeiculo(input));
+		cliente.setValorSeguro(seguradora.calcularPrecoSeguroCliente(cliente));
 	}
 
 	public static void executarOpcaoSubMenu(SubmenuOperacoes opSubmenu, List<Seguradora> listaSeguradoras) 
 	{
 		Scanner input = new Scanner(System.in);
-		Seguradora seguradora = selecionarSeguradora(listaSeguradoras);
+		Seguradora seguradora;
 
 		switch(opSubmenu) 
 		{
-		case CADASTRAR_CLIENTE:
-			seguradora.getListaClientes().add(cadastrarCliente());
-			break;
+			case CADASTRAR_CLIENTE:
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				Cliente cliente = cadastrarCliente();
+				double valorSeguro = seguradora.calcularPrecoSeguroCliente(cliente);
+				cliente.setValorSeguro(valorSeguro);
+				seguradora.getListaClientes().add(cliente);
+				break;
 
-		case CADASTRAR_VEICULO:
-			cadastrarVeiculo(seguradora);
-			break;
+			case CADASTRAR_VEICULO:
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				cadastrarVeiculo(seguradora);
+				break;
 
-		case CADASTRAR_SEGURADORA:
-			System.out.println("Iniciando cadastro de seguradora");
-			listaSeguradoras.add(instanciarSeguradora(input));
-			break;
+			case CADASTRAR_SEGURADORA:
+				System.out.println("Iniciando cadastro de seguradora");
+				listaSeguradoras.add(instanciarSeguradora(input));
+				break;
 
-		case LISTAR_CLIENTES_POR_SEGURADORA:
-			seguradora.listarClientesPorSeguradora();
-			break;
+			case LISTAR_CLIENTES_POR_SEGURADORA:
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				seguradora.listarClientesPorSeguradora();
+				break;
 
-		case LISTAR_SINISTROS_POR_SEGURADORA:
-			seguradora.listarSinistrosPorSeguradora();
-			break;
+			case LISTAR_SINISTROS_POR_SEGURADORA:
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				seguradora.listarSinistrosPorSeguradora();
+				break;
 
-		case LISTAR_SINISTROS_POR_CLIENTE:
-			break;
+			case LISTAR_SINISTROS_POR_CLIENTE:
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				if (seguradora.getListaSinistros().isEmpty())
+				{
+					System.out.println("ERRO: Não há sinistros registrados");
+					break;
+				}
+				else if (seguradora.getListaClientes().isEmpty())
+				{
+					System.out.println("ERRO: Não há clientes cadastrados");
+					break;
+				}
+				
+				System.out.println("Insira o documento do cliente: ");
+				String documento = input.nextLine();
+				seguradora.listarSinistrosPorCliente(documento);
+				break;
 
-		case LISTAR_VEICULOS_POR_SEGURADORA:
-			seguradora.listarVeiculosPorSeguradora();
-			break;
+			case LISTAR_VEICULOS_POR_SEGURADORA:
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				seguradora.listarVeiculosPorSeguradora();
+				break;
 
-		case LISTAR_VEICULOS_POR_CLIENTE:
-			seguradora.listarClientesPorSeguradora();
-			int opcao = input.nextInt();
-			input.nextLine();
-			seguradora.getListaClientes().get(opcao).listarVeiculosPorCliente();
-			break;
+			case LISTAR_VEICULOS_POR_CLIENTE:
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				System.out.println("Clientes registrados nesta seguradora");
+				seguradora.listarClientesPorSeguradora();
+				System.out.println("Selecione um cliente: ");
+				int opcao = input.nextInt() - 1;
+				input.nextLine();
+				seguradora.getListaClientes().get(opcao).listarVeiculosPorCliente();
+				break;
 
-		case EXCLUIR_CLIENTE:
-			System.out.println("Chamar metodo excluir cliente");
-			break;
+			case EXCLUIR_CLIENTE:
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				System.out.println("Insira o documento do cliente: ");
+				String documento2 = input.nextLine();
+				seguradora.listarSinistrosPorCliente(documento2);
+				break;
 
-		case EXCLUIR_VEICULO:
-			System.out.println("Chamar metodo excluir veiculo");
-			break;
+			case EXCLUIR_VEICULO:
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				System.out.println("Insira a placa do veículo: ");
+				String placa = input.nextLine();
+				seguradora.excluirVeiculo(placa);
+				break;
 
-		case EXCLUIR_SINISTRO:
-			System.out.println("Chamar metodo excluir sinistro");
-			break;
+			case EXCLUIR_SINISTRO:
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				System.out.println("Insira o ID do sinistro: ");
+				int id = input.nextInt();
+				input.nextLine();
+				seguradora.excluirSinistro(id);
+				break;
 
-		case VOLTAR:
-		break;
+			case VOLTAR:
+			break;
 		}
 	}
 	
@@ -385,6 +477,6 @@ public class Main
 			executarOpcaoMenuExterno(op, listaSeguradoras);
 		} while(op != MenuOperacoes.SAIR);
 
-		System.out.println("Saiu do sistema");
+		System.out.println("Sistema encerrado");
 	}
 }
