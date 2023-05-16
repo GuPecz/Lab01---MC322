@@ -6,18 +6,64 @@ import java.util.List;
 
 public class Main 
 {
+	public static LocalDate LeData(Scanner input)
+	{
+		String data;
+		int dia = 0, mes = 0, ano = 0;
+		boolean dataValida;
+	
+		do
+		{
+			data = input.nextLine();
+			data = data.replaceAll("\\D", "");
+	
+			if (data.length() != 8)
+			{
+				System.out.println("ERRO: Data inválida");
+				dataValida = false;
+			}
+			else
+			{
+				dia = Integer.parseInt(data.substring(0, 2));
+				mes = Integer.parseInt(data.substring(2, 4));
+				ano = Integer.parseInt(data.substring(4, 8));
+	
+				dataValida = Validacao.validarData(dia, mes, ano);
+			}
+		} while (!dataValida);
+	
+		return LocalDate.of(ano, mes, dia);
+	}
+
+	public static String lePalavra(Scanner input)
+	{
+		String nome;
+		boolean nomeValido;
+
+		do
+		{
+			nome = input.nextLine();
+
+			nomeValido = Validacao.validarNome(nome);
+			if (!nomeValido)
+				System.out.println("ERRO: Palavra inválida");
+		} while (!nomeValido);
+
+		return nome;
+	}
+
 	public static Seguradora instanciarSeguradora(Scanner input)
 	{
-		System.out.println("Inisira seu nome: ");
-		String nome = input.nextLine();
+		System.out.print("Inisira o nome da seguradora: ");
+		String nome = lePalavra(input);
 
-		System.out.println("Insira seu telefone: ");
+		System.out.print("Insira o telefone da seguradora: ");
 		String telefone = input.nextLine();
 
-		System.out.println("Insira seu e-mail: ");
+		System.out.print("Insira o e-mail da seguradora: ");
 		String email = input.nextLine();
 
-		System.out.println("Insira seu endereço: ");
+		System.out.print("Insira o endereço da seguradora: ");
 		String endereco = input.nextLine();
 
 		return new Seguradora(nome, telefone, email, endereco, new ArrayList<Sinistro>(), new ArrayList<Cliente>());
@@ -35,11 +81,11 @@ public class Main
 
 	public static void IniciarCliente(Cliente cliente, Scanner input)
     {
-        System.out.println("Insira seu nome: ");
-        String nome = input.nextLine();
+        System.out.print("Insira o nome do cliente: ");
+        String nome = lePalavra(input);
         cliente.setNome(nome);
 
-        System.out.println("Insira seu endereço: ");
+        System.out.print("Insira o endereço do cliente: ");
         String endereco = input.nextLine();
         cliente.setEndereco(endereco);
 
@@ -47,19 +93,10 @@ public class Main
         cliente.setListaVeiculos(listaVeiculos);
     }
 
-    public static LocalDate converteString(String data)
-    {
-        data = data.replaceAll("\\D", "");
-        int dia = Integer.parseInt(data.substring(0, 2));
-        int mes = Integer.parseInt(data.substring(2, 4));
-        int ano = Integer.parseInt(data.substring(4, 8));
-
-        return LocalDate.of(ano, mes, dia);
-    }
 
     public static ClientePF instanciarPF(Scanner input)
     {
-        System.out.println("Insira seu CPF: ");
+        System.out.print("Insira o CPF do cliente: ");
         String cpf = input.nextLine();;
         boolean valido = Validacao.validarCPF(cpf);
         
@@ -74,24 +111,23 @@ public class Main
         
         IniciarCliente(cliente, input);
         
-        System.out.println("Insira seu gênero: ");
-        String genero = input.nextLine();
+        System.out.print("Insira o gênero do cliente: ");
+        String genero = lePalavra(input);
         cliente.setGenero(genero);
 
         LocalDate dataLicenca = LocalDate.now();
         cliente.setDataLicenca(dataLicenca);
 
-        System.out.println("Insira seu grau de escolaridade: ");
+        System.out.print("Insira o grau de escolaridade do cliente: ");
         String educacao = input.nextLine();
         cliente.setEducacao(educacao);
 
-        System.out.println("Insira sua classe econômica: ");
-        String classeEconomica = input.nextLine();
+        System.out.print("Insira a classe econômica do cliente: ");
+        String classeEconomica = lePalavra(input);
         cliente.setClasseEconomica(classeEconomica);
 
-        System.out.println("Insira sua data de nascimento [dd/mm/aaaa]: ");
-        String data = input.nextLine();
-        LocalDate dataNascimento = converteString(data);
+        System.out.print("Insira a data de nascimento do cliente [dd/mm/aaaa]: ");
+		LocalDate dataNascimento = LeData(input);
         cliente.setDataNascimento(dataNascimento);
         
         return cliente;
@@ -99,7 +135,7 @@ public class Main
 
     public static ClientePJ instanciarPJ(Scanner input)
     {
-        System.out.println("Insira seu CNPJ: ");
+        System.out.print("Insira o CNPJ do cliente: ");
         String cnpj = input.nextLine();
         boolean valido = Validacao.validarCNPJ(cnpj);
 
@@ -114,31 +150,34 @@ public class Main
 
         IniciarCliente(cliente, input);
 
-        System.out.println("Insira sua data de fundação [dd/mm/aaaa]: ");
-        String data = input.nextLine();
-        LocalDate dataFundacao = converteString(data);
+        System.out.print("Insira a data de fundação do cliente [dd/mm/aaaa]: ");
+		LocalDate dataFundacao = LeData(input);
         cliente.setDataFundacao(dataFundacao);
 
-		System.out.println("Insira sua quantidade de funcionários: ");
-		int qtdeFuncionarios = input.nextInt();
+		System.out.print("Insira a quantidade de funcionários do cliente: ");
+		int qtdeFuncionarios;
+		do
+		{
+			qtdeFuncionarios = input.nextInt();
+			input.nextLine();
+		} while (qtdeFuncionarios < 0);
 		cliente.setQtdeFuncionarios(qtdeFuncionarios);
-		input.nextLine();
 
         return cliente;
     }
 
     public static Veiculo instanciarVeiculo(Scanner input)
     {
-        System.out.println("Insira a placa: ");
+        System.out.print("Insira a placa do veículo: ");
         String placa = input.nextLine();
         
-        System.out.println("Insira o modelo: ");
+        System.out.print("Insira o modelo do veículo: ");
         String modelo = input.nextLine();
 
-        System.out.println("Insira a marca: ");
+        System.out.print("Insira a marca do veículo: ");
         String marca = input.nextLine();
 
-        System.out.println("Insira o ano de fabricação: ");
+        System.out.print("Insira o ano de fabricação do veículo: ");
         int anoFabricacao = input.nextInt();
         input.nextLine();
 
@@ -147,11 +186,10 @@ public class Main
 
     public static Sinistro instanciarSinistro(Scanner input, Seguradora seguradora, Veiculo veiculo, Cliente cliente)
     {
-        System.out.println("Insira a data [dd/mm/aaaa]: ");
-        String data = input.nextLine();
-		LocalDate dataSinistro = converteString(data);
+        System.out.print("Insira a data do sinistro [dd/mm/aaaa]: ");
+		LocalDate dataSinistro = LeData(input);
 
-        System.out.println("Insira o endereço: ");
+        System.out.print("Insira o endereço do sinistro: ");
         String endereco = input.nextLine();
 
         return new Sinistro(dataSinistro, endereco, seguradora, veiculo, cliente);
@@ -235,14 +273,21 @@ public class Main
 
 			case TRANSFERIR_SEGURO:
 				seguradora = selecionarSeguradora(listaSeguradoras);
-				Cliente transferente = selecionarCliente(seguradora), recebedor = selecionarCliente(seguradora);
+				if (seguradora.getListaClientes().size() < 2)
+					System.out.println("ERRO: Não há clientes suficientes para uma transferência");
+				else
+				{
+					Cliente transferente = selecionarCliente(seguradora);
+					Cliente recebedor = selecionarCliente(seguradora);
 
-				Collections.copy(recebedor.getListaVeiculos(), transferente.getListaVeiculos());
-				for (Veiculo v: transferente.getListaVeiculos())
-					transferente.getListaVeiculos().remove(v);
+					Collections.copy(recebedor.getListaVeiculos(), transferente.getListaVeiculos());
+					for (Veiculo v: transferente.getListaVeiculos())
+						transferente.getListaVeiculos().remove(v);
 
-				recebedor.setValorSeguro(seguradora.calcularPrecoSeguroCliente(recebedor));
-				transferente.setValorSeguro(seguradora.calcularPrecoSeguroCliente(transferente));
+					recebedor.setValorSeguro(seguradora.calcularPrecoSeguroCliente(recebedor));
+					transferente.setValorSeguro(seguradora.calcularPrecoSeguroCliente(transferente));
+					System.out.println("Seguro de " + transferente.getNome() + " transferido para " + recebedor.getNome());
+				}
 				break;
 
 			case CALCULAR_RECEITA:
@@ -276,7 +321,21 @@ public class Main
 		{
 			listarSeguradoras(listaSeguradoras);
 			System.out.println("Selecione uma seguradora");
-			seguradora = listaSeguradoras.get(input.nextInt() - 1);
+			int opcao;
+			boolean indiceValido = true;
+			do
+			{
+				opcao = input.nextInt() - 1;
+				input.nextLine();
+				if (opcao > listaSeguradoras.size() - 1 || opcao < 0)
+				{	
+					indiceValido = false;
+					System.out.println("ERRO: Opção inválida");
+				}
+				else
+					indiceValido = true;
+			} while (!indiceValido);
+			seguradora = listaSeguradoras.get(opcao);
 			input.nextLine();
 		}
 
