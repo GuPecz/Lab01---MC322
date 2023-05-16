@@ -159,4 +159,67 @@ public class Validacao
 
         return true;
     }
+
+    private static boolean buscaLinear(int valor, int[] array)
+    {
+        for (int i = 0; i < array.length; i++)
+            if (array[i] == valor)
+                return true;
+        return false;
+    }
+
+    private static boolean ehBissexto(int ano)
+    {
+        if (ano % 4 == 0)
+            return true;
+        else
+            return false;
+    }
+
+    public static boolean validarData(int dia, int mes, int ano)
+    {
+        int[] mes31dias = {1, 3, 5, 7, 8, 10, 11};
+        int[] mes30dias = {4, 6, 9, 12};
+
+        if (ano < 1945 || ano > 2023)
+        {
+            System.out.println("ERRO: Ano inválido");
+            return false;
+        }
+        
+        if (mes < 1 || mes > 12)
+        {
+            System.out.println("ERRO: Mês inválido");
+            return false;
+        }
+        
+        if (dia < 1)
+        {
+            System.out.println("ERRO: Dia inválido");
+            return false;
+        }
+
+        if (buscaLinear(mes, mes30dias))
+            if (dia > 30)
+            {
+                System.out.println("ERRO: Dia inválido");
+                return false;
+            }
+        
+        if (buscaLinear(mes, mes31dias))
+            if (dia > 31)
+            {
+                System.out.println("ERRO: Dia inválido");
+                return false;
+            }
+        
+        if (mes == 2)
+            if ((ehBissexto(ano) && dia > 29) || (!ehBissexto(ano) && dia > 28))
+            {
+                    System.out.println("ERRO: Dia inválido");
+                    return false;
+            }
+            
+        return true;
+    }
 }
