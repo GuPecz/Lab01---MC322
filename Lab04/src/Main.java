@@ -222,11 +222,11 @@ public class Main
 		do 
 		{
 			System.out.println("Digite uma opção: ");
-			opUsuario = input.nextInt();
+			opUsuario = input.nextInt() - 1;
 			input.nextLine();
-		} while(opUsuario <= 0 || opUsuario > MenuOperacoes.values().length);
+		} while(opUsuario < 0 || opUsuario > MenuOperacoes.values().length - 1);
 
-		opUsuarioConst = MenuOperacoes.values()[opUsuario - 1];
+		opUsuarioConst = MenuOperacoes.values()[opUsuario];
 		return opUsuarioConst;
 	}
 	
@@ -239,11 +239,11 @@ public class Main
 		do 
 		{
 			System.out.println("Digite uma opção: ");
-			opUsuario = input.nextInt();
+			opUsuario = input.nextInt() - 1;
 			input.nextLine();
-		} while(opUsuario <= 0 || opUsuario > op.getSubmenu().length);
+		} while(opUsuario < 0 || opUsuario > op.getSubmenu().length - 1);
 
-		opUsuarioConst = op.getSubmenu()[opUsuario - 1];
+		opUsuarioConst = op.getSubmenu()[opUsuario];
 		return opUsuarioConst;
 	}
 	
@@ -279,6 +279,21 @@ public class Main
 				{
 					Cliente transferente = selecionarCliente(seguradora);
 					Cliente recebedor = selecionarCliente(seguradora);
+
+					System.out.println("Quem vai transferir?");
+					transferente = selecionarCliente(seguradora);
+
+					System.out.println("Quem vai receber?");
+					boolean mesmoCliente = false;
+					do
+					{
+						recebedor = selecionarCliente(seguradora);
+						if (recebedor.equals(transferente))
+						{
+							System.out.println("ERRO: Seguro sendo transferido para o mesmo cliente");
+							mesmoCliente = true;
+						}
+					} while (mesmoCliente);
 
 					Collections.copy(recebedor.getListaVeiculos(), transferente.getListaVeiculos());
 					for (Veiculo v: transferente.getListaVeiculos())
@@ -322,21 +337,12 @@ public class Main
 			listarSeguradoras(listaSeguradoras);
 			System.out.println("Selecione uma seguradora");
 			int opcao;
-			boolean indiceValido = true;
 			do
 			{
 				opcao = input.nextInt() - 1;
 				input.nextLine();
-				if (opcao > listaSeguradoras.size() - 1 || opcao < 0)
-				{	
-					indiceValido = false;
-					System.out.println("ERRO: Opção inválida");
-				}
-				else
-					indiceValido = true;
-			} while (!indiceValido);
+			} while (!Validacao.validarIndice(opcao, listaSeguradoras));
 			seguradora = listaSeguradoras.get(opcao);
-			input.nextLine();
 		}
 
 		return seguradora;
@@ -355,10 +361,16 @@ public class Main
 		}
 		else
 		{
+			int opcao;
+
 			System.out.println("Selecione um cliente: ");
 			seguradora.listarClientesPorSeguradora();
-			cliente = seguradora.getListaClientes().get(input.nextInt() - 1);
-			input.nextLine();
+			do
+			{	
+				opcao = input.nextInt() - 1;
+				input.nextLine();
+			} while (!Validacao.validarIndice(opcao, seguradora.getListaClientes()));
+			cliente = seguradora.getListaClientes().get(opcao);
 		}
 
 		return cliente;
@@ -379,7 +391,12 @@ public class Main
 		}
 		else
 		{
-			int opcao = input.nextInt() - 1;
+			int opcao;
+			do
+			{
+				opcao = input.nextInt() - 1;
+				input.nextLine();
+			} while (Validacao.validarIndice(opcao,cliente.getListaVeiculos()));
 			veiculo = cliente.getListaVeiculos().get(opcao);
 		}
 

@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Validacao 
 {
     public static int digitoVerificadorCPF(int[] cpf, int ini, int fim)
@@ -220,6 +222,22 @@ public class Validacao
                     return false;
             }
             
+        return true;
+    }
+
+    public static boolean validarIndice(int indice, List<?> lista)
+    {
+        if (indice < 0)
+        {
+            System.out.println("ERRO: Opção inválida");
+            return false;
+        }
+        else if (indice > lista.size() - 1)
+        {
+            System.out.println("ERRO: Opção inválida");
+            return false;
+        }
+
         return true;
     }
 }
