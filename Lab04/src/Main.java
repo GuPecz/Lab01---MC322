@@ -1,70 +1,23 @@
 import java.time.LocalDate;
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Main 
 {
-	public static LocalDate LeData(Scanner input)
-	{
-		String data;
-		int dia = 0, mes = 0, ano = 0;
-		boolean dataValida;
-	
-		do
-		{
-			data = input.nextLine();
-			data = data.replaceAll("\\D", "");
-	
-			if (data.length() != 8)
-			{
-				System.out.println("ERRO: Data inválida");
-				dataValida = false;
-			}
-			else
-			{
-				dia = Integer.parseInt(data.substring(0, 2));
-				mes = Integer.parseInt(data.substring(2, 4));
-				ano = Integer.parseInt(data.substring(4, 8));
-	
-				dataValida = Validacao.validarData(dia, mes, ano);
-			}
-		} while (!dataValida);
-	
-		return LocalDate.of(ano, mes, dia);
-	}
-
-	public static String lePalavra(Scanner input)
-	{
-		String nome;
-		boolean nomeValido;
-
-		do
-		{
-			nome = input.nextLine();
-
-			nomeValido = Validacao.validarNome(nome);
-			if (!nomeValido)
-				System.out.println("ERRO: Palavra inválida");
-		} while (!nomeValido);
-
-		return nome;
-	}
-
-	public static Seguradora instanciarSeguradora(Scanner input)
+	public static Seguradora instanciarSeguradora()
 	{
 		System.out.print("Inisira o nome da seguradora: ");
-		String nome = lePalavra(input);
+		String nome = Leitura.lePalavra();
 
 		System.out.print("Insira o telefone da seguradora: ");
-		String telefone = input.nextLine();
+		String telefone = Leitura.leString();
 
 		System.out.print("Insira o e-mail da seguradora: ");
-		String email = input.nextLine();
+		String email = Leitura.leString();
 
 		System.out.print("Insira o endereço da seguradora: ");
-		String endereco = input.nextLine();
+		String endereco = Leitura.leString();
 
 		return new Seguradora(nome, telefone, email, endereco, new ArrayList<Sinistro>(), new ArrayList<Cliente>());
 	}
@@ -79,14 +32,14 @@ public class Main
 			System.out.println((i + 1) + " - " + listaSeguradoras.get(i).getNome());
 	}
 
-	public static void IniciarCliente(Cliente cliente, Scanner input)
+	public static void IniciarCliente(Cliente cliente)
     {
         System.out.print("Insira o nome do cliente: ");
-        String nome = lePalavra(input);
+        String nome = Leitura.lePalavra();
         cliente.setNome(nome);
 
         System.out.print("Insira o endereço do cliente: ");
-        String endereco = input.nextLine();
+        String endereco = Leitura.leString();
         cliente.setEndereco(endereco);
 
         List<Veiculo> listaVeiculos = new ArrayList<>();
@@ -94,103 +47,101 @@ public class Main
     }
 
 
-    public static ClientePF instanciarPF(Scanner input)
+    public static ClientePF instanciarPF()
     {
         System.out.print("Insira o CPF do cliente: ");
-        String cpf = input.nextLine();;
+        String cpf = Leitura.leString();
         boolean valido = Validacao.validarCPF(cpf);
         
         while (!valido)
         {
             System.out.println("ERRO: CPF inválido\nTente novamente");
-            cpf = input.nextLine();
+            cpf = Leitura.leString();
             valido = Validacao.validarCPF(cpf);
         }
         
         ClientePF cliente = new ClientePF(null, null, null, 0.0, cpf, null, null, null, null, null);
         
-        IniciarCliente(cliente, input);
+        IniciarCliente(cliente);
         
         System.out.print("Insira o gênero do cliente: ");
-        String genero = lePalavra(input);
+        String genero = Leitura.lePalavra();
         cliente.setGenero(genero);
 
         LocalDate dataLicenca = LocalDate.now();
         cliente.setDataLicenca(dataLicenca);
 
         System.out.print("Insira o grau de escolaridade do cliente: ");
-        String educacao = input.nextLine();
+        String educacao = Leitura.leString();
         cliente.setEducacao(educacao);
 
         System.out.print("Insira a classe econômica do cliente: ");
-        String classeEconomica = lePalavra(input);
+        String classeEconomica = Leitura.lePalavra();
         cliente.setClasseEconomica(classeEconomica);
 
         System.out.print("Insira a data de nascimento do cliente [dd/mm/aaaa]: ");
-		LocalDate dataNascimento = LeData(input);
+		LocalDate dataNascimento = Leitura.leData();
         cliente.setDataNascimento(dataNascimento);
         
         return cliente;
     }
 
-    public static ClientePJ instanciarPJ(Scanner input)
+    public static ClientePJ instanciarPJ()
     {
         System.out.print("Insira o CNPJ do cliente: ");
-        String cnpj = input.nextLine();
+        String cnpj = Leitura.leString();
         boolean valido = Validacao.validarCNPJ(cnpj);
 
         while (!valido)
         {
             System.out.println("ERRO: CNPJ inválido\nTente novamente");
-            cnpj = input.nextLine();
+            cnpj = Leitura.leString();
             valido = Validacao.validarCNPJ(cnpj);
         }
 
         ClientePJ cliente = new ClientePJ(null, null, null, 0.0, cnpj, null, 0);
 
-        IniciarCliente(cliente, input);
+        IniciarCliente(cliente);
 
         System.out.print("Insira a data de fundação do cliente [dd/mm/aaaa]: ");
-		LocalDate dataFundacao = LeData(input);
+		LocalDate dataFundacao = Leitura.leData();
         cliente.setDataFundacao(dataFundacao);
 
 		System.out.print("Insira a quantidade de funcionários do cliente: ");
 		int qtdeFuncionarios;
 		do
 		{
-			qtdeFuncionarios = input.nextInt();
-			input.nextLine();
+			qtdeFuncionarios = Leitura.leInt();
 		} while (qtdeFuncionarios < 0);
 		cliente.setQtdeFuncionarios(qtdeFuncionarios);
 
         return cliente;
     }
 
-    public static Veiculo instanciarVeiculo(Scanner input)
+    public static Veiculo instanciarVeiculo()
     {
         System.out.print("Insira a placa do veículo: ");
-        String placa = input.nextLine();
+        String placa = Leitura.leString();
         
         System.out.print("Insira o modelo do veículo: ");
-        String modelo = input.nextLine();
+        String modelo = Leitura.leString();
 
         System.out.print("Insira a marca do veículo: ");
-        String marca = input.nextLine();
+        String marca = Leitura.leString();
 
         System.out.print("Insira o ano de fabricação do veículo: ");
-        int anoFabricacao = input.nextInt();
-        input.nextLine();
+        int anoFabricacao = Leitura.leInt();
 
         return new Veiculo(placa, modelo, marca, anoFabricacao);
     }
 
-    public static Sinistro instanciarSinistro(Scanner input, Seguradora seguradora, Veiculo veiculo, Cliente cliente)
+    public static Sinistro instanciarSinistro(Seguradora seguradora, Veiculo veiculo, Cliente cliente)
     {
         System.out.print("Insira a data do sinistro [dd/mm/aaaa]: ");
-		LocalDate dataSinistro = LeData(input);
+		LocalDate dataSinistro = Leitura.leData();
 
         System.out.print("Insira o endereço do sinistro: ");
-        String endereco = input.nextLine();
+        String endereco = Leitura.leString();
 
         return new Sinistro(dataSinistro, endereco, seguradora, veiculo, cliente);
     }
@@ -215,15 +166,13 @@ public class Main
 	
 	private static MenuOperacoes lerOpcaoMenuExterno() 
 	{
-		Scanner input = new Scanner(System.in);
 		int opUsuario;
 		MenuOperacoes opUsuarioConst;
 
 		do 
 		{
 			System.out.println("Digite uma opção: ");
-			opUsuario = input.nextInt() - 1;
-			input.nextLine();
+			opUsuario = Leitura.leInt() - 1;
 		} while(opUsuario < 0 || opUsuario > MenuOperacoes.values().length - 1);
 
 		opUsuarioConst = MenuOperacoes.values()[opUsuario];
@@ -232,15 +181,13 @@ public class Main
 	
 	private static SubmenuOperacoes lerOpcaoSubmenu(MenuOperacoes op) 
 	{
-		Scanner input = new Scanner(System.in);
 		int opUsuario;
 		SubmenuOperacoes opUsuarioConst;
 
 		do 
 		{
 			System.out.println("Digite uma opção: ");
-			opUsuario = input.nextInt() - 1;
-			input.nextLine();
+			opUsuario = Leitura.leInt() - 1;
 		} while(opUsuario < 0 || opUsuario > op.getSubmenu().length - 1);
 
 		opUsuarioConst = op.getSubmenu()[opUsuario];
@@ -249,7 +196,6 @@ public class Main
 	
 	private static void executarOpcaoMenuExterno(MenuOperacoes op, List<Seguradora> listaSeguradoras) 
 	{
-		Scanner input = new Scanner(System.in);
 		Seguradora seguradora;
 
 		switch(op) 
@@ -267,7 +213,7 @@ public class Main
 				Cliente cliente = selecionarCliente(seguradora);
 				Veiculo veiculo = selecionarVeiculo(cliente);
 				System.out.println("Iniciando registro do sinistro");
-				seguradora.gerarSinistro(instanciarSinistro(input, seguradora, veiculo, cliente));
+				seguradora.gerarSinistro(instanciarSinistro(seguradora, veiculo, cliente));
 				cliente.setValorSeguro(seguradora.calcularPrecoSeguroCliente(cliente));
 				break;
 
@@ -324,12 +270,11 @@ public class Main
 	public static Seguradora selecionarSeguradora(List<Seguradora> listaSeguradoras)
 	{
 		Seguradora seguradora;
-		Scanner input = new Scanner(System.in);
 
 		if (listaSeguradoras.isEmpty())
 		{
 			System.out.println("Por favor, cadastre uma seguradora primeiro");
-			seguradora = instanciarSeguradora(input);
+			seguradora = instanciarSeguradora();
 			listaSeguradoras.add(seguradora);
 		}
 		else
@@ -339,8 +284,7 @@ public class Main
 			int opcao;
 			do
 			{
-				opcao = input.nextInt() - 1;
-				input.nextLine();
+				opcao = Leitura.leInt() - 1;
 			} while (!Validacao.validarIndice(opcao, listaSeguradoras));
 			seguradora = listaSeguradoras.get(opcao);
 		}
@@ -350,7 +294,6 @@ public class Main
 
 	public static Cliente selecionarCliente(Seguradora seguradora)
 	{
-		Scanner input = new Scanner(System.in);
 		Cliente cliente;
 
 		if (seguradora.getListaClientes().isEmpty())
@@ -367,8 +310,7 @@ public class Main
 			seguradora.listarClientesPorSeguradora();
 			do
 			{	
-				opcao = input.nextInt() - 1;
-				input.nextLine();
+				opcao = Leitura.leInt() - 1;
 			} while (!Validacao.validarIndice(opcao, seguradora.getListaClientes()));
 			cliente = seguradora.getListaClientes().get(opcao);
 		}
@@ -378,7 +320,6 @@ public class Main
 
 	public static Veiculo selecionarVeiculo(Cliente cliente)
 	{
-		Scanner input = new Scanner(System.in);
 		Veiculo veiculo;
 
 		System.out.println(cliente.listarVeiculosPorCliente());
@@ -386,7 +327,7 @@ public class Main
 		if (cliente.getListaVeiculos().isEmpty())
 		{
 			System.out.println("Por favor, registre um veículo primeiro");
-			veiculo = instanciarVeiculo(input);
+			veiculo = instanciarVeiculo();
 			cliente.getListaVeiculos().add(veiculo);
 		}
 		else
@@ -394,8 +335,7 @@ public class Main
 			int opcao;
 			do
 			{
-				opcao = input.nextInt() - 1;
-				input.nextLine();
+				opcao = Leitura.leInt() - 1;
 			} while (Validacao.validarIndice(opcao,cliente.getListaVeiculos()));
 			veiculo = cliente.getListaVeiculos().get(opcao);
 		}
@@ -405,7 +345,6 @@ public class Main
 
 	public static Cliente cadastrarCliente()
 	{
-		Scanner input = new Scanner(System.in);
 		String tipoCliente;
 
 		System.out.println("Iniciando cadastro de cliente");
@@ -413,28 +352,26 @@ public class Main
 
 		do
 		{
-			tipoCliente = input.nextLine();
+			tipoCliente = Leitura.leString();
 		} while (!(tipoCliente.equals("f") || tipoCliente.equals("j")));
 		
 		if (tipoCliente.equals("f"))
-			return instanciarPF(input);
+			return instanciarPF();
 		else
-			return instanciarPJ(input);
+			return instanciarPJ();
 	}
 
 	public static void cadastrarVeiculo(Seguradora seguradora)
 	{
-		Scanner input = new Scanner(System.in);
 		Cliente cliente = selecionarCliente(seguradora);
 
 		System.out.println("Iniciando cadastro de veículo");
-		cliente.getListaVeiculos().add(instanciarVeiculo(input));
+		cliente.getListaVeiculos().add(instanciarVeiculo());
 		cliente.setValorSeguro(seguradora.calcularPrecoSeguroCliente(cliente));
 	}
 
 	public static void executarOpcaoSubMenu(SubmenuOperacoes opSubmenu, List<Seguradora> listaSeguradoras) 
 	{
-		Scanner input = new Scanner(System.in);
 		Seguradora seguradora;
 
 		switch(opSubmenu) 
@@ -454,7 +391,7 @@ public class Main
 
 			case CADASTRAR_SEGURADORA:
 				System.out.println("Iniciando cadastro de seguradora");
-				listaSeguradoras.add(instanciarSeguradora(input));
+				listaSeguradoras.add(instanciarSeguradora());
 				break;
 
 			case LISTAR_CLIENTES_POR_SEGURADORA:
@@ -481,7 +418,7 @@ public class Main
 				}
 				
 				System.out.println("Insira o documento do cliente: ");
-				String documento = input.nextLine();
+				String documento = Leitura.leString();
 				seguradora.listarSinistrosPorCliente(documento);
 				break;
 
@@ -495,30 +432,28 @@ public class Main
 				System.out.println("Clientes registrados nesta seguradora");
 				seguradora.listarClientesPorSeguradora();
 				System.out.println("Selecione um cliente: ");
-				int opcao = input.nextInt() - 1;
-				input.nextLine();
+				int opcao = Leitura.leInt() - 1;
 				seguradora.getListaClientes().get(opcao).listarVeiculosPorCliente();
 				break;
 
 			case EXCLUIR_CLIENTE:
 				seguradora = selecionarSeguradora(listaSeguradoras);
 				System.out.println("Insira o documento do cliente: ");
-				String documento2 = input.nextLine();
+				String documento2 = Leitura.leString();
 				seguradora.listarSinistrosPorCliente(documento2);
 				break;
 
 			case EXCLUIR_VEICULO:
 				seguradora = selecionarSeguradora(listaSeguradoras);
 				System.out.println("Insira a placa do veículo: ");
-				String placa = input.nextLine();
+				String placa = Leitura.leString();
 				seguradora.excluirVeiculo(placa);
 				break;
 
 			case EXCLUIR_SINISTRO:
 				seguradora = selecionarSeguradora(listaSeguradoras);
 				System.out.println("Insira o ID do sinistro: ");
-				int id = input.nextInt();
-				input.nextLine();
+				int id = Leitura.leInt();
 				seguradora.excluirSinistro(id);
 				break;
 
