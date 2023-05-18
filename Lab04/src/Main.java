@@ -225,13 +225,11 @@ public class Main
 					System.out.println("ERRO: Não há clientes suficientes para uma transferência");
 				else
 				{
-					Cliente transferente = selecionarCliente(seguradora);
-					Cliente recebedor = selecionarCliente(seguradora);
-
 					System.out.println("Quem vai transferir?");
-					transferente = selecionarCliente(seguradora);
+					Cliente transferente = selecionarCliente(seguradora);
 
 					System.out.println("Quem vai receber?");
+					Cliente recebedor;
 					boolean mesmoCliente = false;
 					do
 					{
@@ -241,6 +239,8 @@ public class Main
 							System.out.println("ERRO: Seguro sendo transferido para o mesmo cliente");
 							mesmoCliente = true;
 						}
+						else
+							mesmoCliente = false;
 					} while (mesmoCliente);
 
 					Collections.copy(recebedor.getListaVeiculos(), transferente.getListaVeiculos());
