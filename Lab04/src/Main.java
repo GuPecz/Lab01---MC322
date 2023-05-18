@@ -50,15 +50,16 @@ public class Main
     public static ClientePF instanciarPF()
     {
         System.out.print("Insira o CPF do cliente: ");
-        String cpf = Leitura.leString();
-        boolean valido = Validacao.validarCPF(cpf);
+        String cpf;
+        boolean cpfValido;
         
-        while (!valido)
-        {
-            System.out.println("ERRO: CPF inválido\nTente novamente");
-            cpf = Leitura.leString();
-            valido = Validacao.validarCPF(cpf);
-        }
+		do
+		{
+			cpf = Leitura.leString();
+			cpfValido = Validacao.validarCPF(cpf);
+			if (!cpfValido)
+				System.out.println("ERRO: CPF inválido\nTente novamente");
+		} while (!cpfValido);
         
         ClientePF cliente = new ClientePF(null, null, null, 0.0, cpf, null, null, null, null, null);
         
@@ -89,15 +90,16 @@ public class Main
     public static ClientePJ instanciarPJ()
     {
         System.out.print("Insira o CNPJ do cliente: ");
-        String cnpj = Leitura.leString();
-        boolean valido = Validacao.validarCNPJ(cnpj);
-
-        while (!valido)
-        {
-            System.out.println("ERRO: CNPJ inválido\nTente novamente");
-            cnpj = Leitura.leString();
-            valido = Validacao.validarCNPJ(cnpj);
-        }
+		String cnpj;
+        boolean cnpjValido;
+        
+		do
+		{
+			cnpj = Leitura.leString();
+			cnpjValido = Validacao.validarCNPJ(cnpj);
+			if (!cnpjValido)
+				System.out.println("ERRO: CNPJ inválido\nTente novamente");
+		} while (!cnpjValido);
 
         ClientePJ cliente = new ClientePJ(null, null, null, 0.0, cnpj, null, 0);
 
