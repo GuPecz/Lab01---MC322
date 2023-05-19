@@ -88,13 +88,4 @@ public class Sinistro
                 "\nEndereço: " + endereco + "\nSeguradora: " + seguradora.getNome() + 
                 "\nVeiculo: " + veiculo.getPlaca() + "\nCliente: " + cliente.getNome() + "\n";
     }
-
-    public static void main(String[] args)
-    {
-        Random rng = new Random(); /* Random Number Generator, ou seja, Gerador de Número Aleatório */
-
-        int id = rng.nextInt(899) + 100;
-
-        System.out.println(id);
-    }
 }
