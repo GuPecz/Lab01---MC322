@@ -99,7 +99,7 @@ public class Cliente
 
     public String toString() 
     {
-        return "Informações do cliente\nNome: " + nome + "\nEndereco: " + endereco + 
+        return "Nome: " + nome + "\nEndereco: " + endereco + 
                 "\nLista de veículos: " + listarVeiculosPorCliente() + 
                 "\nValor do seguro: " + valorSeguro + "\n";
     }
