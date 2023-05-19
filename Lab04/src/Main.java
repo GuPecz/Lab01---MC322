@@ -483,6 +483,55 @@ public class Main
 
 		System.out.println("/-------- Sistema de seguros Mirinho SA --------/");
 
+		System.out.println("Vamos iniciar com alguns cadastros");
+
+		System.out.println("Cadastre uma seguradora");
+		Seguradora seg = instanciarSeguradora();
+		listaSeguradoras.add(seg);
+
+		System.out.println("Cadastre um cliente pessoa física");
+		ClientePF clPf = instanciarPF();
+		seg.getListaClientes().add(clPf);
+
+		System.out.println("Registre um veículo para ele");
+		Veiculo vePf = instanciarVeiculo();
+		clPf.getListaVeiculos().add(vePf);
+
+		System.out.println("Gere um sinistro para este veículo");
+		Sinistro sinPf = instanciarSinistro(seg, vePf, clPf);
+		seg.gerarSinistro(sinPf);
+		clPf.setValorSeguro(seg.calcularPrecoSeguroCliente(clPf));
+
+		System.out.println("Cadastre uma pessoa jurídica");
+		ClientePJ clPj = instanciarPJ();
+		seg.getListaClientes().add(clPj);
+
+		System.out.println("Registre um veículo para ele");
+		Veiculo vePj = instanciarVeiculo();
+		clPj.getListaVeiculos().add(vePj);
+
+		System.out.println("Gere um sinistro para este veículo");
+		Sinistro sinPj = instanciarSinistro(seg, vePj, clPj);
+		seg.gerarSinistro(sinPj);
+		clPj.setValorSeguro(seg.calcularPrecoSeguroCliente(clPj));
+
+		System.out.println("Clientes da seguradora " + seg.getNome());
+		seg.listarClientesPorSeguradora();
+
+		System.out.println("Sinistros registrados");
+		seg.listarSinistrosPorSeguradora();
+
+		System.out.println("Sinistro de " + clPf.getNome());
+		seg.listarSinistrosPorCliente(clPf.getCpf());
+
+		System.out.println("Sinistro de " + clPj.getNome());
+		seg.listarSinistrosPorCliente(clPj.getCnpj());
+
+		System.out.println("Receita da seguradora " + seg.getNome());
+		System.out.println(seg.calcularReceita());
+
+		System.out.println("Seguindo para as funções do sistema...");
+
 		do 
 		{
 			exibirMenuExterno();
