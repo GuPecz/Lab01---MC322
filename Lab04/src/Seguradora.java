@@ -226,12 +226,14 @@ public class Seguradora
         for (int i = 0; i < tam; i++)
         {
             Cliente cliente = listaClientes.get(i);
-            System.out.print((i + 1) + " - " + cliente.getNome());
+            System.out.print("Cliente " + (i + 1));
             
             if (cliente instanceof ClientePF)
                 System.out.println(" (PF)");
             else
                 System.out.println(" (PJ)");
+
+            System.out.println(cliente);
         }
     }
 
@@ -245,22 +247,29 @@ public class Seguradora
             return false;
         }
 
+        int i = 1;
         for (Sinistro sinistro: listaSinistros)
             if (sinistro.getCliente() instanceof ClientePF)
             {
                 ClientePF cliente = (ClientePF)sinistro.getCliente();
                 if (cliente.getCpf().equals(documento))
+                {
+                    System.out.println("Sinistro " + (i + 1));
                     System.out.println(sinistro);
-
-                listouSinistros = true;
+                    listouSinistros = true;
+                    i++;
+                }
             }
             else
             {
                 ClientePJ cliente = (ClientePJ)sinistro.getCliente();
                 if (cliente.getCnpj().equals(documento))
+                {
+                    System.out.println("Sinistro " + (i + 1));
                     System.out.println(sinistro);
-
-                listouSinistros = true;
+                    listouSinistros = true;
+                    i++;
+                }
             }
 
         if (!listouSinistros)
@@ -277,8 +286,13 @@ public class Seguradora
         if (listaSinistros.isEmpty())
             System.out.println("ERRO: Não há sinistros registrados nesta seguradora");
 
+        int i = 1;
         for (Sinistro sinistro: listaSinistros)
+        {
+            System.out.println("Sinistro " + (i + 1));
             System.out.println(sinistro);
+            i++;
+        }
     }
 
     public void listarVeiculosPorSeguradora()
@@ -297,13 +311,19 @@ public class Seguradora
             else
             {  
                 existemVeiculos = true;
+                int i = 1;
                 for (Veiculo veiculo: cliente.getListaVeiculos())
+                {
+                    System.out.println("Veículo " + (i + 1));
                     System.out.println(veiculo);
+                    i++;
+                }
             }
         }
 
         if (!existemVeiculos)
             System.out.println("ERRO: Nenhum veículo registrado nesta seguradora");
+        else;
     }
 
     private int CalculaQtdeSinistros(Cliente cliente)
