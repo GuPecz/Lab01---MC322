@@ -249,6 +249,7 @@ public class Seguradora
 
         int i = 1;
         for (Sinistro sinistro: listaSinistros)
+        {
             if (sinistro.getCliente() instanceof ClientePF)
             {
                 ClientePF cliente = (ClientePF)sinistro.getCliente();
@@ -271,6 +272,7 @@ public class Seguradora
                     i++;
                 }
             }
+        }
 
         if (!listouSinistros)
         {
