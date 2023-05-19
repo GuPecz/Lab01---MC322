@@ -83,7 +83,7 @@ public class ClientePF extends Cliente
         return super.toString() + "CPF: " + cpf + "\nData de licença: " + dataLicenca + 
                 "\nEducação: " + educacao + "\nGênero: " + genero + 
                 "\nClasse econômica: " + classeEconomica +
-                "\nData de nascimento: " + dataNascimento + "\n";
+                "\nData de nascimento: " + dataNascimento;
     }
 
     private int calculaIdade(LocalDate dataNascimento)

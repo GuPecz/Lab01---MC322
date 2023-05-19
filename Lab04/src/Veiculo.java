@@ -57,6 +57,6 @@ public class Veiculo
     {
         return "Placa: " + placa + "\nModelo: " 
                 + modelo + "\nMarca: " + marca + 
-                "\nAno de fabricação: " + anoFabricacao + "\n";
+                "\nAno de fabricação: " + anoFabricacao;
     }
 }

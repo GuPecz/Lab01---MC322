@@ -45,7 +45,7 @@ public class ClientePJ extends Cliente
     public String toString()
     {
         return super.toString() + "CNPJ: " + cnpj + 
-        "\nData de fundação: " + dataFundacao + "\n";
+        "\nData de fundação: " + dataFundacao;
     }
     
     @Override
