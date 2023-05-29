@@ -6,19 +6,19 @@ public class Seguradora
     private String telefone;
     private String email;
     private String endereco;
-    private List<Sinistro> listaSinistros;
     private List<Cliente> listaClientes;
-
-    public Seguradora(String nome, String telefone, String email, String endereco, List<Sinistro> listaSinistros, List<Cliente> listaClientes) 
+    private List<Seguro> listaSeguros;
+    
+    public Seguradora(String nome, String telefone, String email, String endereco, List<Cliente> listaClientes, List<Seguro> listaSeguros) 
     {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
-        this.listaSinistros = listaSinistros;
         this.listaClientes = listaClientes;
+        this.listaSeguros = listaSeguros;
     }
-
+    
     public String getNome()
     {
         return nome;
@@ -58,16 +58,6 @@ public class Seguradora
     {
         this.endereco = endereco;
     }
-
-    public List<Sinistro> getListaSinistros() 
-    {
-        return listaSinistros;
-    }
-    
-    public void setListaSinistros(List<Sinistro> listaSinistros) 
-    {
-        this.listaSinistros = listaSinistros;
-    }
     
     public List<Cliente> getListaClientes() 
     {
@@ -77,6 +67,16 @@ public class Seguradora
     public void setListaClientes(List<Cliente> listaClientes) 
     {
         this.listaClientes = listaClientes;
+    }
+    
+    public List<Seguro> getListaSeguros() 
+    {
+        return listaSeguros;
+    }
+
+    public void setListaSeguros(List<Seguro> listaSeguros) 
+    {
+        this.listaSeguros = listaSeguros;
     }
 
     public boolean cadastrarCliente(Cliente cliente)
