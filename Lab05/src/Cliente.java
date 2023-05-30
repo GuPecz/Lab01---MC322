@@ -1,14 +1,15 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cliente
 {
     private String nome;
     private String endereco;
-    private List<Veiculo> listaVeiculos;
+    private ArrayList<Veiculo> listaVeiculos;
     private double valorSeguro;
     
     
-    public Cliente(String nome, String endereco, List<Veiculo> listaVeiculos, double valorSeguro) 
+    public Cliente(String nome, String endereco, ArrayList<Veiculo> listaVeiculos, double valorSeguro) 
     {
         this.nome = nome;
         this.endereco = endereco;
@@ -42,7 +43,7 @@ public class Cliente
         return listaVeiculos;
     }
     
-    public void setListaVeiculos(List<Veiculo> listaVeiculos) 
+    public void setListaVeiculos(ArrayList<Veiculo> listaVeiculos) 
     {
         this.listaVeiculos = listaVeiculos;
     }
@@ -55,21 +56,6 @@ public class Cliente
     public void setValorSeguro(double valorSeguro) 
     {
         this.valorSeguro = valorSeguro;
-    }
-
-    public boolean excluirVeiculo(String placa)
-    {
-        for (Veiculo veiculo: listaVeiculos)
-        {
-            if (veiculo.getPlaca().equals(placa))
-            {
-                listaVeiculos.remove(veiculo);
-                System.out.println("Veículo " + placa + " removido");
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public String listarVeiculosPorCliente()
@@ -92,16 +78,10 @@ public class Cliente
         }
     }
 
-    public double calculaScore()
-    {
-        return CalcSeguro.VALOR_BASE.getValor() * listaVeiculos.size();
-    }
-
     public String toString() 
     {
         return "Nome: " + nome + "\nEndereco: " + endereco + 
                 "\nLista de veículos: " + listarVeiculosPorCliente() + 
                 "\nValor do seguro: " + valorSeguro + "\n";
     }
-
 }
