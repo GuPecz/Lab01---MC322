@@ -1,5 +1,5 @@
 import java.time.LocalDate;
-import java.util.List;
+import java.util.ArrayList;
 
 public class ClientePJ extends Cliente
 {
@@ -8,7 +8,7 @@ public class ClientePJ extends Cliente
     private int qtdeFuncionarios;
     
     
-    public ClientePJ(String nome, String endereco, List<Veiculo> listaVeiculos, double valorSeguro, String cnpj, LocalDate dataFundacao, int qtdeFuncionarios)
+    public ClientePJ(String nome, String endereco, ArrayList<Veiculo> listaVeiculos, double valorSeguro, String cnpj, LocalDate dataFundacao, int qtdeFuncionarios)
     {
         super(nome, endereco, listaVeiculos, valorSeguro);
         this.cnpj = cnpj;
@@ -47,10 +47,22 @@ public class ClientePJ extends Cliente
         return super.toString() + "CNPJ: " + cnpj + 
         "\nData de fundação: " + dataFundacao;
     }
-    
-    @Override
-    public double calculaScore()
+
+    public boolean cadastrarFrota()
     {
-        return CalcSeguro.VALOR_BASE.getValor() * (1 + (qtdeFuncionarios/100)) * super.getListaVeiculos().size();
+        // Stub
+        return false;
+    }
+
+    public boolean atualizarFrota()
+    {
+        // Stub
+        return false;
+    }
+
+    public boolean listarVeiculosPorFrota()
+    {
+        // Stub
+        return false;
     }
 }

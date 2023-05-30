@@ -1,5 +1,5 @@
 import java.time.LocalDate;
-import java.util.List;
+import java.util.ArrayList;
 
 public class ClientePF extends Cliente
 {
@@ -11,7 +11,7 @@ public class ClientePF extends Cliente
     private String classeEconomica;
     
     
-    public ClientePF(String nome, String endereco, List<Veiculo> listaVeiculos, double valorSeguro, String cpf, String genero, LocalDate dataLicenca, String educacao, LocalDate dataNascimento, String classeEconomica)
+    public ClientePF(String nome, String endereco, ArrayList<Veiculo> listaVeiculos, double valorSeguro, String cpf, String genero, LocalDate dataLicenca, String educacao, LocalDate dataNascimento, String classeEconomica)
     {
         super(nome, endereco, listaVeiculos, valorSeguro);
         this.cpf = cpf;
@@ -91,21 +91,32 @@ public class ClientePF extends Cliente
         return LocalDate.now().getYear() - dataNascimento.getYear();
     }
 
-    @Override
-    public double calculaScore()
+    public boolean cadastrarVeiculo(Veiculo veiculo)
     {
-        double fator_idade = 1.0, valor_base = CalcSeguro.VALOR_BASE.getValor();
-        int idade = calculaIdade(dataNascimento);
-        int qtdeCarros = super.getListaVeiculos().size();
+        // Stub
+        return false;
+    }
 
+    public boolean removerVeiculo()
+    {
+        // Stub
+        /*
+            Como foi implementado no Cliente
+            public boolean excluirVeiculo(String placa)
+            {
+                for (Veiculo veiculo: listaVeiculos)
+                {
+                    if (veiculo.getPlaca().equals(placa))
+                    {
+                        listaVeiculos.remove(veiculo);
+                        System.out.println("Veículo " + placa + " removido");
+                        return true;
+                    }
+                }
 
-        if (idade < 30)
-            fator_idade = CalcSeguro.FATOR_30_MENOS.getValor();
-        else if (30 <= idade && idade <= 60)
-            fator_idade = CalcSeguro.FATOR_30_60.getValor();
-        else if (idade > 60)
-            fator_idade = CalcSeguro.FATOR_60_MAIS.getValor();
-        
-        return valor_base * fator_idade * qtdeCarros;
+                return false;
+            }
+        */
+        return false;
     }
 }
