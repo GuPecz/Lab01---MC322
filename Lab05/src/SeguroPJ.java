@@ -43,6 +43,21 @@ public class SeguroPJ extends Seguro
 
     }
 
+    public int calculaQtdSinistros(Cliente cliente)
+    {
+        int qtdSinistros = 0;
+
+        for (Sinistro sinistro: super.getListaSinistros())
+        {
+            Cliente clienteSinistro = sinistro.getCliente();
+
+            if (clienteSinistro instanceof ClientePJ && sinistro.getCliente().equals(cliente))
+                qtdSinistros++;
+        }
+
+        return qtdSinistros;
+    }
+
     public double calcularValor()
     {
         // Stub

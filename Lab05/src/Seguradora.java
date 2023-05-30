@@ -328,22 +328,6 @@ public class Seguradora
         else;
     }
 
-    private int CalculaQtdeSinistros(Cliente cliente)
-    {
-        int qtdeSinistros = 0;
-
-        for (Sinistro sinistro: listaSinistros)
-            if (sinistro.getCliente().equals(cliente))
-                qtdeSinistros++;
-
-        return qtdeSinistros;
-    }
-
-    public double calcularPrecoSeguroCliente(Cliente cliente)
-    {
-        return cliente.calculaScore() * (1 + CalculaQtdeSinistros(cliente));
-    }
-
     public double calcularReceita()
     {
         double receita = 0.0;
