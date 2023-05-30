@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class Cliente
 {
@@ -38,7 +37,7 @@ public class Cliente
         this.endereco = endereco;
     }
     
-    public List<Veiculo> getListaVeiculos() 
+    public ArrayList<Veiculo> getListaVeiculos() 
     {
         return listaVeiculos;
     }
