@@ -93,30 +93,33 @@ public class ClientePF extends Cliente
 
     public boolean cadastrarVeiculo(Veiculo veiculo)
     {
-        // Stub
-        return false;
+        ArrayList<Veiculo> listaVeiculos = super.getListaVeiculos();
+
+        if (listaVeiculos.contains(veiculo))
+        {
+            System.out.println("ERRO: Este veículo já está cadastrado");
+            return false;
+        }
+
+        listaVeiculos.add(veiculo);
+        System.out.println("Veículo cadastrado com sucesso");
+        return true;
     }
 
-    public boolean removerVeiculo()
+    public boolean removerVeiculo(String placa)
     {
-        // Stub
-        /*
-            Como foi implementado no Cliente
-            public boolean excluirVeiculo(String placa)
+        ArrayList<Veiculo> listaVeiculos = super.getListaVeiculos();
+        
+        for (Veiculo veiculo: listaVeiculos)
+        {
+            if (veiculo.getPlaca().equals(placa))
             {
-                for (Veiculo veiculo: listaVeiculos)
-                {
-                    if (veiculo.getPlaca().equals(placa))
-                    {
-                        listaVeiculos.remove(veiculo);
-                        System.out.println("Veículo " + placa + " removido");
-                        return true;
-                    }
-                }
-
-                return false;
+                listaVeiculos.remove(veiculo);
+                System.out.println("Veículo " + placa + " removido");
+                return true;
             }
-        */
+        }
+
         return false;
     }
 }
