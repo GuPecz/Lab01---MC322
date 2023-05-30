@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Seguradora
@@ -6,10 +7,10 @@ public class Seguradora
     private String telefone;
     private String email;
     private String endereco;
-    private List<Cliente> listaClientes;
-    private List<Seguro> listaSeguros;
+    private ArrayList<Cliente> listaClientes;
+    private ArrayList<Seguro> listaSeguros;
     
-    public Seguradora(String nome, String telefone, String email, String endereco, List<Cliente> listaClientes, List<Seguro> listaSeguros) 
+    public Seguradora(String nome, String telefone, String email, String endereco, ArrayList<Cliente> listaClientes, ArrayList<Seguro> listaSeguros) 
     {
         this.nome = nome;
         this.telefone = telefone;
@@ -64,7 +65,7 @@ public class Seguradora
         return listaClientes;
     }
     
-    public void setListaClientes(List<Cliente> listaClientes) 
+    public void setListaClientes(ArrayList<Cliente> listaClientes) 
     {
         this.listaClientes = listaClientes;
     }
@@ -74,7 +75,7 @@ public class Seguradora
         return listaSeguros;
     }
 
-    public void setListaSeguros(List<Seguro> listaSeguros) 
+    public void setListaSeguros(ArrayList<Seguro> listaSeguros) 
     {
         this.listaSeguros = listaSeguros;
     }
