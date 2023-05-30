@@ -5,15 +5,14 @@ public class ClientePJ extends Cliente
 {
     private final String cnpj;
     private LocalDate dataFundacao;
-    private int qtdeFuncionarios;
+    private ArrayList<Frota> listaFrotas;
     
-    
-    public ClientePJ(String nome, String endereco, ArrayList<Veiculo> listaVeiculos, double valorSeguro, String cnpj, LocalDate dataFundacao, int qtdeFuncionarios)
+    public ClientePJ(String nome, String endereco, ArrayList<Veiculo> listaVeiculos, double valorSeguro, String cnpj, LocalDate dataFundacao, ArrayList<Frota> listaFrotas)
     {
         super(nome, endereco, listaVeiculos, valorSeguro);
         this.cnpj = cnpj;
         this.dataFundacao = dataFundacao;
-        this.qtdeFuncionarios = qtdeFuncionarios;
+        this.listaFrotas = listaFrotas;
     }
     
     public LocalDate getDataFundacao() 
@@ -31,14 +30,14 @@ public class ClientePJ extends Cliente
         return cnpj;
     }
     
-    public int getQtdeFuncionarios() 
+    public ArrayList<Frota> getListaFrotas() 
     {
-        return qtdeFuncionarios;
+        return listaFrotas;
     }
 
-    public void setQtdeFuncionarios(int qtdeFuncionarios) 
+    public void setListaFrotas(ArrayList<Frota> listaFrotas) 
     {
-        this.qtdeFuncionarios = qtdeFuncionarios;
+        this.listaFrotas = listaFrotas;
     }
 
     @Override
@@ -48,15 +47,39 @@ public class ClientePJ extends Cliente
         "\nData de fundação: " + dataFundacao;
     }
 
-    public boolean cadastrarFrota()
+    public boolean cadastrarFrota(Frota frota)
     {
-        // Stub
+        for (Frota frotaCadastrada: listaFrotas)
+            if (frotaCadastrada.getCode().equals(frota.getCode()))
+            {
+                System.out.println("ERRO: Esta frota já está cadastrada");
+                return false;
+            }
+
+        listaFrotas.add(frota);
+        System.out.println("Frota cadastrada com sucesso");
+
         return false;
     }
 
-    public boolean atualizarFrota()
+    public boolean atualizarFrota(int operacao, Frota frota, Veiculo veiculo)
     {
-        // Stub
+        /* Operações
+         * 1: Adicionar veículo
+         * 2: Remover veículo
+         */
+
+        switch(operacao)
+        {
+            case 1:
+            frota.getListaVeiculos().add(veiculo);
+            break;
+
+            case 2:
+            frota.getListaVeiculos().remove(veiculo);
+            break;
+        }
+
         return false;
     }
 
