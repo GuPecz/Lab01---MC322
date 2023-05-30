@@ -1,9 +1,9 @@
 public enum CalcSeguro 
 {
-    VALOR_BASE(100.0),
-    FATOR_18_30(1.2),
+    VALOR_BASE(10.0),
+    FATOR_30_MENOS(1.25),
     FATOR_30_60(1.0),
-    FATOR_60_90(1.5);
+    FATOR_60_MAIS(1.5);
 
     private final double valor;
     
