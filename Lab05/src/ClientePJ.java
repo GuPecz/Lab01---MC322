@@ -62,21 +62,37 @@ public class ClientePJ extends Cliente
         return false;
     }
 
-    public boolean atualizarFrota(int operacao, Frota frota, Veiculo veiculo)
+    private Frota buscaFrota(String code)
+    {
+        for (Frota frota: listaFrotas)
+            if (frota.getCode().equals(code))
+                return frota;
+
+        return null;
+    }
+
+    public boolean atualizarFrota(int operacao, String code, Veiculo veiculo)
     {
         /* Operações
          * 1: Adicionar veículo
          * 2: Remover veículo
+         * 3: Excluir frota
          */
+
+        Frota frota = buscaFrota(code);
 
         switch(operacao)
         {
             case 1:
-            frota.getListaVeiculos().add(veiculo);
+            frota.cadastrarVeiculo(veiculo);
             break;
 
             case 2:
-            frota.getListaVeiculos().remove(veiculo);
+            frota.removerVeiculo(veiculo.getPlaca());
+            break;
+
+            case 3:
+            listaFrotas.remove(frota);
             break;
         }
 
