@@ -101,7 +101,15 @@ public class ClientePJ extends Cliente
 
     public boolean listarVeiculosPorFrota(String codigo)
     {
-        // Stub
-        return false;
+        if (listaFrotas.isEmpty())
+        {
+            System.out.println("ERRO: Não há frotas registradas");
+            return false;
+        }
+
+        for (Frota frota: listaFrotas)
+            System.out.println(frota);
+
+        return true;
     }
 }

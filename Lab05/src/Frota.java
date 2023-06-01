@@ -59,4 +59,21 @@ public class Frota
 
         return false;
     }
+
+    private String imprimirVeiculos()
+    {
+        String veiculos = "";
+        int qtdVeiculos = listaVeiculos.size();
+
+        for (int i = 0; i < qtdVeiculos; i++)
+            veiculos += "Veículo " + i + "\n" + listaVeiculos.get(i);
+
+        return veiculos;
+    }
+
+    public String toString()
+    {
+        return "Informações da frota:\n" + "Código: " + codigo
+                + "Lista de veículos: " + imprimirVeiculos();
+    }
 }
