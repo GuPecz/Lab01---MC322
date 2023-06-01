@@ -2,23 +2,23 @@ import java.util.ArrayList;
 
 public class Frota 
 {
-    private String code;
+    private String codigo;
     private ArrayList<Veiculo> listaVeiculos;
 
-    public Frota(String code, ArrayList<Veiculo> listaVeiculos) 
+    public Frota(String codigo, ArrayList<Veiculo> listaVeiculos) 
     {
-        this.code = code;
+        this.codigo = codigo;
         this.listaVeiculos = listaVeiculos;
     }
 
-    public String getCode() 
+    public String getCodigo() 
     {
-        return code;
+        return codigo;
     }
 
-    public void setCode(String code) 
+    public void setCodigo(String codigo) 
     {
-        this.code = code;
+        this.codigo = codigo;
     }
 
     public ArrayList<Veiculo> getListaVeiculos() 
