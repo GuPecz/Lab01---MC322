@@ -7,14 +7,14 @@ public class ClientePJ extends Cliente
     private LocalDate dataFundacao;
     private ArrayList<Frota> listaFrotas;
     
-    public ClientePJ(String nome, String endereco, ArrayList<Veiculo> listaVeiculos, double valorSeguro, String cnpj, LocalDate dataFundacao, ArrayList<Frota> listaFrotas)
+    public ClientePJ(String nome, String telefone, String endereco, String email, String cnpj, LocalDate dataFundacao, ArrayList<Frota> listaFrotas) 
     {
-        super(nome, endereco, listaVeiculos, valorSeguro);
+        super(nome, telefone, endereco, email);
         this.cnpj = cnpj;
         this.dataFundacao = dataFundacao;
         this.listaFrotas = listaFrotas;
     }
-    
+
     public LocalDate getDataFundacao() 
     {
         return dataFundacao;

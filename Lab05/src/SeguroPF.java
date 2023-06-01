@@ -43,23 +43,15 @@ public class SeguroPF extends Seguro
 
     }
 
-    public int calculaQtdSinistros(Cliente cliente)
+    public int calculaQtdSinistros(Condutor condutor)
     {
-        int qtdSinistros = 0;
-
-        for (Sinistro sinistro: super.getListaSinistros())
-        {
-            Cliente clienteSinistro = sinistro.getCliente();
-
-            if (clienteSinistro instanceof ClientePF && sinistro.getCliente().equals(cliente))
-                qtdSinistros++;
-        }
-
-        return qtdSinistros;
+        return condutor.getListaSinistros().size();
     }
 
     public double calcularValor()
     {
+        // Foi feito para cliente!
+        /* 
         double fator_idade = 1.0, valor_base = CalcSeguro.VALOR_BASE.getValor();
         int idade = cliente.calculaIdade(cliente.getDataNascimento());
         int qtdVeiculos = cliente.getListaVeiculos().size();
@@ -73,7 +65,9 @@ public class SeguroPF extends Seguro
             fator_idade = CalcSeguro.FATOR_60_MAIS.getValor();
         
         return valor_base * fator_idade * qtdVeiculos;
+        */
         // valor_base * fator_idade * (1 + 1/(qtdVeiculos + 2)) * (2 + qtdSinistrosCliente/10) * (5 + qtdSinistrosCondutor/10)
+        return 0.0;
     }
 
     public boolean gerarSinistro(Sinistro sinistro)

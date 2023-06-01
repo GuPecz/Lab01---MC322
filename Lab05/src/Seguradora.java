@@ -3,23 +3,30 @@ import java.util.List;
 
 public class Seguradora
 {
+    private final String cnpj;
     private String nome;
     private String telefone;
-    private String email;
     private String endereco;
+    private String email;
     private ArrayList<Cliente> listaClientes;
     private ArrayList<Seguro> listaSeguros;
     
-    public Seguradora(String nome, String telefone, String email, String endereco, ArrayList<Cliente> listaClientes, ArrayList<Seguro> listaSeguros) 
+    public Seguradora(String cnpj, String nome, String telefone, String endereco, String email, ArrayList<Cliente> listaClientes, ArrayList<Seguro> listaSeguros) 
     {
+        this.cnpj = cnpj;
         this.nome = nome;
         this.telefone = telefone;
-        this.email = email;
         this.endereco = endereco;
+        this.email = email;
         this.listaClientes = listaClientes;
         this.listaSeguros = listaSeguros;
     }
     
+    public String getCnpj() 
+    {
+        return cnpj;
+    }
+
     public String getNome()
     {
         return nome;

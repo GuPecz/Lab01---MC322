@@ -6,24 +6,23 @@ public class Sinistro
     private final int id;
     private LocalDate data;
     private String endereco;
-    private Seguradora seguradora;
-    private Veiculo veiculo;
-    private Cliente cliente;
+    private Condutor condutor;
+    private Seguro seguro;
     
-    public Sinistro(LocalDate data, String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente) 
+    
+    public Sinistro(int id, LocalDate data, String endereco, Condutor condutor, Seguro seguro) 
     {
-        id = gerarId();
+        this.id = id;
         this.data = data;
         this.endereco = endereco;
-        this.seguradora = seguradora;
-        this.veiculo = veiculo;
-        this.cliente = cliente;
+        this.condutor = condutor;
+        this.seguro = seguro;
     }
 
     public int gerarId()
     {
         Random rng = new Random(); /* Random Number Generator, ou seja, Gerador de Número Aleatório */
-
+        
         return rng.nextInt(899) + 100; /* Para que sejam gerados apenas números com 3 algarismos */
     }
 
@@ -52,40 +51,30 @@ public class Sinistro
         this.endereco = endereco;
     }
     
-    public Seguradora getSeguradora() 
+    public Condutor getCondutor() 
     {
-        return seguradora;
+        return condutor;
     }
 
-    public void setSeguradora(Seguradora seguradora) 
+    public void setCondutor(Condutor condutor) 
     {
-        this.seguradora = seguradora;
+        this.condutor = condutor;
     }
 
-    public Veiculo getVeiculo() 
+    public Seguro getSeguro() 
     {
-        return veiculo;
+        return seguro;
     }
 
-    public void setVeiculo(Veiculo veiculo) 
+    public void setSeguro(Seguro seguro) 
     {
-        this.veiculo = veiculo;
-    }
-
-    public Cliente getCliente()
-    {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) 
-    {
-        this.cliente = cliente;
+        this.seguro = seguro;
     }
 
     public String toString() 
     {
         return "ID: " + id + "\nData:" + data + 
-                "\nEndereço: " + endereco + "\nSeguradora: " + seguradora.getNome() + 
-                "\nVeiculo: " + veiculo.getPlaca() + "\nCliente: " + cliente.getNome();
+                "\nEndereço: " + endereco + "\nCondutor: " + condutor.getNome() + 
+                "\nSeguro: " + seguro.getId();
     }
 }

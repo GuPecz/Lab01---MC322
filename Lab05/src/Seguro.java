@@ -95,6 +95,4 @@ public abstract class Seguro
     public abstract double calcularValor();
 
     public abstract boolean gerarSinistro(Sinistro sinistro);
-
-    public abstract int calculaQtdSinistros(Cliente cliente);
 }

@@ -5,23 +5,20 @@ public class ClientePF extends Cliente
 {
     private final String cpf;
     private String genero;
-    private LocalDate dataLicenca;
     private String educacao;
     private LocalDate dataNascimento;
-    private String classeEconomica;
+    private ArrayList<Veiculo> listaVeiculos;
     
-    
-    public ClientePF(String nome, String endereco, ArrayList<Veiculo> listaVeiculos, double valorSeguro, String cpf, String genero, LocalDate dataLicenca, String educacao, LocalDate dataNascimento, String classeEconomica)
+    public ClientePF(String nome, String telefone, String endereco, String email, String cpf, String genero, String educacao, LocalDate dataNascimento, ArrayList<Veiculo> listaVeiculos) 
     {
-        super(nome, endereco, listaVeiculos, valorSeguro);
+        super(nome, telefone, endereco, email);
         this.cpf = cpf;
         this.genero = genero;
-        this.dataLicenca = dataLicenca;
         this.educacao = educacao;
-        this.classeEconomica = classeEconomica;
         this.dataNascimento = dataNascimento;
+        this.listaVeiculos = listaVeiculos;
     }
-    
+
     public String getCpf() 
     {
         return cpf;
@@ -31,32 +28,22 @@ public class ClientePF extends Cliente
     {
         return genero;
     }
-
+    
     public void setGenero(String genero) 
     {
         this.genero = genero;
     }
-
-    public LocalDate getDataLicenca() 
-    {
-        return dataLicenca;
-    }
-
-    public void setDataLicenca(LocalDate dataLicenca) 
-    {
-        this.dataLicenca = dataLicenca;
-    }
-
+    
     public String getEducacao() 
     {
         return educacao;
     }
-
+    
     public void setEducacao(String educacao) 
     {
         this.educacao = educacao;
     }
-
+    
     public LocalDate getDataNascimento() 
     {
         return dataNascimento;
@@ -67,40 +54,30 @@ public class ClientePF extends Cliente
         this.dataNascimento = dataNascimento;
     }
     
-    public String getClasseEconomica() 
+    public ArrayList<Veiculo> getListaVeiculos() 
     {
-        return classeEconomica;
+        return listaVeiculos;
     }
 
-    public void setClasseEconomica(String classeEconomica) 
+    public void setListaVeiculos(ArrayList<Veiculo> listaVeiculos) 
     {
-        this.classeEconomica = classeEconomica;
+        this.listaVeiculos = listaVeiculos;
     }
-
-    @Override
-    public String toString()
-    {
-        return super.toString() + "CPF: " + cpf + "\nData de licença: " + dataLicenca + 
-                "\nEducação: " + educacao + "\nGênero: " + genero + 
-                "\nClasse econômica: " + classeEconomica +
-                "\nData de nascimento: " + dataNascimento;
-    }
-
+    
+    
     public int calculaIdade(LocalDate dataNascimento)
     {
         return LocalDate.now().getYear() - dataNascimento.getYear();
     }
-
+    
     public boolean cadastrarVeiculo(Veiculo veiculo)
     {
-        ArrayList<Veiculo> listaVeiculos = super.getListaVeiculos();
-
         if (listaVeiculos.contains(veiculo))
         {
             System.out.println("ERRO: Este veículo já está cadastrado");
             return false;
         }
-
+        
         listaVeiculos.add(veiculo);
         System.out.println("Veículo cadastrado com sucesso");
         return true;
@@ -108,8 +85,6 @@ public class ClientePF extends Cliente
 
     public boolean removerVeiculo(String placa)
     {
-        ArrayList<Veiculo> listaVeiculos = super.getListaVeiculos();
-        
         for (Veiculo veiculo: listaVeiculos)
         {
             if (veiculo.getPlaca().equals(placa))
@@ -119,7 +94,35 @@ public class ClientePF extends Cliente
                 return true;
             }
         }
-
+        
         return false;
+    }
+
+    public String listarVeiculos()
+    {
+        String veiculos = "";
+        int tam = listaVeiculos.size();
+
+        if (tam <= 0)
+            return "Nenhum veículo registrado";
+        else
+        {
+            for (int i = 0; i < tam - 1; i++)
+            {
+                veiculos += listaVeiculos.get(i).getPlaca() + ", ";
+            }
+
+            veiculos += listaVeiculos.get(tam - 1).getPlaca();
+
+            return veiculos;
+        }
+    }
+
+    @Override
+    public String toString()
+    {
+        return super.toString() + "CPF: " + cpf + "\nGênero: " + genero +
+                "\nEducação: " + educacao + "\nData de nascimento: " + dataNascimento
+                + "Lista de veículos: " + listarVeiculos();
     }
 }

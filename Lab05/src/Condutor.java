@@ -86,4 +86,9 @@ public class Condutor
     {
         this.listaSinistros = listaSinistros;
     }
+
+    public void adicionarSinistro(Sinistro sinistro)
+    {
+        listaSinistros.add(sinistro);
+    }
 }
