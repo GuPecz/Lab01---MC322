@@ -101,25 +101,6 @@ public class Seguradora
             return true;
         }
     }
-    
-    public boolean gerarSinistro(Sinistro sinistro)
-    {
-        if (listaSinistros.contains(sinistro))
-        {
-            System.out.println("ERRO: Sinistro já registrado");
-            return false;
-        }
-        else if (listaClientes.isEmpty() == true)
-        {
-            System.out.println("ERRO: Não há cliente cadastrado para gerar este sinistro");
-            return false;
-        }
-        else
-        {
-            listaSinistros.add(sinistro);
-            return true;
-        }
-    }
 
     public boolean excluirCliente(String documento)
     {
