@@ -156,55 +156,6 @@ public class Seguradora
         return false;
     }
 
-    public boolean excluirSinistro(int id)
-    {   
-        if (listaSinistros.isEmpty())
-        {
-            System.out.println("ERRO: Não há sinistros registrados");
-            return false;
-        }
-        else if (listaClientes.isEmpty())
-        {
-            System.out.println("ERRO: Não há clientes cadastrados");
-            return false;
-        }
-
-        for (Sinistro sinistro: listaSinistros)
-        {
-            if (sinistro.getId() == id)
-            {
-                listaSinistros.remove(sinistro);
-                System.out.println("Sinistro " + sinistro.getId() + " removido");
-                sinistro.getCliente().setValorSeguro(calcularPrecoSeguroCliente(sinistro.getCliente()));
-                return true;
-            }
-        }
-
-        System.out.println("ERRO: Não há sinistro com este id cadastrado");
-        return false;
-    }
-
-    public boolean excluirVeiculo(String placa)
-    {
-        if (listaClientes.isEmpty())
-        {
-            System.out.println("ERRO: Não há clientes cadastrados");
-            return false;
-        }
-
-        for (Cliente cliente: listaClientes)
-        {
-            if (cliente.excluirVeiculo(placa))
-            {
-                cliente.setValorSeguro(calcularPrecoSeguroCliente(cliente));
-                return true;
-            }
-        }
-
-        System.out.println("ERRO: Não há veículo com esta placa cadastrado");
-        return false;
-    }
-
     public void listarClientesPorSeguradora()
     {
         int tam = listaClientes.size();
@@ -321,8 +272,8 @@ public class Seguradora
     {
         double receita = 0.0;
 
-        for (Cliente cliente: listaClientes)
-            receita += calcularPrecoSeguroCliente(cliente);
+        for (Seguro seguro: listaSeguros)
+            receita += seguro.getValorMensal();
 
         return receita;
     }
