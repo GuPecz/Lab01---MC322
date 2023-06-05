@@ -11,8 +11,7 @@ public abstract class Seguro
     private ArrayList<Condutor> listaCondutores;
     private int valorMensal;
     
-    public Seguro(int id, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora,
-    ArrayList<Sinistro> listaSinistros, ArrayList<Condutor> listaCondutores, int valorMensal) 
+    public Seguro(int id, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, ArrayList<Sinistro> listaSinistros, ArrayList<Condutor> listaCondutores, int valorMensal) 
     {
         this.id = id;
         this.dataInicio = dataInicio;

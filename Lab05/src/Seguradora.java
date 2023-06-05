@@ -156,7 +156,160 @@ public class Seguradora
         return false;
     }
 
-    public void listarClientesPorSeguradora()
+    public boolean gerarSeguro(Seguro seguro)
+    {
+        if (listaSeguros.contains(seguro))
+        {
+            System.out.println("ERRO: Seguro já registrado");
+            return false;
+        }
+        else
+        {
+            listaSeguros.add(seguro);
+            return true;
+        }
+    }
+
+    public boolean cancelarSeguro(Seguro seguro)
+    {
+        if (!listaSeguros.contains(seguro))
+        {
+            System.out.println("ERRO: Seguro não registrado");
+            return false;
+        }
+        else
+        {
+            listaSeguros.remove(seguro);
+            return true;
+        }
+    }
+
+    private ClientePF getClientePorCpf(String cpf)
+    {
+        for (Cliente cl: listaClientes)
+        {
+            if (cl instanceof ClientePF)
+            {
+                ClientePF cliente = (ClientePF)cl;
+
+                if (cliente.getCpf().equals(cpf))
+                    return cliente;
+            }
+        }
+
+        System.out.println("ERRO: Não há cliente cadastrado com esse documento");
+        return null;
+    }
+
+    private ClientePJ getClientePorCnpj(String cnpj)
+    {
+        for (Cliente cl: listaClientes)
+        {
+            if (cl instanceof ClientePJ)
+            {
+                ClientePJ cliente = (ClientePJ)cl;
+
+                if (cliente.getCnpj().equals(cnpj))
+                    return cliente;
+            }
+        }
+
+        System.out.println("ERRO: Não há cliente cadastrado com esse documento");
+        return null;
+    }
+
+    public ArrayList<Seguro> getSegurosPorCliente(String documento)
+    {
+        ArrayList<Seguro> segurosCliente = new ArrayList<Seguro>();
+
+        if (!Validacao.validarCNPJ(documento) && !Validacao.validarCPF(documento))
+        {
+            System.out.println("ERRO: Documento inválido");
+            return null;
+        }
+
+        if (Validacao.validarCNPJ(documento))
+        {
+            ClientePF clientePf = getClientePorCpf(documento);
+
+            for (Seguro seguro: listaSeguros)
+            if (seguro instanceof SeguroPF)
+            {
+                SeguroPF seguroPf = (SeguroPF)seguro;
+
+                if (seguroPf.getCliente().equals(clientePf))
+                    segurosCliente.add(seguroPf);
+            }
+        }
+        else if (Validacao.validarCPF(documento))
+        {
+            ClientePJ clientePj = getClientePorCnpj(documento);
+
+            for (Seguro seguro: listaSeguros)
+                if (seguro instanceof SeguroPJ)
+                {
+                    SeguroPJ seguroPj = (SeguroPJ)seguro;
+    
+                    if (seguroPj.getCliente().equals(clientePj))
+                        segurosCliente.add(seguroPj);
+                }
+        }
+
+        return segurosCliente;
+    }
+
+    public ArrayList<Sinistro> getSinistrosPorCliente(String documento)
+    {        
+        ArrayList<Sinistro> sinistrosCliente = new ArrayList<Sinistro>();
+
+        if (!Validacao.validarCNPJ(documento) && !Validacao.validarCPF(documento))
+        {
+            System.out.println("ERRO: Documento inválido");
+            return null;
+        }
+
+        if (Validacao.validarCPF(documento))
+        {
+            ClientePF clientePf = getClientePorCpf(documento);
+
+            for (Seguro seguro: listaSeguros)
+            if (seguro instanceof SeguroPF)
+            {
+                SeguroPF seguroPf = (SeguroPF)seguro;
+
+                if (seguroPf.getCliente().equals(clientePf))
+                    sinistrosCliente.addAll(seguroPf.getListaSinistros());
+            }
+        }
+        else if (Validacao.validarCNPJ(documento))
+        {
+            ClientePJ clientePj = getClientePorCnpj(documento);
+
+            for (Seguro seguro: listaSeguros)
+                if (seguro instanceof SeguroPJ)
+                {
+                    SeguroPJ seguroPj = (SeguroPJ)seguro;
+    
+                    if (seguroPj.getCliente().equals(clientePj))
+                        sinistrosCliente.addAll(seguroPj.getListaSinistros());
+                }
+        }
+
+        return sinistrosCliente;
+    }
+
+    public double calcularReceita()
+    {
+        double receita = 0.0;
+        
+        for (Seguro seguro: listaSeguros)
+            receita += seguro.getValorMensal();
+        
+        return receita;
+    }
+
+    // Métodos de listagem
+    /* public void listarClientesPorSeguradora()
     {
         int tam = listaClientes.size();
 
@@ -266,15 +419,5 @@ public class Seguradora
         if (!existemVeiculos)
             System.out.println("ERRO: Nenhum veículo registrado nesta seguradora");
         else;
-    }
-
-    public double calcularReceita()
-    {
-        double receita = 0.0;
-
-        for (Seguro seguro: listaSeguros)
-            receita += seguro.getValorMensal();
-
-        return receita;
-    }
+    } */
 }

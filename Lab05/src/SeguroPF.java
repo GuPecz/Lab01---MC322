@@ -69,22 +69,6 @@ public class SeguroPF extends Seguro
         return qtdVeiculos;
     }
 
-    public int calculaQtdSinistrosCliente()
-    {
-        // Não está certo! Não estou entendendo como os sinistros se relacionam a um cliente específico
-        int qtdSinistros = 0;
-
-        for (Sinistro sinistro: super.getListaSinistros())
-        {
-            Seguradora seguradora = sinistro.getSeguro().getSeguradora();
-
-            if (seguradora.getListaClientes().contains(cliente))
-                qtdSinistros++;
-        }
-
-        return qtdSinistros;
-    }
-
     public int calculaQtdSinistrosCondutor(Condutor condutor)
     {
         int qtdSinistros = 0;
@@ -103,7 +87,7 @@ public class SeguroPF extends Seguro
         int idade = cliente.calculaIdade();
         int qtdVeiculos, qtdSinistrosCliente, qtdSinistrosCondutor;
         qtdVeiculos = calculaQtdVeiculos();
-        qtdSinistrosCliente = calculaQtdSinistrosCliente();
+        qtdSinistrosCliente = super.getSeguradora().getSinistrosPorCliente(cliente.getCpf()).size();
         qtdSinistrosCondutor = calculaQtdSinistrosCondutor(condutor);
 
         if (idade < 30)

@@ -62,22 +62,6 @@ public class SeguroPJ extends Seguro
         return frota.getListaVeiculos().size();
     }
 
-    public int calculaQtdSinistrosCliente()
-    {
-        // Não está certo! Não estou entendendo como os sinistros se relacionam a um cliente específico
-        int qtdSinistros = 0;
-
-        for (Sinistro sinistro: super.getListaSinistros())
-        {
-            Seguradora seguradora = sinistro.getSeguro().getSeguradora();
-
-            if (seguradora.getListaClientes().contains(cliente))
-                qtdSinistros++;
-        }
-
-        return qtdSinistros;
-    }
-
     public int calculaQtdSinistrosCondutor(Condutor condutor)
     {
         int qtdSinistros = 0;
@@ -96,7 +80,7 @@ public class SeguroPJ extends Seguro
         qtdFuncionarios = super.getListaCondutores().size();
         qtdVeiculos = calculaQtdVeiculos();
         anosPorFundacao = cliente.calculaIdade();
-        qtdSinistrosCliente = calculaQtdSinistrosCliente();
+        qtdSinistrosCliente = super.getSeguradora().getSinistrosPorCliente(cliente.getCnpj()).size();
         qtdSinistrosCondutor = calculaQtdSinistrosCondutor(condutor);
 
         return valor_base * ((10 + qtdFuncionarios/10) * (1 + 1/(qtdVeiculos + 2)) * (1 + 1/(anosPorFundacao + 2)) * (2 + qtdSinistrosCliente/10) * (5 + qtdSinistrosCondutor/10));

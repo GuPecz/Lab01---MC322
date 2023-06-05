@@ -1,4 +1,3 @@
-import java.util.Random;
 import java.time.LocalDate;
 
 public class Sinistro
@@ -9,9 +8,9 @@ public class Sinistro
     private Condutor condutor;
     private Seguro seguro;
     
-    public Sinistro(int id, LocalDate data, String endereco, Condutor condutor, Seguro seguro) 
+    public Sinistro(LocalDate data, String endereco, Condutor condutor, Seguro seguro) 
     {
-        this.id = id;
+        this.id = gerarId();
         this.data = data;
         this.endereco = endereco;
         this.condutor = condutor;
@@ -20,9 +19,7 @@ public class Sinistro
 
     public int gerarId()
     {
-        Random rng = new Random(); /* Random Number Generator, ou seja, Gerador de Número Aleatório */
-        
-        return rng.nextInt(899) + 100; /* Para que sejam gerados apenas números com 3 algarismos */
+        return hashCode();
     }
 
     public int getId()
