@@ -112,4 +112,9 @@ public class ClientePJ extends Cliente
 
         return true;
     }
+
+    public int calculaIdade()
+    {
+        return LocalDate.now().getYear() - dataFundacao.getYear();
+    }
 }

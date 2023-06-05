@@ -9,7 +9,6 @@ public class Sinistro
     private Condutor condutor;
     private Seguro seguro;
     
-    
     public Sinistro(int id, LocalDate data, String endereco, Condutor condutor, Seguro seguro) 
     {
         this.id = id;

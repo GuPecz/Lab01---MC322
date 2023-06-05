@@ -37,22 +37,22 @@ public abstract class Seguro
     {
         this.dataInicio = dataInicio;
     }
-
+    
     public LocalDate getDataFim() 
     {
         return dataFim;
     }
-
+    
     public void setDataFim(LocalDate dataFim) 
     {
         this.dataFim = dataFim;
     }
-
+    
     public Seguradora getSeguradora() 
     {
         return seguradora;
     }
-
+    
     public void setSeguradora(Seguradora seguradora) 
     {
         this.seguradora = seguradora;
@@ -67,7 +67,7 @@ public abstract class Seguro
     {
         this.listaSinistros = listaSinistros;
     }
-
+    
     public ArrayList<Condutor> getListaCondutores() 
     {
         return listaCondutores;
@@ -77,22 +77,31 @@ public abstract class Seguro
     {
         this.listaCondutores = listaCondutores;
     }
-
+    
     public int getValorMensal() 
     {
         return valorMensal;
     }
-
+    
     public void setValorMensal(int valorMensal) 
     {
         this.valorMensal = valorMensal;
     }
+    
+    public abstract void desautorizarCondutor(Condutor condutor);
 
-    public abstract void desautorizarCondutor();
-
-    public abstract void autorizarCondutor();
-
-    public abstract double calcularValor();
-
+    public abstract void autorizarCondutor(Condutor condutor);
+    
+    public abstract double calcularValor(Condutor condutor);
+    
     public abstract boolean gerarSinistro(Sinistro sinistro);
+
+    public String toString() 
+    {
+        return "Informações do seguro" + "\nID: " + id + "\nData de início: " + dataInicio 
+                + "\nData de fim: " + dataFim + "\nSeguradora: " + seguradora
+                + "\nLista de sinistros: " + listaSinistros 
+                + "\nLista de condutores: " + listaCondutores 
+                + "\nValor mensal: " + valorMensal;
+    }
 }

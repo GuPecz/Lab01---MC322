@@ -4,13 +4,15 @@ public class Veiculo
     private String modelo;
     private String marca;
     private int anoFabricacao;
+    private String nomeSeguradora;
     
-    public Veiculo(String placa, String modelo, String marca, int anoFabricacao)
+    public Veiculo(String placa, String modelo, String marca, int anoFabricacao, String nomeSeguradora)
     {
         this.placa = placa;
         this.modelo = modelo;
         this.marca = marca;
         this.anoFabricacao = anoFabricacao;
+        this.nomeSeguradora = nomeSeguradora;
     }
 
     public String getPlaca()
@@ -53,10 +55,21 @@ public class Veiculo
         this.anoFabricacao = anoFabricacao;
     }
 
+    public String getNomeSeguradora() 
+    {
+        return nomeSeguradora;
+    }
+
+    public void setNomeSeguradora(String nomeSeguradora) 
+    {
+        this.nomeSeguradora = nomeSeguradora;
+    }
+
     public String toString() 
     {
         return "Placa: " + placa + "\nModelo: " 
-                + modelo + "\nMarca: " + marca + 
-                "\nAno de fabricação: " + anoFabricacao;
+                + modelo + "\nMarca: " + marca
+                + "\nAno de fabricação: " + anoFabricacao
+                + "\nSegurado por: " + nomeSeguradora;
     }
 }

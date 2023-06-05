@@ -54,6 +54,8 @@ public abstract class Cliente
         this.email = email;
     }
 
+    public abstract int calculaIdade();
+
     public String toString() 
     {
         return "Nome: " + nome + "\nTelefone: " + telefone

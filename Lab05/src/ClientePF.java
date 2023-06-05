@@ -64,12 +64,6 @@ public class ClientePF extends Cliente
         this.listaVeiculos = listaVeiculos;
     }
     
-    
-    public int calculaIdade(LocalDate dataNascimento)
-    {
-        return LocalDate.now().getYear() - dataNascimento.getYear();
-    }
-    
     public boolean cadastrarVeiculo(Veiculo veiculo)
     {
         if (listaVeiculos.contains(veiculo))
@@ -116,6 +110,11 @@ public class ClientePF extends Cliente
 
             return veiculos;
         }
+    }
+
+    public int calculaIdade()
+    {
+        return LocalDate.now().getYear() - dataNascimento.getYear();
     }
 
     @Override
