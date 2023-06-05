@@ -106,7 +106,6 @@ public class Condutor
             {
                 listaSinistros.remove(sinistro);
                 System.out.println("Sinistro " + sinistro.getId() + " removido");
-                sinistro.getCliente().setValorSeguro(calcularPrecoSeguroCliente(sinistro.getCliente()));
                 return true;
             }
         }
