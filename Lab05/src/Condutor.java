@@ -91,4 +91,27 @@ public class Condutor
     {
         listaSinistros.add(sinistro);
     }
+
+    public boolean excluirSinistro(int id)
+    {   
+        if (listaSinistros.isEmpty())
+        {
+            System.out.println("ERRO: Não há sinistros registrados");
+            return false;
+        }
+
+        for (Sinistro sinistro: listaSinistros)
+        {
+            if (sinistro.getId() == id)
+            {
+                listaSinistros.remove(sinistro);
+                System.out.println("Sinistro " + sinistro.getId() + " removido");
+                sinistro.getCliente().setValorSeguro(calcularPrecoSeguroCliente(sinistro.getCliente()));
+                return true;
+            }
+        }
+
+        System.out.println("ERRO: Não há sinistro com este id cadastrado");
+        return false;
+    }
 }
