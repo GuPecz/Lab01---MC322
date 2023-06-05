@@ -43,6 +43,12 @@ public class SeguroPF extends Seguro
         super.getListaCondutores().add(condutor);
     }
 
+    public boolean gerarSinistro(Sinistro sinistro)
+    {
+        // Stub
+        return false;
+    }
+    
     public int calculaQtdVeiculos()
     {
         int qtdVeiculos = 0;
@@ -100,11 +106,5 @@ public class SeguroPF extends Seguro
             fator_idade = CalcSeguro.FATOR_60_MAIS.getValor();
         
         return valor_base * fator_idade * (1 + 1/(qtdVeiculos + 2)) * (2 + qtdSinistrosCliente/10) * (5 + qtdSinistrosCondutor/10);
-    }
-
-    public boolean gerarSinistro(Sinistro sinistro)
-    {
-        // Stub
-        return false;
     }
 }

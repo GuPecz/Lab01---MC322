@@ -43,12 +43,6 @@ public class SeguroPJ extends Seguro
         super.getListaCondutores().add(condutor);
     }
 
-    public int calculaQtdSinistros(Cliente cliente)
-    {
-        // Stub
-        return 0;
-    }
-
     public boolean gerarSinistro(Sinistro sinistro)
     {
         // Stub
