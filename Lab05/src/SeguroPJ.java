@@ -45,8 +45,16 @@ public class SeguroPJ extends Seguro
 
     public boolean gerarSinistro(Sinistro sinistro)
     {
-        // Stub
-        return false;
+        if (super.getListaSinistros().contains(sinistro))
+        {
+            System.out.println("ERRO: Sinistro já registrado");
+            return false;
+        }
+        else
+        {
+            super.getListaSinistros().add(sinistro);
+            return true;
+        }
     }
 
     public int calculaQtdVeiculos()
