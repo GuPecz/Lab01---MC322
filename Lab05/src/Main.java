@@ -14,8 +14,13 @@ import java.util.Scanner;
  * - Reimplementar listagens em Seguradora para retornarem uma String
  */
 
-/* Implementação legada de gerarSii
- * 
+/* Implementação legada de gerarSinistro
+ * 	seguradora = selecionarSeguradora(listaSeguradoras);
+ *	Cliente cliente = selecionarCliente(seguradora);
+ *	Veiculo veiculo = selecionarVeiculo(cliente);
+ *	System.out.println("Iniciando registro do sinistro");
+ *	seguradora.gerarSinistro(instanciarSinistro(seguradora, veiculo, cliente));
+ *	cliente.setValorSeguro(seguradora.calcularPrecoSeguroCliente(cliente));
  */
 
 public class Main 
@@ -495,12 +500,12 @@ public class Main
 			case LISTAR:
 
 			case EXCLUIR:
-				executarSubmenu(op, listaSeguradoras);
-				break;
-
+			
 			case GERAR_SINISTRO:
-
-				break;
+			
+			case SEGURO:
+			executarSubmenu(op, listaSeguradoras);
+			break;
 
 			case CALCULAR_RECEITA:
 				seguradora = selecionarSeguradora(listaSeguradoras);
