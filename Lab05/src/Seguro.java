@@ -100,6 +100,20 @@ public abstract class Seguro
     
     public abstract boolean gerarSinistro(Sinistro sinistro);
 
+    public void listarSinistrosPorSeguro()
+    {
+        if (listaSinistros.isEmpty())
+            System.out.println("ERRO: Não há sinistros registrados nesta seguro");
+
+        int i = 1;
+        for (Sinistro sinistro: listaSinistros)
+        {
+            System.out.println("Sinistro " + (i + 1));
+            System.out.println(sinistro);
+            i++;
+        }
+    }
+
     @Override
     public String toString() 
     {
