@@ -8,6 +8,8 @@ import java.util.Scanner;
  * - Tomar cuidado com a inicialização do atributo nomeSeguradora dos veículos
  * - Lidar com condutor e seguro na instanciação do sinistro
  * - Implementar impressão decente das listas
+ * - Cuidar da data fim do seguro
+ * - Pedir quantidade de sinistros na instanciação do seguro
  */
 
 public class Main 
@@ -90,6 +92,8 @@ public class Main
 			return input.nextLine();
 		}
 	}
+
+	/* Métodos de instanciação de objetos */
 
 	public static Seguradora instanciarSeguradora()
 	{
@@ -197,6 +201,24 @@ public class Main
         return cliente;
     }
 
+	public static Cliente cadastrarCliente()
+	{
+		String tipoCliente;
+
+		System.out.println("Iniciando cadastro de cliente");
+		System.out.println("Pessoa física ou jurídica? [f/j]");
+
+		do
+		{
+			tipoCliente = Leitura.leString();
+		} while (!(tipoCliente.equals("f") || tipoCliente.equals("j")));
+		
+		if (tipoCliente.equals("f"))
+			return instanciarPF();
+		else
+			return instanciarPJ();
+	}
+
     public static Veiculo instanciarVeiculo()
     {
         System.out.print("Insira a placa do veículo: ");
@@ -227,7 +249,6 @@ public class Main
 			if (!cpfValido)
 				System.out.println("ERRO: CPF inválido\nTente novamente");
 		} while (!cpfValido);
-
 		
 		System.out.print("Insira o nome do cliente: ");
         String nome = Leitura.lePalavra();
@@ -247,16 +268,42 @@ public class Main
 		return  new Condutor(cpf, nome, telefone, endereco, email, dataNascimento, new ArrayList<Sinistro>());
 	}
 
-	public static void iniciarSeguro(Seguro seguro)
+	public static SeguroPF instanciarSeguroPF(ArrayList<Seguradora> listaSeguradoras)
 	{
+		System.out.println("Selecione uma seguradora:");
+		Seguradora seguradora = selecionarSeguradora(listaSeguradoras);
 
+		System.out.println("Selecione um cliente:");
+		ClientePF cliente = (ClientePF)selecionarCliente(seguradora);
+
+		System.out.println("Selecione um veículo:");
+		Veiculo veiculo = selecionarVeiculo(cliente);
+
+		SeguroPF seguro = new SeguroPF(LocalDate.now(), LocalDate.now().plusMonths(6), seguradora, new ArrayList<Sinistro>(), new ArrayList<Condutor>(), veiculo, cliente);
+
+		return seguro;
 	}
 
-	public static SeguroPF instanciarSeguroPF()
+	public static Frota instanciarFrota()
 	{
-		System.out.println("");
+		// Stub
+		return new Frota(null, null);
+	}
 
-		return new SeguroPF(0, null, null, null, null, null, 0, null, null);
+	public static SeguroPJ instanciarSeguroPJ(ArrayList<Seguradora> listaSeguradoras)
+	{
+		System.out.println("Selecione uma seguradora:");
+		Seguradora seguradora = selecionarSeguradora(listaSeguradoras);
+
+		System.out.println("Selecione um cliente:");
+		ClientePJ cliente = (ClientePJ)selecionarCliente(seguradora);
+
+		System.out.println("Selecione uma frota:");
+		Frota frota = selecionarFrota(cliente);
+
+		SeguroPJ seguro = new SeguroPJ(LocalDate.now(), LocalDate.now().plusMonths(6), seguradora, new ArrayList<Sinistro>(), new ArrayList<Condutor>(), frota, cliente);
+
+		return seguro;
 	}
 
     public static Sinistro instanciarSinistro(Seguradora seguradora, Veiculo veiculo, Cliente cliente)
@@ -269,6 +316,121 @@ public class Main
 
         return new Sinistro(dataSinistro, endereco, null, null);
     }
+
+	/* Métodos de listagem de objetos */
+
+	public static void listarSeguradoras(ArrayList<Seguradora> listaSeguradoras)
+	{
+		int tam = listaSeguradoras.size();
+
+		System.out.println("Seguradoras cadastradas: ");
+
+		for (int i = 0; i < tam; i++)
+			System.out.println((i + 1) + " - " + listaSeguradoras.get(i).getNome());
+	}
+
+	/* Métodos de seleção de objetos */
+
+	public static Seguradora selecionarSeguradora(ArrayList<Seguradora> listaSeguradoras)
+	{
+		Seguradora seguradora;
+
+		if (listaSeguradoras.isEmpty())
+		{
+			System.out.println("Por favor, cadastre uma seguradora primeiro");
+			seguradora = instanciarSeguradora();
+			listaSeguradoras.add(seguradora);
+		}
+		else
+		{
+			listarSeguradoras(listaSeguradoras);
+			System.out.println("Selecione uma seguradora");
+			int opcao;
+			do
+			{
+				opcao = Leitura.leInt() - 1;
+			} while (!Validacao.validarIndice(opcao, listaSeguradoras));
+			seguradora = listaSeguradoras.get(opcao);
+		}
+
+		return seguradora;
+	}
+
+	public static Cliente selecionarCliente(Seguradora seguradora)
+	{
+		Cliente cliente;
+
+		if (seguradora.getListaClientes().isEmpty())
+		{
+			System.out.println("Por favor, cadastre um cliente primeiro");
+			cliente = cadastrarCliente();
+			seguradora.getListaClientes().add(cliente);
+		}
+		else
+		{
+			int opcao;
+
+			System.out.println("Selecione um cliente: ");
+			seguradora.listarClientesPorSeguradora();
+			do
+			{	
+				opcao = Leitura.leInt() - 1;
+			} while (!Validacao.validarIndice(opcao, seguradora.getListaClientes()));
+			cliente = seguradora.getListaClientes().get(opcao);
+		}
+
+		return cliente;
+	}
+
+	public static Veiculo selecionarVeiculo(ClientePF cliente)
+	{
+		Veiculo veiculo;
+
+		if (cliente.getListaVeiculos().isEmpty())
+		{
+			System.out.println("Por favor cadastre um veículo primeiro");
+			veiculo = instanciarVeiculo();
+		}
+		else
+		{
+			int opcao;
+
+			System.out.println("Selecione um veículo:");
+			cliente.listarVeiculos();
+			do
+			{	
+				opcao = Leitura.leInt() - 1;
+			} while (!Validacao.validarIndice(opcao, cliente.getListaVeiculos()));
+			veiculo = cliente.getListaVeiculos().get(opcao);
+		}
+		
+		return veiculo;
+	}
+
+	public static Frota selecionarFrota(ClientePJ cliente)
+	{
+		Frota frota;
+
+		if (cliente.getListaFrotas().isEmpty())
+		{
+			System.out.println("Por favor cadastre uma frota primeiro");
+			frota = instanciarFrota();
+		}
+		else
+		{
+			int opcao;
+
+			System.out.println("Selecione um veículo:");
+			cliente.listarVeiculos();
+			do
+			{	
+				opcao = Leitura.leInt() - 1;
+			} while (!Validacao.validarIndice(opcao, cliente.getListaVeiculos()));
+			veiculo = cliente.getListaVeiculos().get(opcao);
+		}
+
+		return frota;
+	}
 
 	public static void main(String[] args) 
 	{
