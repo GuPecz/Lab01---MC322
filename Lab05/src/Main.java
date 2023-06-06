@@ -659,6 +659,18 @@ public class Main
 
 	public static void main(String[] args) 
 	{
+		MenuOperacoes op;
+		ArrayList<Seguradora> listaSeguradoras = new ArrayList<Seguradora>();
 
+		System.out.println("/-------- Sistema de seguros Mirinho SA --------/");
+
+		do 
+		{
+			exibirMenuExterno();
+			op = lerOpcaoMenuExterno();
+			executarOpcaoMenuExterno(op, listaSeguradoras);
+		} while(op != MenuOperacoes.SAIR);
+
+		System.out.println("Sistema encerrado");
 	}
 }
