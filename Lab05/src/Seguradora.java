@@ -329,6 +329,14 @@ public class Seguradora
         }
     }
     
+    @Override
+    public String toString()
+    {
+        return "Informações da seguradora" + "\nCNPJ: " + cnpj + "\nNome: " + nome
+        + "\nTelefone: " + telefone + "\nEndereço: " + endereco + "E-mail: " + email
+        + "Clientes: " + listaClientes + "Seguros: " + listaSeguros;
+    }
+
     // Métodos de listagem
     /* 
 

@@ -56,9 +56,10 @@ public abstract class Cliente
 
     public abstract int calculaIdade();
 
+    @Override
     public String toString() 
     {
-        return "Nome: " + nome + "\nTelefone: " + telefone
+        return "Informações do cliente" + "\nNome: " + nome + "\nTelefone: " + telefone
         + "\nEndereco: " + endereco + "\nEmail: " + email;
     }
 }

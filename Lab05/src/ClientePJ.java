@@ -39,14 +39,7 @@ public class ClientePJ extends Cliente
     {
         this.listaFrotas = listaFrotas;
     }
-
-    @Override
-    public String toString()
-    {
-        return super.toString() + "CNPJ: " + cnpj + 
-        "\nData de fundação: " + dataFundacao;
-    }
-
+    
     public boolean cadastrarFrota(Frota frota)
     {
         for (Frota frotaCadastrada: listaFrotas)
@@ -58,27 +51,27 @@ public class ClientePJ extends Cliente
 
         listaFrotas.add(frota);
         System.out.println("Frota cadastrada com sucesso");
-
+        
         return false;
     }
-
+    
     private Frota buscaFrota(String codigo)
     {
         for (Frota frota: listaFrotas)
-            if (frota.getCodigo().equals(codigo))
-                return frota;
-
+        if (frota.getCodigo().equals(codigo))
+        return frota;
+        
         return null;
     }
-
+    
     public boolean atualizarFrota(int operacao, String codigo, Veiculo veiculo)
     {
         /* Operações
-         * 1: Adicionar veículo
-         * 2: Remover veículo
-         * 3: Excluir frota
-         */
-
+        * 1: Adicionar veículo
+        * 2: Remover veículo
+        * 3: Excluir frota
+        */
+        
         Frota frota = buscaFrota(codigo);
 
         switch(operacao)
@@ -86,19 +79,19 @@ public class ClientePJ extends Cliente
             case 1:
             frota.cadastrarVeiculo(veiculo);
             break;
-
+            
             case 2:
             frota.removerVeiculo(veiculo.getPlaca());
             break;
-
+            
             case 3:
             listaFrotas.remove(frota);
             break;
         }
-
+        
         return false;
     }
-
+    
     public boolean listarVeiculosPorFrota(String codigo)
     {
         if (listaFrotas.isEmpty())
@@ -106,15 +99,22 @@ public class ClientePJ extends Cliente
             System.out.println("ERRO: Não há frotas registradas");
             return false;
         }
-
+        
         for (Frota frota: listaFrotas)
-            System.out.println(frota);
-
+        System.out.println(frota);
+        
         return true;
     }
-
+    
     public int calculaIdade()
     {
         return LocalDate.now().getYear() - dataFundacao.getYear();
+    }
+    
+    @Override
+    public String toString()
+    {
+        return super.toString() + "\nCNPJ: " + cnpj + 
+        "\nData de fundação: " + dataFundacao;
     }
 }

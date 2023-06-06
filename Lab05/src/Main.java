@@ -10,6 +10,8 @@ import java.util.Scanner;
  * - Implementar impressão decente das listas
  * - Cuidar da data fim do seguro
  * - Pedir quantidade de sinistros na instanciação do seguro
+ * - Melhorar implementação do gerarCodigo em Frota
+ * - Reimplementar listagens em Seguradora para retornarem uma String
  */
 
 public class Main 
@@ -286,8 +288,7 @@ public class Main
 
 	public static Frota instanciarFrota()
 	{
-		// Stub
-		return new Frota(null, null);
+		return new Frota(new ArrayList<Veiculo>());
 	}
 
 	public static SeguroPJ instanciarSeguroPJ(ArrayList<Seguradora> listaSeguradoras)
@@ -420,8 +421,8 @@ public class Main
 		{
 			int opcao;
 
-			System.out.println("Selecione um veículo:");
-			cliente.listarVeiculos();
+			System.out.println("Selecione uma frota:");
+			cliente.listarFrotas();
 			do
 			{	
 				opcao = Leitura.leInt() - 1;

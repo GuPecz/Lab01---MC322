@@ -100,6 +100,7 @@ public abstract class Seguro
     
     public abstract boolean gerarSinistro(Sinistro sinistro);
 
+    @Override
     public String toString() 
     {
         return "Informações do seguro" + "\nID: " + id + "\nData de início: " + dataInicio 

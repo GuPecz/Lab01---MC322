@@ -86,4 +86,13 @@ public class SeguroPJ extends Seguro
 
         return valor_base * ((10 + qtdFuncionarios/10) * (1 + 1/(qtdVeiculos + 2)) * (1 + 1/(anosPorFundacao + 2)) * (2 + qtdSinistrosCliente/10) * (5 + qtdSinistrosCondutor/10));
     }
+
+    @Override
+    public String toString()
+    {
+        return super.toString() + "\nCódigo da frota: " + frota.getCodigo()
+        + "\nVeículos da frota: " + cliente.listarVeiculosPorFrota(frota.getCodigo())
+        + "CNPJ do cliente: " + cliente.getCnpj()
+        + "Nome do cliente: " + cliente.getNome();
+    }
 }

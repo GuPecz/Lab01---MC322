@@ -73,7 +73,7 @@ public class Frota
 
     public String toString()
     {
-        return "Informações da frota:\n" + "Código: " + codigo
+        return "Informações da frota" + "\nCódigo: " + codigo
                 + "Lista de veículos: " + imprimirVeiculos();
     }
 }
