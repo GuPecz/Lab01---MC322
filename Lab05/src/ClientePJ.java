@@ -92,6 +92,22 @@ public class ClientePJ extends Cliente
         return false;
     }
     
+    public String listarFrotas()
+    {
+        String frotas = "Frotas:";
+        int tam = listaFrotas.size();
+
+        if (tam <= 0)
+            return "Nenhum veículo registrado";
+        else
+        {
+            for (int i = 0; i < tam - 1; i++)
+                frotas += "\n" + (i + 1) + listaFrotas.get(i).getCodigo();
+
+            return frotas;
+        }
+    }
+
     public boolean listarVeiculosPorFrota(String codigo)
     {
         if (listaFrotas.isEmpty())

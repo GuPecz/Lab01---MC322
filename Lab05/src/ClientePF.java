@@ -94,7 +94,7 @@ public class ClientePF extends Cliente
 
     public String listarVeiculos()
     {
-        String veiculos = "";
+        String veiculos = "Veiculos:";
         int tam = listaVeiculos.size();
 
         if (tam <= 0)
@@ -103,10 +103,8 @@ public class ClientePF extends Cliente
         {
             for (int i = 0; i < tam - 1; i++)
             {
-                veiculos += listaVeiculos.get(i).getPlaca() + ", ";
+                veiculos += "\n" + (i + 1) + listaVeiculos.get(i).getPlaca();
             }
-
-            veiculos += listaVeiculos.get(tam - 1).getPlaca();
 
             return veiculos;
         }
