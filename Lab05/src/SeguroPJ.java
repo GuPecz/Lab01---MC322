@@ -6,9 +6,9 @@ public class SeguroPJ extends Seguro
     private Frota frota;
     private ClientePJ cliente;
 
-    public SeguroPJ(int id, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, ArrayList<Sinistro> listaSinistros, ArrayList<Condutor> listaCondutores, int valorMensal, Frota frota, ClientePJ cliente) 
+    public SeguroPJ(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, ArrayList<Sinistro> listaSinistros, ArrayList<Condutor> listaCondutores, Frota frota, ClientePJ cliente) 
     {
-        super(id, dataInicio, dataFim, seguradora, listaSinistros, listaCondutores, valorMensal);
+        super(dataInicio, dataFim, seguradora, listaSinistros, listaCondutores);
         this.frota = frota;
         this.cliente = cliente;
     }
@@ -62,18 +62,19 @@ public class SeguroPJ extends Seguro
         return frota.getListaVeiculos().size();
     }
 
-    public int calculaQtdSinistrosCondutor(Condutor condutor)
+    public int calculaQtdSinistrosCondutor()
     {
         int qtdSinistros = 0;
 
-        for (Sinistro sinistro: condutor.getListaSinistros())
-            if (sinistro.getSeguro().equals(this))
-                qtdSinistros++;
+        for (Condutor condutor: super.getListaCondutores())
+            for (Sinistro sinistro: condutor.getListaSinistros())
+                if (sinistro.getSeguro().equals(this))
+                    qtdSinistros++;
 
         return qtdSinistros;
     }
 
-    public double calcularValor(Condutor condutor)
+    public double calcularValor()
     {
         double valor_base = CalcSeguro.VALOR_BASE.getValor();
         int qtdFuncionarios, qtdVeiculos, anosPorFundacao, qtdSinistrosCliente, qtdSinistrosCondutor;
@@ -81,7 +82,7 @@ public class SeguroPJ extends Seguro
         qtdVeiculos = calculaQtdVeiculos();
         anosPorFundacao = cliente.calculaIdade();
         qtdSinistrosCliente = super.getSeguradora().getSinistrosPorCliente(cliente.getCnpj()).size();
-        qtdSinistrosCondutor = calculaQtdSinistrosCondutor(condutor);
+        qtdSinistrosCondutor = calculaQtdSinistrosCondutor();
 
         return valor_base * ((10 + qtdFuncionarios/10) * (1 + 1/(qtdVeiculos + 2)) * (1 + 1/(anosPorFundacao + 2)) * (2 + qtdSinistrosCliente/10) * (5 + qtdSinistrosCondutor/10));
     }

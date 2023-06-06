@@ -9,19 +9,24 @@ public abstract class Seguro
     private Seguradora seguradora;
     private ArrayList<Sinistro> listaSinistros;
     private ArrayList<Condutor> listaCondutores;
-    private int valorMensal;
+    private double valorMensal;
     
-    public Seguro(int id, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, ArrayList<Sinistro> listaSinistros, ArrayList<Condutor> listaCondutores, int valorMensal) 
+    public Seguro(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, ArrayList<Sinistro> listaSinistros, ArrayList<Condutor> listaCondutores) 
     {
-        this.id = id;
+        this.id = gerarId();
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.seguradora = seguradora;
         this.listaSinistros = listaSinistros;
         this.listaCondutores = listaCondutores;
-        this.valorMensal = valorMensal;
+        this.valorMensal = calcularValor();
     }
     
+    private int gerarId()
+    {
+        return hashCode();
+    }
+
     public int getId() 
     {
         return id;
@@ -77,12 +82,12 @@ public abstract class Seguro
         this.listaCondutores = listaCondutores;
     }
     
-    public int getValorMensal() 
+    public double getValorMensal() 
     {
         return valorMensal;
     }
     
-    public void setValorMensal(int valorMensal) 
+    public void setValorMensal(double valorMensal) 
     {
         this.valorMensal = valorMensal;
     }
@@ -91,7 +96,7 @@ public abstract class Seguro
 
     public abstract void autorizarCondutor(Condutor condutor);
     
-    public abstract double calcularValor(Condutor condutor);
+    public abstract double calcularValor();
     
     public abstract boolean gerarSinistro(Sinistro sinistro);
 

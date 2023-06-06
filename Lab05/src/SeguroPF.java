@@ -6,9 +6,9 @@ public class SeguroPF extends Seguro
     private Veiculo veiculo;
     private ClientePF cliente;
 
-    public SeguroPF(int id, LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, ArrayList<Sinistro> listaSinistros, ArrayList<Condutor> listaCondutores, int valorMensal, Veiculo veiculo, ClientePF cliente) 
+    public SeguroPF(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora, ArrayList<Sinistro> listaSinistros, ArrayList<Condutor> listaCondutores, Veiculo veiculo, ClientePF cliente) 
     {
-        super(id, dataInicio, dataFim, seguradora, listaSinistros, listaCondutores, valorMensal);
+        super(dataInicio, dataFim, seguradora, listaSinistros, listaCondutores);
         this.veiculo = veiculo;
         this.cliente = cliente;
     }
@@ -69,26 +69,26 @@ public class SeguroPF extends Seguro
         return qtdVeiculos;
     }
 
-    public int calculaQtdSinistrosCondutor(Condutor condutor)
+    public int calculaQtdSinistrosCondutor()
     {
         int qtdSinistros = 0;
 
-        for (Sinistro sinistro: condutor.getListaSinistros())
-            if (sinistro.getSeguro().equals(this))
-                qtdSinistros++;
+        for (Condutor condutor: super.getListaCondutores())
+            for (Sinistro sinistro: condutor.getListaSinistros())
+                if (sinistro.getSeguro().equals(this))
+                    qtdSinistros++;
 
         return qtdSinistros;
     }
 
-    public double calcularValor(Condutor condutor)
+    public double calcularValor()
     {
-        // Foi feito para cliente!
         double fator_idade = 1.0, valor_base = CalcSeguro.VALOR_BASE.getValor();
         int idade = cliente.calculaIdade();
         int qtdVeiculos, qtdSinistrosCliente, qtdSinistrosCondutor;
         qtdVeiculos = calculaQtdVeiculos();
         qtdSinistrosCliente = super.getSeguradora().getSinistrosPorCliente(cliente.getCpf()).size();
-        qtdSinistrosCondutor = calculaQtdSinistrosCondutor(condutor);
+        qtdSinistrosCondutor = calculaQtdSinistrosCondutor();
 
         if (idade < 30)
             fator_idade = CalcSeguro.FATOR_30_MENOS.getValor();
