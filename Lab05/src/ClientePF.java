@@ -120,8 +120,8 @@ public class ClientePF extends Cliente
     @Override
     public String toString()
     {
-        return super.toString() + "CPF: " + cpf + "\nGênero: " + genero +
-                "\nEducação: " + educacao + "\nData de nascimento: " + dataNascimento
-                + "Lista de veículos: " + listarVeiculos();
+        return super.toString() + "CPF: " + cpf + "\nGênero: " + genero 
+                + "\nEducação: " + educacao + "\nData de nascimento: " + dataNascimento
+                + "\nLista de veículos: " + listarVeiculos();
     }
 }
