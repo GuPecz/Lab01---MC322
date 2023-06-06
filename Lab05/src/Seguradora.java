@@ -308,8 +308,7 @@ public class Seguradora
         return receita;
     }
 
-    // Métodos de listagem
-    /* public void listarClientesPorSeguradora()
+    public void listarClientesPorSeguradora()
     {
         int tam = listaClientes.size();
 
@@ -329,6 +328,9 @@ public class Seguradora
             System.out.println(cliente);
         }
     }
+    
+    // Métodos de listagem
+    /* 
 
     public boolean listarSinistrosPorCliente(String documento)
     {
@@ -419,5 +421,6 @@ public class Seguradora
         if (!existemVeiculos)
             System.out.println("ERRO: Nenhum veículo registrado nesta seguradora");
         else;
-    } */
+    } 
+    */
 }
