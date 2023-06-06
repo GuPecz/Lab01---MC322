@@ -74,6 +74,7 @@ public class ClientePF extends Cliente
         
         listaVeiculos.add(veiculo);
         System.out.println("Veículo cadastrado com sucesso");
+
         return true;
     }
 
