@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /* A FAZER:
- * - Tomar cuidado com a inicialização do atributo nomeSeguradora dos veículos
  * - Lidar com condutor e seguro na instanciação do sinistro
  * - Implementar impressão decente das listas
  * - Cuidar da data fim do seguro
@@ -212,7 +211,7 @@ public class Main
         return cliente;
     }
 
-	public static Cliente cadastrarCliente()
+	public static Cliente instanciarCliente()
 	{
 		String tipoCliente;
 
@@ -244,7 +243,7 @@ public class Main
         System.out.print("Insira o ano de fabricação do veículo: ");
         int anoFabricacao = Leitura.leInt();
 
-        return new Veiculo(placa, modelo, marca, anoFabricacao, null);
+        return new Veiculo(placa, modelo, marca, anoFabricacao);
     }
 
 	public static Condutor instanciarCondutor()
@@ -373,7 +372,7 @@ public class Main
 		if (seguradora.getListaClientes().isEmpty())
 		{
 			System.out.println("Por favor, cadastre um cliente primeiro");
-			cliente = cadastrarCliente();
+			cliente = instanciarCliente();
 			seguradora.getListaClientes().add(cliente);
 		}
 		else
@@ -530,13 +529,9 @@ public class Main
 		switch(opSubmenu) 
 		{
 			case CADASTRAR_CLIENTE:
-			/*  Implementação legada
 				seguradora = selecionarSeguradora(listaSeguradoras);
-				Cliente cliente = cadastrarCliente();
-				double valorSeguro = seguradora.calcularPrecoSeguroCliente(cliente);
-				cliente.setValorSeguro(valorSeguro);
-				seguradora.getListaClientes().add(cliente);
-			*/
+				Cliente cliente = instanciarCliente();
+				seguradora.cadastrarCliente(cliente);
 				break;
 
 			case CADASTRAR_VEICULO_PF:
