@@ -67,7 +67,7 @@ public class Seguradora
         this.endereco = endereco;
     }
     
-    public List<Cliente> getListaClientes() 
+    public ArrayList<Cliente> getListaClientes() 
     {
         return listaClientes;
     }
@@ -77,7 +77,7 @@ public class Seguradora
         this.listaClientes = listaClientes;
     }
     
-    public List<Seguro> getListaSeguros() 
+    public ArrayList<Seguro> getListaSeguros() 
     {
         return listaSeguros;
     }
