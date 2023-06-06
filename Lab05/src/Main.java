@@ -530,21 +530,36 @@ public class Main
 		switch(opSubmenu) 
 		{
 			case CADASTRAR_CLIENTE:
+			/*  Implementação legada
 				seguradora = selecionarSeguradora(listaSeguradoras);
 				Cliente cliente = cadastrarCliente();
 				double valorSeguro = seguradora.calcularPrecoSeguroCliente(cliente);
 				cliente.setValorSeguro(valorSeguro);
 				seguradora.getListaClientes().add(cliente);
+			*/
 				break;
 
-			case CADASTRAR_VEICULO:
-				seguradora = selecionarSeguradora(listaSeguradoras);
-				cadastrarVeiculo(seguradora);
+			case CADASTRAR_VEICULO_PF:
+				// Stub
+				break;
+
+			case CADASTRAR_FROTA:
+				// Stub
+				break;
+
+			case CADASTRAR_VEICULO_FROTA:
+				// Stub
 				break;
 
 			case CADASTRAR_SEGURADORA:
+			/*  Implementação legada
 				System.out.println("Iniciando cadastro de seguradora");
 				listaSeguradoras.add(instanciarSeguradora());
+			*/
+				break;
+
+			case LISTAR_SEGUROS_POR_SEGURADORA:
+				// Stub
 				break;
 
 			case LISTAR_CLIENTES_POR_SEGURADORA:
@@ -552,62 +567,77 @@ public class Main
 				seguradora.listarClientesPorSeguradora();
 				break;
 
-			case LISTAR_SINISTROS_POR_SEGURADORA:
-				seguradora = selecionarSeguradora(listaSeguradoras);
-				seguradora.listarSinistrosPorSeguradora();
+			case LISTAR_SEGUROS_POR_CLIENTE:
+				// Stub
 				break;
 
-			case LISTAR_SINISTROS_POR_CLIENTE:
-				seguradora = selecionarSeguradora(listaSeguradoras);
-				if (seguradora.getListaSinistros().isEmpty())
-				{
-					System.out.println("ERRO: Não há sinistros registrados");
-					break;
-				}
-				else if (seguradora.getListaClientes().isEmpty())
-				{
-					System.out.println("ERRO: Não há clientes cadastrados");
-					break;
-				}
-				
-				System.out.println("Insira o documento do cliente: ");
-				String documento = Leitura.leString();
-				seguradora.listarSinistrosPorCliente(documento);
+			case LISTAR_CONDUTOR_POR_SEGURO:
+				// Stub
 				break;
 
-			case LISTAR_VEICULOS_POR_SEGURADORA:
-				seguradora = selecionarSeguradora(listaSeguradoras);
-				seguradora.listarVeiculosPorSeguradora();
+			case LISTAR_SINISTROS_POR_SEGURO:
+				// Stub
 				break;
 
-			case LISTAR_VEICULOS_POR_CLIENTE:
-				seguradora = selecionarSeguradora(listaSeguradoras);
-				System.out.println("Clientes registrados nesta seguradora");
-				seguradora.listarClientesPorSeguradora();
-				System.out.println("Selecione um cliente: ");
-				int opcao = Leitura.leInt() - 1;
-				seguradora.getListaClientes().get(opcao).listarVeiculosPorCliente();
+			case LISTAR_SINISTROS_POR_CONDUTOR:
+				// Stub
+				break;
+
+			case LISTAR_VEICULOS_POR_PF:
+				// Stub
+				break;
+
+			case LISTAR_FROTAS_POR_PJ:
+				// Stub
+				break;
+
+			case LISTAR_VEICULOS_POR_FROTA:
+				// Stub
 				break;
 
 			case EXCLUIR_CLIENTE:
+			/*  Implementação legada
 				seguradora = selecionarSeguradora(listaSeguradoras);
 				System.out.println("Insira o documento do cliente: ");
 				String documento2 = Leitura.leString();
 				seguradora.listarSinistrosPorCliente(documento2);
+			*/
 				break;
 
-			case EXCLUIR_VEICULO:
-				seguradora = selecionarSeguradora(listaSeguradoras);
-				System.out.println("Insira a placa do veículo: ");
-				String placa = Leitura.leString();
-				seguradora.excluirVeiculo(placa);
+			case EXCLUIR_VEICULO_PF:
+				// Stub
 				break;
 
-			case EXCLUIR_SINISTRO:
-				seguradora = selecionarSeguradora(listaSeguradoras);
-				System.out.println("Insira o ID do sinistro: ");
-				int id = Leitura.leInt();
-				seguradora.excluirSinistro(id);
+			case EXCLUIR_VEICULO_FROTA:
+				// Stub
+				break;
+
+			case EXCLUIR_FROTA:
+				// Stub
+				break;
+
+			case GERAR_SINISTRO_POR_CLIENTE:
+				// Stub
+				break;
+
+			case GERAR_SINISTRO_POR_CONDUTOR:
+				// Stub
+				break;
+
+			case GERAR_SEGURO:
+				// Stub
+				break;
+
+			case CANCELAR_SEGURO:
+				// Stub
+				break;
+
+			case AUTORIZAR_CONDUTOR:
+				// Stub
+				break;
+
+			case DESAUTORIZAR_CONDUTOR:
+				// Stub
 				break;
 
 			case VOLTAR:
