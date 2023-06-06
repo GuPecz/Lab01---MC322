@@ -5,20 +5,20 @@ public class Frota
     private String codigo;
     private ArrayList<Veiculo> listaVeiculos;
 
-    public Frota(String codigo, ArrayList<Veiculo> listaVeiculos) 
+    public Frota(ArrayList<Veiculo> listaVeiculos) 
     {
-        this.codigo = codigo;
+        this.codigo = gerarCodigo();
         this.listaVeiculos = listaVeiculos;
+    }
+
+    public String gerarCodigo() 
+    {
+        return Integer.toString(hashCode());
     }
 
     public String getCodigo() 
     {
         return codigo;
-    }
-
-    public void setCodigo(String codigo) 
-    {
-        this.codigo = codigo;
     }
 
     public ArrayList<Veiculo> getListaVeiculos() 
