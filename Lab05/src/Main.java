@@ -371,7 +371,7 @@ public class Main
 		{
 			int opcao;
 
-			System.out.println("Selecione um cliente: ");
+			System.out.println("Selecione um cliente");
 			seguradora.listarClientesPorSeguradora();
 			do
 			{	
@@ -396,8 +396,8 @@ public class Main
 		{
 			int opcao;
 
-			System.out.println("Selecione um veículo:");
-			cliente.listarVeiculos();
+			System.out.println("Selecione um veículo");
+			System.out.println(cliente.listarVeiculos());
 			do
 			{	
 				opcao = Leitura.leInt() - 1;
@@ -413,21 +413,18 @@ public class Main
 		Frota frota;
 
 		if (cliente.getListaFrotas().isEmpty())
-		{
-			System.out.println("Por favor cadastre uma frota primeiro");
 			frota = instanciarFrota();
-		}
 		else
 		{
 			int opcao;
 
-			System.out.println("Selecione uma frota:");
-			cliente.listarFrotas();
+			System.out.println("Selecione uma frota");
+			System.out.println(cliente.listarFrotas());
 			do
 			{	
 				opcao = Leitura.leInt() - 1;
-			} while (!Validacao.validarIndice(opcao, cliente.getListaVeiculos()));
-			veiculo = cliente.getListaVeiculos().get(opcao);
+			} while (!Validacao.validarIndice(opcao, cliente.getListaFrotas()));
+			frota = cliente.getListaFrotas().get(opcao);
 		}
 
 		return frota;
