@@ -59,12 +59,22 @@ public class SeguroPF extends Seguro
     
     public int calculaQtdVeiculos()
     {
-        int qtdVeiculos = 0;
-        String seguradora = super.getSeguradora().getNome();
+        /* Cada seguroPF tem apenas um veículo, logo a quantidade de seguros de 
+         * um cliente em uma seguradora é igual a sua quantidade de veículos
+         * nesta seguradora
+         */
 
-        for (Veiculo veiculo: cliente.getListaVeiculos())
-            if (veiculo.getNomeSeguradora().equals(seguradora))
-                qtdVeiculos++;
+        ArrayList<Seguro> seguros = super.getSeguradora().getListaSeguros();
+        int qtdVeiculos = 0;
+
+        for (Seguro seguro: seguros)
+            if (seguro instanceof SeguroPF)
+            {
+                SeguroPF seguroPF = (SeguroPF)seguro;
+
+                if (seguroPF.getCliente().equals(cliente))
+                    qtdVeiculos++;
+            }
 
         return qtdVeiculos;
     }
