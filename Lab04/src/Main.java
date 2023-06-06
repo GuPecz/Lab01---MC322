@@ -46,7 +46,6 @@ public class Main
         cliente.setListaVeiculos(listaVeiculos);
     }
 
-
     public static ClientePF instanciarPF()
     {
         System.out.print("Insira o CPF do cliente: ");
