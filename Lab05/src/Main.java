@@ -14,6 +14,10 @@ import java.util.Scanner;
  * - Reimplementar listagens em Seguradora para retornarem uma String
  */
 
+/* Implementação legada de gerarSii
+ * 
+ */
+
 public class Main 
 {
 	public class Leitura 
@@ -495,46 +499,7 @@ public class Main
 				break;
 
 			case GERAR_SINISTRO:
-				seguradora = selecionarSeguradora(listaSeguradoras);
-				Cliente cliente = selecionarCliente(seguradora);
-				Veiculo veiculo = selecionarVeiculo(cliente);
-				System.out.println("Iniciando registro do sinistro");
-				seguradora.gerarSinistro(instanciarSinistro(seguradora, veiculo, cliente));
-				cliente.setValorSeguro(seguradora.calcularPrecoSeguroCliente(cliente));
-				break;
 
-			case TRANSFERIR_SEGURO:
-				seguradora = selecionarSeguradora(listaSeguradoras);
-				if (seguradora.getListaClientes().size() < 2)
-					System.out.println("ERRO: Não há clientes suficientes para uma transferência");
-				else
-				{
-					System.out.println("Quem vai transferir?");
-					Cliente transferente = selecionarCliente(seguradora);
-
-					System.out.println("Quem vai receber?");
-					Cliente recebedor;
-					boolean mesmoCliente = false;
-					do
-					{
-						recebedor = selecionarCliente(seguradora);
-						if (recebedor.equals(transferente))
-						{
-							System.out.println("ERRO: Seguro sendo transferido para o mesmo cliente");
-							mesmoCliente = true;
-						}
-						else
-							mesmoCliente = false;
-					} while (mesmoCliente);
-
-					Collections.copy(recebedor.getListaVeiculos(), transferente.getListaVeiculos());
-					for (Veiculo v: transferente.getListaVeiculos())
-						transferente.getListaVeiculos().remove(v);
-
-					recebedor.setValorSeguro(seguradora.calcularPrecoSeguroCliente(recebedor));
-					transferente.setValorSeguro(seguradora.calcularPrecoSeguroCliente(transferente));
-					System.out.println("Seguro de " + transferente.getNome() + " transferido para " + recebedor.getNome());
-				}
 				break;
 
 			case CALCULAR_RECEITA:
@@ -645,7 +610,7 @@ public class Main
 		}
 	}
 	
-	public static void executarSubmenu(MenuOperacoes op, List<Seguradora> listaSeguradoras) 
+	public static void executarSubmenu(MenuOperacoes op, ArrayList<Seguradora> listaSeguradoras) 
 	{
 		SubmenuOperacoes opSubmenu;
 
