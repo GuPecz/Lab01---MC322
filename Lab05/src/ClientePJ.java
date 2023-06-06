@@ -58,9 +58,9 @@ public class ClientePJ extends Cliente
     private Frota buscaFrota(String codigo)
     {
         for (Frota frota: listaFrotas)
-        if (frota.getCodigo().equals(codigo))
-        return frota;
-        
+            if (frota.getCodigo().equals(codigo))
+                return frota;
+
         return null;
     }
     
