@@ -93,7 +93,7 @@ public class ClientePF extends Cliente
         return false;
     }
 
-    public String listarVeiculos()
+    public String listarVeiculosPorCliente()
     {
         String veiculos = "Veiculos:";
         int tam = listaVeiculos.size();
@@ -121,6 +121,6 @@ public class ClientePF extends Cliente
     {
         return super.toString() + "\nCPF: " + cpf + "\nGênero: " + genero 
                 + "\nEducação: " + educacao + "\nData de nascimento: " + dataNascimento
-                + "\nLista de veículos: " + listarVeiculos();
+                + "\nLista de veículos: " + listarVeiculosPorCliente();
     }
 }
