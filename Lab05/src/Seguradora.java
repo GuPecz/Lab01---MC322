@@ -186,7 +186,6 @@ public class Seguradora
     private ClientePF getClientePorCpf(String cpf)
     {
         for (Cliente cl: listaClientes)
-        {
             if (cl instanceof ClientePF)
             {
                 ClientePF cliente = (ClientePF)cl;
@@ -194,7 +193,6 @@ public class Seguradora
                 if (cliente.getCpf().equals(cpf))
                     return cliente;
             }
-        }
 
         System.out.println("ERRO: Não há cliente cadastrado com esse documento");
         return null;
@@ -203,7 +201,6 @@ public class Seguradora
     private ClientePJ getClientePorCnpj(String cnpj)
     {
         for (Cliente cl: listaClientes)
-        {
             if (cl instanceof ClientePJ)
             {
                 ClientePJ cliente = (ClientePJ)cl;
@@ -211,7 +208,6 @@ public class Seguradora
                 if (cliente.getCnpj().equals(cnpj))
                     return cliente;
             }
-        }
 
         System.out.println("ERRO: Não há cliente cadastrado com esse documento");
         return null;
@@ -232,13 +228,13 @@ public class Seguradora
             ClientePF clientePf = getClientePorCpf(documento);
 
             for (Seguro seguro: listaSeguros)
-            if (seguro instanceof SeguroPF)
-            {
-                SeguroPF seguroPf = (SeguroPF)seguro;
+                if (seguro instanceof SeguroPF)
+                {
+                    SeguroPF seguroPf = (SeguroPF)seguro;
 
-                if (seguroPf.getCliente().equals(clientePf))
-                    segurosCliente.add(seguroPf);
-            }
+                    if (seguroPf.getCliente().equals(clientePf))
+                        segurosCliente.add(seguroPf);
+                }
         }
         else if (Validacao.validarCPF(documento))
         {
@@ -272,13 +268,13 @@ public class Seguradora
             ClientePF clientePf = getClientePorCpf(documento);
 
             for (Seguro seguro: listaSeguros)
-            if (seguro instanceof SeguroPF)
-            {
-                SeguroPF seguroPf = (SeguroPF)seguro;
+                if (seguro instanceof SeguroPF)
+                {
+                    SeguroPF seguroPf = (SeguroPF)seguro;
 
-                if (seguroPf.getCliente().equals(clientePf))
-                    sinistrosCliente.addAll(seguroPf.getListaSinistros());
-            }
+                    if (seguroPf.getCliente().equals(clientePf))
+                        sinistrosCliente.addAll(seguroPf.getListaSinistros());
+                }
         }
         else if (Validacao.validarCNPJ(documento))
         {

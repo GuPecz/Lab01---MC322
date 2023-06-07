@@ -81,14 +81,12 @@ public class ClientePF extends Cliente
     public boolean removerVeiculo(String placa)
     {
         for (Veiculo veiculo: listaVeiculos)
-        {
             if (veiculo.getPlaca().equals(placa))
             {
                 listaVeiculos.remove(veiculo);
                 System.out.println("Veículo " + placa + " removido");
                 return true;
             }
-        }
         
         return false;
     }
