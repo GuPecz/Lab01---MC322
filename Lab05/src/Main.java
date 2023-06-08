@@ -1,7 +1,5 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
-// import java.util.Collections;
-// import java.util.List;
 import java.util.Scanner;
 
 /* A FAZER:
@@ -10,16 +8,7 @@ import java.util.Scanner;
  * - Cuidar da data fim do seguro
  * - Pedir quantidade de sinistros na instanciação do seguro
  * - Melhorar implementação do gerarCodigo em Frota
- * - Reimplementar listagens em Seguradora para retornarem uma String
- */
-
-/* Implementação legada de gerarSinistro
- * 	seguradora = selecionarSeguradora(listaSeguradoras);
- *	Cliente cliente = selecionarCliente(seguradora);
- *	Veiculo veiculo = selecionarVeiculo(cliente);
- *	System.out.println("Iniciando registro do sinistro");
- *	seguradora.gerarSinistro(instanciarSinistro(seguradora, veiculo, cliente));
- *	cliente.setValorSeguro(seguradora.calcularPrecoSeguroCliente(cliente));
+ * - Refatorar listagens em Seguradora para retornarem uma String
  */
 
 public class Main 
@@ -275,7 +264,7 @@ public class Main
 		System.out.print("Insira a data de nascimento do cliente [dd/mm/aaaa]: ");
 		LocalDate dataNascimento = Leitura.leData();
 
-		return  new Condutor(cpf, nome, telefone, endereco, email, dataNascimento, new ArrayList<Sinistro>());
+		return new Condutor(cpf, nome, telefone, endereco, email, dataNascimento, new ArrayList<Sinistro>());
 	}
 
 	public static SeguroPF instanciarSeguroPF(ArrayList<Seguradora> listaSeguradoras)
@@ -405,7 +394,7 @@ public class Main
 			int opcao;
 
 			System.out.println("Selecione um veículo");
-			System.out.println(cliente.listarVeiculos());
+			System.out.println(cliente.listarVeiculosPorCliente());
 			do
 			{	
 				opcao = Leitura.leInt() - 1;
@@ -535,7 +524,7 @@ public class Main
 				break;
 
 			case CADASTRAR_VEICULO_PF:
-				// Stub
+				
 				break;
 
 			case CADASTRAR_FROTA:
@@ -656,6 +645,9 @@ public class Main
 	{
 		MenuOperacoes op;
 		ArrayList<Seguradora> listaSeguradoras = new ArrayList<Seguradora>();
+		ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
+		ArrayList<Frota> listaFrotas = new ArrayList<Frota>();
+		ArrayList<Veiculo> listaVeiculos = new ArrayList<Veiculo>();
 
 		System.out.println("/-------- Sistema de seguros Mirinho SA --------/");
 
