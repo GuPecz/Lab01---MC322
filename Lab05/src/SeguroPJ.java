@@ -53,6 +53,7 @@ public class SeguroPJ extends Seguro
         else
         {
             super.getListaSinistros().add(sinistro);
+            super.setValorMensal(calcularValor());
             return true;
         }
     }

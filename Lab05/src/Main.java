@@ -1,6 +1,26 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+// import java.util.Collections;
+// import java.util.List;
 import java.util.Scanner;
+
+/* A FAZER:
+ * - Lidar com condutor e seguro na instanciação do sinistro
+ * - Implementar impressão decente das listas
+ * - Cuidar da data fim do seguro
+ * - Pedir quantidade de sinistros na instanciação do seguro
+ * - Melhorar implementação do gerarCodigo em Frota
+ * - Reimplementar listagens em Seguradora para retornarem uma String
+ */
+
+/* Implementação legada de gerarSinistro
+ * 	seguradora = selecionarSeguradora(listaSeguradoras);
+ *	Cliente cliente = selecionarCliente(seguradora);
+ *	Veiculo veiculo = selecionarVeiculo(cliente);
+ *	System.out.println("Iniciando registro do sinistro");
+ *	seguradora.gerarSinistro(instanciarSinistro(seguradora, veiculo, cliente));
+ *	cliente.setValorSeguro(seguradora.calcularPrecoSeguroCliente(cliente));
+ */
 
 public class Main 
 {
@@ -385,7 +405,7 @@ public class Main
 			int opcao;
 
 			System.out.println("Selecione um veículo");
-			System.out.println(cliente.listarVeiculosPorCliente());
+			System.out.println(cliente.listarVeiculos());
 			do
 			{	
 				opcao = Leitura.leInt() - 1;
@@ -527,7 +547,10 @@ public class Main
 				break;
 
 			case CADASTRAR_SEGURADORA:
-				// Stub
+			/*  Implementação legada
+				System.out.println("Iniciando cadastro de seguradora");
+				listaSeguradoras.add(instanciarSeguradora());
+			*/
 				break;
 
 			case LISTAR_SEGUROS_POR_SEGURADORA:
@@ -568,7 +591,12 @@ public class Main
 				break;
 
 			case EXCLUIR_CLIENTE:
-				// Stub
+			/*  Implementação legada
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				System.out.println("Insira o documento do cliente: ");
+				String documento2 = Leitura.leString();
+				seguradora.listarSinistrosPorCliente(documento2);
+			*/
 				break;
 
 			case EXCLUIR_VEICULO_PF:
