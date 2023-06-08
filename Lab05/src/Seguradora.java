@@ -303,27 +303,66 @@ public class Seguradora
         return receita;
     }
 
-    public void listarClientesPorSeguradora()
+    public String listarClientesPorSeguradora()
     {
         int tam = listaClientes.size();
+        String clientes = "";
 
         if (tam == 0)
-            System.out.println("ERRO: Não há clientes cadastrados nesta seguradora");
+            return "ERRO: Não há clientes cadastrados nesta seguradora";
 
         for (int i = 0; i < tam; i++)
         {
             Cliente cliente = listaClientes.get(i);
-            System.out.print("Cliente " + (i + 1));
+            clientes += "Cliente " + (i + 1);
             
             if (cliente instanceof ClientePF)
-                System.out.println(" (PF)");
+            {
+                ClientePF clientePF = (ClientePF)cliente;
+                clientes += "(PF)" + "\n" + clientePF.toString();
+            }
             else
-                System.out.println(" (PJ)");
+            {
+                ClientePJ clientePJ = (ClientePJ)cliente;
+                clientes += "(PJ)" + "\n" + clientePJ.toString();
+            }
 
-            System.out.println(cliente);
+            clientes += "\n";
         }
+
+        return clientes;
     }
     
+    public String listarSegurosPorSeguradora()
+    {
+        int tam = listaSeguros.size();
+        String seguros = "";
+
+        if (tam == 0)
+            return "ERRO: Não há seguros cadastrados nesta seguradora";
+
+        for (int i = 0; i < tam; i++)
+        {
+            Seguro seguro = listaSeguros.get(i);
+            seguros += "Seguro " + (i + 1);
+
+            if (seguro instanceof SeguroPF)
+            {
+                SeguroPF seguroPF = (SeguroPF)seguro;
+                seguros += "(PF)" + "\n" + seguroPF.toString();
+            }
+            else
+            {
+                SeguroPJ seguroPJ = (SeguroPJ)seguro;
+                seguros = "(PJ)" + "\n" + seguroPJ.toString();
+            }
+
+            seguros += "\n";
+        }
+
+        return seguros;
+    }
+
     @Override
     public String toString()
     {
