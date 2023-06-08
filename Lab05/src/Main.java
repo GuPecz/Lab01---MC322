@@ -123,7 +123,7 @@ public class Main
 		return new Seguradora(cnpj, nome, telefone, endereco, email, new ArrayList<Cliente>(), new ArrayList<Seguro>());
 	}
 
-	public static void IniciarCliente(Cliente cliente)
+	public static void iniciarCliente(Cliente cliente)
     {
         System.out.print("Insira o nome do cliente: ");
         String nome = Leitura.lePalavra();
@@ -158,7 +158,7 @@ public class Main
         
         ClientePF cliente = new ClientePF(null, null, null, null, cpf, null, null, null, new ArrayList<Veiculo>());
         
-        IniciarCliente(cliente);
+        iniciarCliente(cliente);
         
         System.out.print("Insira o gênero do cliente: ");
         String genero = Leitura.lePalavra();
@@ -191,7 +191,7 @@ public class Main
 
         ClientePJ cliente = new ClientePJ(null, null, null, null, cnpj, null, new ArrayList<Frota>());
 
-        IniciarCliente(cliente);
+        iniciarCliente(cliente);
 
         System.out.print("Insira a data de fundação do cliente [dd/mm/aaaa]: ");
 		LocalDate dataFundacao = Leitura.leData();
@@ -234,7 +234,12 @@ public class Main
 
         return new Veiculo(placa, modelo, marca, anoFabricacao);
     }
-
+	
+	public static Frota instanciarFrota()
+	{
+		return new Frota(new ArrayList<Veiculo>());
+	}
+	
 	public static Condutor instanciarCondutor()
 	{
 		System.out.print("Insira o CPF do cliente: ");
@@ -266,16 +271,11 @@ public class Main
 
 		return new Condutor(cpf, nome, telefone, endereco, email, dataNascimento, new ArrayList<Sinistro>());
 	}
-
-	public static SeguroPF instanciarSeguroPF(ArrayList<Seguradora> listaSeguradoras)
+	
+	public static SeguroPF instanciarSeguroPF(Seguradora seguradora)
 	{
-		System.out.println("Selecione uma seguradora:");
-		Seguradora seguradora = selecionarSeguradora(listaSeguradoras);
-
-		System.out.println("Selecione um cliente:");
 		ClientePF cliente = (ClientePF)selecionarClientePorSeguradora(seguradora);
 
-		System.out.println("Selecione um veículo:");
 		Veiculo veiculo = selecionarVeiculo(cliente);
 
 		SeguroPF seguro = new SeguroPF(LocalDate.now(), LocalDate.now().plusMonths(6), seguradora, new ArrayList<Sinistro>(), new ArrayList<Condutor>(), veiculo, cliente);
@@ -283,20 +283,10 @@ public class Main
 		return seguro;
 	}
 
-	public static Frota instanciarFrota()
+	public static SeguroPJ instanciarSeguroPJ(Seguradora seguradora)
 	{
-		return new Frota(new ArrayList<Veiculo>());
-	}
-
-	public static SeguroPJ instanciarSeguroPJ(ArrayList<Seguradora> listaSeguradoras)
-	{
-		System.out.println("Selecione uma seguradora:");
-		Seguradora seguradora = selecionarSeguradora(listaSeguradoras);
-
-		System.out.println("Selecione um cliente:");
 		ClientePJ cliente = (ClientePJ)selecionarClientePorSeguradora(seguradora);
 
-		System.out.println("Selecione uma frota:");
 		Frota frota = selecionarFrota(cliente);
 
 		SeguroPJ seguro = new SeguroPJ(LocalDate.now(), LocalDate.now().plusMonths(6), seguradora, new ArrayList<Sinistro>(), new ArrayList<Condutor>(), frota, cliente);
@@ -304,7 +294,25 @@ public class Main
 		return seguro;
 	}
 
-    public static Sinistro instanciarSinistro(Seguradora seguradora, Veiculo veiculo, Cliente cliente)
+	public static Seguro instanciarSeguro(Seguradora seguradora)
+	{
+		String tipoSeguro;
+
+		System.out.println("Iniciando cadastro do seguro");
+		System.out.println("O cliente é uma pessoa física ou jurídica? [f/j]");
+
+		do
+		{
+			tipoSeguro = Leitura.leString();
+		} while (!(tipoSeguro.equals("f") || tipoSeguro.equals("j")));
+		
+		if (tipoSeguro.equals("f"))
+			return instanciarSeguroPF(seguradora);
+		else
+			return instanciarSeguroPJ(seguradora);
+	}
+
+    public static Sinistro instanciarSinistro(ArrayList<Seguradora> listaSeguradoras, Veiculo veiculo, Cliente cliente)
     {
         System.out.print("Insira a data do sinistro [dd/mm/aaaa]: ");
 		LocalDate dataSinistro = Leitura.leData();
@@ -312,19 +320,24 @@ public class Main
         System.out.print("Insira o endereço do sinistro: ");
         String endereco = Leitura.leString();
 
-        return new Sinistro(dataSinistro, endereco, null, null);
+		Condutor condutor = selecionarCondutor();
+
+		Seguro seguro = selecionarSeguro(listaSeguradoras);
+
+        return new Sinistro(dataSinistro, endereco, condutor, seguro);
     }
 
-	/* Métodos de listagem de objetos */
+	/* Método de listagem de objetos */
 
-	public static void listarSeguradoras(ArrayList<Seguradora> listaSeguradoras)
+	
+	public static void listarObjetos(ArrayList<?> listaObjetos, String objeto, String genero)
 	{
-		int tam = listaSeguradoras.size();
-
-		System.out.println("Seguradoras cadastradas: ");
-
+		int tam = listaObjetos.size();
+		
+		System.out.printf("%ss cadastrad%ss:\n", objeto, genero);
+		
 		for (int i = 0; i < tam; i++)
-			System.out.println((i + 1) + " - " + listaSeguradoras.get(i).getNome());
+		System.out.printf("%s %d\n%s", objeto, i, objeto.toString());
 	}
 
 	/* Métodos de seleção de objetos */
@@ -332,7 +345,7 @@ public class Main
 	public static Seguradora selecionarSeguradora(ArrayList<Seguradora> listaSeguradoras)
 	{
 		Seguradora seguradora;
-
+		
 		if (listaSeguradoras.isEmpty())
 		{
 			System.out.println("Por favor, cadastre uma seguradora primeiro");
@@ -341,7 +354,7 @@ public class Main
 		}
 		else
 		{
-			listarSeguradoras(listaSeguradoras);
+			listarObjetos(listaSeguradoras, "Seguradora", "a");
 			System.out.println("Selecione uma seguradora");
 			int opcao;
 			do
@@ -353,11 +366,11 @@ public class Main
 
 		return seguradora;
 	}
-
+	
 	public static Cliente selecionarCliente(ArrayList<Cliente> listaClientes)
 	{
 		Cliente cliente;
-
+		
 		if (listaClientes.isEmpty())
 		{
 			System.out.println("Por favor, cadastre um cliente primeiro");
@@ -367,7 +380,7 @@ public class Main
 		else
 		{
 			int opcao;
-
+			
 			System.out.println("Selecione um cliente");
 			System.out.print(listaClientes);
 			do
@@ -379,11 +392,11 @@ public class Main
 
 		return cliente;
 	}
-
+	
 	public static Cliente selecionarClientePorSeguradora(Seguradora seguradora)
 	{
 		Cliente cliente;
-
+		
 		if (seguradora.getListaClientes().isEmpty())
 		{
 			System.out.println("Por favor, cadastre um cliente primeiro");
@@ -402,14 +415,14 @@ public class Main
 			} while (!Validacao.validarIndice(opcao, seguradora.getListaClientes()));
 			cliente = seguradora.getListaClientes().get(opcao);
 		}
-
+		
 		return cliente;
 	}
-
+	
 	public static Veiculo selecionarVeiculo(ClientePF cliente)
 	{
 		Veiculo veiculo;
-
+		
 		if (cliente.getListaVeiculos().isEmpty())
 		{
 			System.out.println("Por favor cadastre um veículo primeiro");
@@ -430,17 +443,20 @@ public class Main
 		
 		return veiculo;
 	}
-
+	
 	public static Frota selecionarFrota(ClientePJ cliente)
 	{
 		Frota frota;
-
+		
 		if (cliente.getListaFrotas().isEmpty())
+		{	
+			System.out.println("Por favor, primeiro cadastre uma frota");
 			frota = instanciarFrota();
+		}
 		else
 		{
 			int opcao;
-
+			
 			System.out.println("Selecione uma frota");
 			System.out.println(cliente.listarFrotas());
 			do
@@ -449,8 +465,39 @@ public class Main
 			} while (!Validacao.validarIndice(opcao, cliente.getListaFrotas()));
 			frota = cliente.getListaFrotas().get(opcao);
 		}
-
+		
 		return frota;
+	}
+	
+	public static Seguro selecionarSeguro(ArrayList<Seguradora> listaSeguradoras)
+	{
+		Seguro seguro;
+		Seguradora seguradora = selecionarSeguradora(listaSeguradoras);
+		
+		if (seguradora.getListaSeguros().isEmpty())
+		{
+			System.out.println("Por favor, primeiro cadastre um seguro");
+			seguro = instanciarSeguro(seguradora);
+		}
+		else
+		{
+			int opcao;
+			
+			System.out.println("Selecione um seguro");
+			listarObjetos(seguradora.getListaSeguros(), "Seguro", "o");
+			do
+			{	
+				opcao = Leitura.leInt() - 1;
+			} while (!Validacao.validarIndice(opcao, seguradora.getListaSeguros()));
+			seguro = seguradora.getListaSeguros().get(opcao);
+		}
+		
+		return seguro;
+	}
+	
+	private static Condutor selecionarCondutor() 
+	{
+		return null;
 	}
 
 	/* Métodos do menu de operações */
