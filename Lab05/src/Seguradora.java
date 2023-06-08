@@ -228,13 +228,13 @@ public class Seguradora
             ClientePF clientePf = getClientePorCpf(documento);
 
             for (Seguro seguro: listaSeguros)
-                if (seguro instanceof SeguroPF)
-                {
-                    SeguroPF seguroPf = (SeguroPF)seguro;
+            if (seguro instanceof SeguroPF)
+            {
+                SeguroPF seguroPf = (SeguroPF)seguro;
 
-                    if (seguroPf.getCliente().equals(clientePf))
-                        segurosCliente.add(seguroPf);
-                }
+                if (seguroPf.getCliente().equals(clientePf))
+                    segurosCliente.add(seguroPf);
+            }
         }
         else if (Validacao.validarCPF(documento))
         {
