@@ -312,7 +312,7 @@ public class Main
 			return instanciarSeguroPJ(seguradora);
 	}
 
-    public static Sinistro instanciarSinistro(ArrayList<Seguradora> listaSeguradoras, Veiculo veiculo, Cliente cliente)
+    public static Sinistro instanciarSinistro(ArrayList<Seguradora> listaSeguradoras)
     {
         System.out.print("Insira a data do sinistro [dd/mm/aaaa]: ");
 		LocalDate dataSinistro = Leitura.leData();
@@ -320,16 +320,15 @@ public class Main
         System.out.print("Insira o endereço do sinistro: ");
         String endereco = Leitura.leString();
 
-		Condutor condutor = selecionarCondutor();
-
 		Seguro seguro = selecionarSeguro(listaSeguradoras);
+
+		Condutor condutor = selecionarCondutor(seguro);
 
         return new Sinistro(dataSinistro, endereco, condutor, seguro);
     }
 
 	/* Método de listagem de objetos */
 
-	
 	public static void listarObjetos(ArrayList<?> listaObjetos, String objeto, String genero)
 	{
 		int tam = listaObjetos.size();
@@ -337,7 +336,7 @@ public class Main
 		System.out.printf("%ss cadastrad%ss:\n", objeto, genero);
 		
 		for (int i = 0; i < tam; i++)
-		System.out.printf("%s %d\n%s", objeto, i, objeto.toString());
+			System.out.printf("%s %d\n%s", objeto, i, objeto.toString());
 	}
 
 	/* Métodos de seleção de objetos */
@@ -495,9 +494,30 @@ public class Main
 		return seguro;
 	}
 	
-	private static Condutor selecionarCondutor() 
+	private static Condutor selecionarCondutor(Seguro seguro) 
 	{
-		return null;
+		Condutor condutor;
+
+		if (seguro.getListaCondutores().isEmpty())
+		{
+			System.out.println("Por favor, primeiro cadastre um condutor");
+			condutor = instanciarCondutor();
+			seguro.autorizarCondutor(condutor);
+		}
+		else
+		{
+			int opcao;
+			
+			System.out.println("Selecione um condutor");
+			listarObjetos(seguro.getListaCondutores(), "Condutore", "o");
+			do
+			{	
+				opcao = Leitura.leInt() - 1;
+			} while (!Validacao.validarIndice(opcao, seguro.getListaCondutores()));
+			condutor = seguro.getListaCondutores().get(opcao);
+		}
+
+		return condutor;
 	}
 
 	/* Métodos do menu de operações */
