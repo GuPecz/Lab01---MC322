@@ -96,6 +96,8 @@ public class Main
 
 	public static Seguradora instanciarSeguradora()
 	{
+		System.out.println("Iniciando cadastro da seguradora");
+
 		System.out.print("Insira o CNPJ da seguradora: ");
 		String cnpj;
 		boolean cnpjValido;
@@ -237,6 +239,8 @@ public class Main
 	
 	public static Frota instanciarFrota()
 	{
+		System.out.println("Frota cadastrada");
+
 		return new Frota(new ArrayList<Veiculo>());
 	}
 	
@@ -606,6 +610,10 @@ public class Main
 
 	public static void executarOpcaoSubMenu(SubmenuOperacoes opSubmenu, ArrayList<Seguradora> listaSeguradoras, ArrayList<Cliente> listaClientes, ArrayList<Veiculo> listaVeiculos, ArrayList<Frota> listaFrotas) 
 	{
+		Veiculo veiculo;
+		Frota frota;
+		Seguradora seguradora;
+
 		switch(opSubmenu) 
 		{
 			case CADASTRAR_CLIENTE:
@@ -624,14 +632,14 @@ public class Main
 
 					if (opcao.equals("s"))
 					{
-						Seguradora seguradora = selecionarSeguradora(listaSeguradoras);
+						seguradora = selecionarSeguradora(listaSeguradoras);
 						seguradora.cadastrarCliente(cliente);
 					}
 				}
 				break;
 
 			case CADASTRAR_VEICULO_PF:
-				Veiculo veiculo = instanciarVeiculo();
+				veiculo = instanciarVeiculo();
 				listaVeiculos.add(veiculo);
 
 				if (!listaClientes.isEmpty())
@@ -653,26 +661,62 @@ public class Main
 				break;
 
 			case CADASTRAR_FROTA:
-				// Stub
+				frota = instanciarFrota();
+				listaFrotas.add(frota);
+
+				if (!listaFrotas.isEmpty())
+				{
+					System.out.println("Deseja registrá-la em um cliente? [s/n]");
+					String opcao;
+
+					do
+					{
+						opcao = Leitura.leString();
+					} while (!(opcao.equals("s") || opcao.equals("n")));
+
+					if (opcao.equals("s"))
+					{
+						ClientePJ clientePJ = (ClientePJ)selecionarCliente(listaClientes);
+						clientePJ.cadastrarFrota(frota);
+					}
+				}
 				break;
 
 			case CADASTRAR_VEICULO_FROTA:
-				// Stub
+				veiculo = instanciarVeiculo();
+				listaVeiculos.add(veiculo);
+
+				if (!listaFrotas.isEmpty())
+				{
+					System.out.println("Deseja registrá-lo em uma frota? [s/n]");
+					String opcao;
+
+					do
+					{
+						opcao = Leitura.leString();
+					} while (!(opcao.equals("s") || opcao.equals("n")));
+
+					if (opcao.equals("s"))
+					{
+						ClientePJ clientePJ = (ClientePJ)selecionarCliente(listaClientes);
+						frota = selecionarFrota(clientePJ);
+						frota.cadastrarVeiculo(veiculo);
+					}
+				}
 				break;
 
 			case CADASTRAR_SEGURADORA:
-			/*  Implementação legada
 				System.out.println("Iniciando cadastro de seguradora");
 				listaSeguradoras.add(instanciarSeguradora());
-			*/
 				break;
 
 			case LISTAR_SEGUROS_POR_SEGURADORA:
-				// Stub
+				seguradora = selecionarSeguradora(listaSeguradoras);
+				listarObjetos(seguradora.getListaSeguros(), "Seguro", "o");
 				break;
 
 			case LISTAR_CLIENTES_POR_SEGURADORA:
-				Seguradora seguradora = selecionarSeguradora(listaSeguradoras);
+				seguradora = selecionarSeguradora(listaSeguradoras);
 				seguradora.listarClientesPorSeguradora();
 				break;
 
