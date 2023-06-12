@@ -721,7 +721,10 @@ public class Main
 				break;
 
 			case LISTAR_SEGUROS_POR_CLIENTE:
-				// Stub
+				cliente = selecionarCliente(listaClientes);
+				for (Seguradora seg: listaSeguradoras)
+					if (seg.getListaClientes().contains(cliente))
+						seg.listarSegurosPorCliente(cliente);
 				break;
 
 			case LISTAR_CONDUTOR_POR_SEGURO:
