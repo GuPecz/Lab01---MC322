@@ -363,6 +363,42 @@ public class Seguradora
         return seguros;
     }
 
+    public String listarSegurosPorCliente(Cliente cliente)
+    {
+        int tam = listaSeguros.size();
+        String seguros = "Seguradora " + nome + "(CNPJ: " + cnpj + ")\n";
+
+        if (tam == 0)
+            return "ERRO: Não há seguros cadastrados nesta seguradora";
+
+        for (int i = 0; i < tam; i++)
+        {
+            Seguro seguro = listaSeguros.get(i);
+            seguros += "Seguro " + (i + 1);
+
+            if (cliente instanceof ClientePF && seguro instanceof SeguroPF)
+            {
+                ClientePF clientePf = (ClientePF)cliente;
+                SeguroPF seguroPf = (SeguroPF)seguro;
+
+                if (seguroPf.getCliente().equals(clientePf))
+                    seguros += "\n" + seguroPf.toString();
+            }
+            else if (cliente instanceof ClientePJ && seguro instanceof SeguroPJ)
+            {
+                ClientePJ clientePj = (ClientePJ)cliente;
+                SeguroPJ seguroPj = (SeguroPJ)seguro;
+
+                if (seguroPj.getCliente().equals(clientePj))
+                    seguros += "\n" + seguroPj.toString();
+            }
+
+            seguros += "\n";
+        }
+
+        return seguros;
+    }
+
     @Override
     public String toString()
     {
