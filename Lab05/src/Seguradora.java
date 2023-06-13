@@ -399,6 +399,31 @@ public class Seguradora
         return seguros;
     }
 
+    public Cliente selecionarCliente()
+	{
+		Cliente cliente;
+		
+		if (getListaClientes().isEmpty())
+		{
+			System.out.println("Por favor, cadastre um cliente primeiro");
+			cliente = null;
+		}
+		else
+		{
+			int opcao;
+
+			System.out.println("Selecione um cliente");
+			listarClientesPorSeguradora();
+			do
+			{	
+				opcao = Leitura.leInt() - 1;
+			} while (!Validacao.validarIndice(opcao, listaClientes));
+			cliente = listaClientes.get(opcao);
+		}
+		
+		return cliente;
+	}
+
     @Override
     public String toString()
     {
