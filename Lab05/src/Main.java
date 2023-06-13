@@ -217,7 +217,6 @@ public class Main
 		Veiculo veiculo = cliente.selecionarVeiculo();
 		if (Objects.isNull(veiculo))
 		{
-			System.out.println("Por favor, primeiro, cadastre um veículo");
 			veiculo = instanciarVeiculo();
 			listaVeiculos.add(veiculo);
 			cliente.cadastrarVeiculo(veiculo);
@@ -556,7 +555,6 @@ public class Main
 				veiculo = clientePF.selecionarVeiculo();
 				if (Objects.isNull(veiculo))
 				{
-					System.out.println("Por favor, primeiro, cadastre um veículo");
 					veiculo = instanciarVeiculo();
 					listaVeiculos.add(veiculo);
 				}
@@ -697,13 +695,8 @@ public class Main
 			case EXCLUIR_VEICULO_PF:
 				clientePF = (ClientePF)selecionarCliente();
 				veiculo = clientePF.selecionarVeiculo();
-				if (Objects.isNull(veiculo))
-				{
-					System.out.println("Por favor, primeiro, cadastre um veículo");
-					veiculo = instanciarVeiculo();
-					listaVeiculos.add(veiculo);
-				}
-				clientePF.removerVeiculo(veiculo.getPlaca());
+				if (!Objects.isNull(veiculo))
+					clientePF.removerVeiculo(veiculo.getPlaca());
 				break;
 
 			case EXCLUIR_VEICULO_FROTA:
@@ -884,7 +877,7 @@ public class Main
 
 		System.out.println("Vamos iniciar com alguns cadastros para o funcionamento do sistema");
 
-		for (int i = 0; i < classes.length - 1; i++)
+		for (int i = 0; i < classes.length - 1; i += 2)
 			instanciarObjetos(classes[i], classes[i + 1]);
 
 		System.out.println("Quantos seguros deseja gerar?");
@@ -895,6 +888,12 @@ public class Main
 			Seguradora seguradora = selecionarSeguradora();
 			Seguro seguro = instanciarSeguro(seguradora);
 			seguradora.gerarSeguro(seguro);
+
+			System.out.println("Quantos sinistros deseja gerar para este seguro?");
+			int numSinistros = Leitura.leInt();
+
+			for (int j = 0; j < numSinistros; j++)
+				seguro.gerarSinistro(instanciarSinistro());
 		}
 
 		System.out.println("Seguindo para as funções do sistema...");
