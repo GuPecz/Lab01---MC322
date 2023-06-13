@@ -520,6 +520,7 @@ public class Main
 		Condutor condutor;
 		ClientePF clientePF;
 		ClientePJ clientePJ;
+		int opUsuario;
 
 		switch(opSubmenu) 
 		{
@@ -585,42 +586,28 @@ public class Main
 				break;
 
 			case CADASTRAR_VEICULO_FROTA:
-				veiculo = instanciarVeiculo();
-				listaVeiculos.add(veiculo);
+				veiculo = selecionarVeiculo();
+				frota = selecionarFrota();
 
-				if (!listaFrotas.isEmpty())
+				System.out.println("1 - Frota de um Cliente PJ\n2 - Frota independente");
+
+				do 
 				{
-					System.out.println("Deseja registrá-lo em uma frota? [s/n]");
-					String opcao;
+					System.out.println("Digite uma opção: ");
+					opUsuario = Leitura.leInt();
+				} while(!(opUsuario == 1 || opUsuario == 2));
 
-					do
-					{
-						opcao = Leitura.leString();
-					} while (!(opcao.equals("s") || opcao.equals("n")));
-
-					if (opcao.equals("s"))
-					{
-						System.out.println("1 - Frota de um Cliente PJ\n2 - Frota independente");
-						int opUsuario;
-
-						do 
-						{
-							System.out.println("Digite uma opção: ");
-							opUsuario = Leitura.leInt();
-						} while(!(opUsuario == 1 || opUsuario == 2));
-
-						if (opUsuario == 1)
-						{
-							clientePJ = (ClientePJ)selecionarCliente();
-							frota = clientePJ.selecionarFrota();
-							frota.cadastrarVeiculo(veiculo);
-						}
-						else
-						{
-							frota = selecionarFrota();
-							listaFrotas.add(frota);
-						}
-					}
+				if (opUsuario == 1)
+				{
+					clientePJ = (ClientePJ)selecionarCliente();
+					frota = clientePJ.selecionarFrota();
+					clientePJ.atualizarFrota(1, frota, veiculo);
+				}
+				else
+				{
+					frota = selecionarFrota();
+					listaFrotas.add(frota);
+					frota.cadastrarVeiculo(veiculo);
 				}
 				break;
 
@@ -678,24 +665,101 @@ public class Main
 				break;
 
 			case EXCLUIR_CLIENTE:
-			/*  Implementação legada
-				seguradora = selecionarSeguradora(listaSeguradoras);
-				System.out.println("Insira o documento do cliente: ");
-				String documento2 = Leitura.leString();
-				seguradora.listarSinistrosPorCliente(documento2);
-			*/
+				System.out.println("Selecione o tipo de cliente [f/j]");
+				String opcao;
+
+				do
+				{
+					opcao = Leitura.leString();
+				} while (!(opcao.equals("f") || opcao.equals("j")));
+				
+				if (opcao.equals("f"))
+				{
+					clientePF = (ClientePF)selecionarCliente();
+					listaClientes.remove(clientePF);
+					for (Seguradora seg: listaSeguradoras)
+						if (seg.getListaClientes().contains(clientePF))
+						{
+							seg.excluirCliente(clientePF.getCpf());
+							break;
+						}
+				}
+				else
+				{
+					clientePJ = (ClientePJ)selecionarCliente();
+					listaClientes.remove(clientePJ);
+					for (Seguradora seg: listaSeguradoras)
+						if (seg.getListaClientes().contains(clientePJ))
+						{
+							seg.excluirCliente(clientePJ.getCnpj());
+							break;
+						}
+				}
 				break;
 
 			case EXCLUIR_VEICULO_PF:
-				// Stub
+				clientePF = (ClientePF)selecionarCliente();
+				veiculo = clientePF.selecionarVeiculo();
+				if (veiculo.equals(null))
+				{
+					System.out.println("Por favor, primeiro, cadastre um veículo");
+					veiculo = instanciarVeiculo();
+					listaVeiculos.add(veiculo);
+				}
+				clientePF.removerVeiculo(veiculo.getPlaca());
 				break;
 
 			case EXCLUIR_VEICULO_FROTA:
-				// Stub
+				frota = selecionarFrota();
+				veiculo = frota.selecionarVeiculo();
+				if (veiculo.equals(null))
+					System.out.println("ERRO: Não há veículos cadastrados nesta frota");
+				else
+				{
+
+					System.out.println("1 - Frota de um Cliente PJ\n2 - Frota independente");
+
+					do 
+					{
+						System.out.println("Digite uma opção: ");
+						opUsuario = Leitura.leInt();
+					} while(!(opUsuario == 1 || opUsuario == 2));
+
+					if (opUsuario == 1)
+					{
+						clientePJ = (ClientePJ)selecionarCliente();
+						frota = clientePJ.selecionarFrota();
+						clientePJ.atualizarFrota(2, frota, veiculo);
+					}
+					else
+					{
+						frota = selecionarFrota();
+						listaFrotas.add(frota);
+						frota.removerVeiculo(veiculo);
+					}
+				}
 				break;
 
-			case EXCLUIR_FROTA:
-				// Stub
+			case EXCLUIR_FROTA:		
+				System.out.println("1 - Frota de um Cliente PJ\n2 - Frota independente");
+
+				do 
+				{
+					System.out.println("Digite uma opção: ");
+					opUsuario = Leitura.leInt();
+				} while(!(opUsuario == 1 || opUsuario == 2));
+
+				if (opUsuario == 1)
+				{
+					clientePJ = (ClientePJ)selecionarCliente();
+					frota = clientePJ.selecionarFrota();
+					clientePJ.atualizarFrota(3, frota, null);
+				}
+				else
+				{
+					frota = selecionarFrota();
+					listaFrotas.remove(frota);
+				}
 				break;
 
 			case GERAR_SINISTRO_POR_CLIENTE:
