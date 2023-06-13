@@ -33,32 +33,8 @@ public class SeguroPF extends Seguro
     {
         this.cliente = cliente;
     }
-
-    public void desautorizarCondutor(Condutor condutor)
-    {
-        super.getListaCondutores().remove(condutor);
-    }
-
-    public void autorizarCondutor(Condutor condutor)
-    {
-        super.getListaCondutores().add(condutor);
-    }
-
-    public boolean gerarSinistro(Sinistro sinistro)
-    {
-        if (super.getListaSinistros().contains(sinistro))
-        {
-            System.out.println("ERRO: Sinistro já registrado");
-            return false;
-        }
-        else
-        {
-            super.getListaSinistros().add(sinistro);
-            super.setValorMensal(calcularValor());
-            return true;
-        }
-    }
     
+    // esse
     public int calculaQtdVeiculos()
     {
         /* Cada seguroPF tem apenas um veículo, logo a quantidade de seguros de 

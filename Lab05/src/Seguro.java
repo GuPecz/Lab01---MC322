@@ -92,27 +92,86 @@ public abstract class Seguro
         this.valorMensal = valorMensal;
     }
     
-    public abstract void desautorizarCondutor(Condutor condutor);
-
-    public abstract void autorizarCondutor(Condutor condutor);
+    public boolean gerarSinistro(Sinistro sinistro)
+    {
+        if (listaSinistros.contains(sinistro))
+        {
+            System.out.println("ERRO: Sinistro já registrado");
+            return false;
+        }
+        else
+        {
+            listaSinistros.add(sinistro);
+            valorMensal = calcularValor();
+            return true;
+        }
+    }
     
-    public abstract double calcularValor();
-    
-    public abstract boolean gerarSinistro(Sinistro sinistro);
-
     public String listarSinistros()
     {
         String sinistros = "";
         int tam = listaSinistros.size();
-
+        
         if (listaSinistros.isEmpty())
-            System.out.println("ERRO: Não há sinistros registrados neste seguro");
-
+        System.out.println("ERRO: Não há sinistros registrados neste seguro");
+        
         for (int i = 0; i < tam; i++)
-            sinistros += "Sinistro " + (i + 1) + "\n" + listaSinistros.get(i);
-
+        sinistros += "Sinistro " + (i + 1) + "\n" + listaSinistros.get(i);
+        
         return sinistros;
+        }
+        
+        public String listarCondutores()
+        {
+            String condutores = "";
+            int tam = listaSinistros.size();
+            
+            if (listaCondutores.isEmpty())
+            System.out.println("ERRO: Não há sinistros registrados neste seguro");
+        
+        for (int i = 0; i < tam; i++)
+            condutores += "Condutor " + (i + 1) + "\n" + listaCondutores.get(i);
+            
+            return condutores;
+        }
+        
+        public Condutor selecionarCondutor() 
+        {
+            Condutor condutor;
+            
+            if (listaCondutores.isEmpty())
+            {
+                System.out.println("Por favor, primeiro cadastre um condutor");
+                condutor = null;
+                autorizarCondutor();
+            }
+            else
+            {
+                int opcao;
+			
+                System.out.println("Selecione um condutor");
+                System.out.println(listarCondutores());
+                do
+                {	
+                    opcao = Leitura.leInt() - 1;
+                } while (!Validacao.validarIndice(opcao, listaCondutores));
+                condutor = listaCondutores.get(opcao);
+            }
+            
+            return condutor;
+        }
+        
+    public void desautorizarCondutor()
+    {
+        listaCondutores.remove(selecionarCondutor());
     }
+
+    public void autorizarCondutor()
+    {
+        listaCondutores.add(selecionarCondutor());
+    }
+
+    public abstract double calcularValor();
 
     @Override
     public String toString() 
@@ -122,5 +181,5 @@ public abstract class Seguro
                 + "\nLista de sinistros: " + listaSinistros 
                 + "\nLista de condutores: " + listaCondutores 
                 + "\nValor mensal: " + valorMensal;
-    }
-}
+            }
+        }
