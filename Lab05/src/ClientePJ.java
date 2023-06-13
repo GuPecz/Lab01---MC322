@@ -129,6 +129,31 @@ public class ClientePJ extends Cliente
         return true;
     }
     
+	public Frota selecionarFrota()
+	{
+		Frota frota;
+		
+		if (listaFrotas.isEmpty())
+		{	
+			System.out.println("Por favor, primeiro cadastre uma frota");
+			frota = null;
+		}
+		else
+		{
+			int opcao;
+			
+			System.out.println("Selecione uma frota");
+			System.out.println(listarFrotas());
+			do
+			{	
+				opcao = Leitura.leInt() - 1;
+			} while (!Validacao.validarIndice(opcao, listaFrotas));
+			frota = listaFrotas.get(opcao);
+		}
+		
+		return frota;
+	}
+
     public int calculaIdade()
     {
         return LocalDate.now().getYear() - dataFundacao.getYear();
