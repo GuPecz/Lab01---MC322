@@ -164,7 +164,7 @@ public class Main
 	
 	public static Condutor instanciarCondutor()
 	{
-		System.out.print("Insira o CPF do cliente: ");
+		System.out.print("Insira o CPF do condutor: ");
         String cpf;
         boolean cpfValido;
         
@@ -176,19 +176,19 @@ public class Main
 				System.out.println("ERRO: CPF inválido\nTente novamente");
 		} while (!cpfValido);
 		
-		System.out.print("Insira o nome do cliente: ");
+		System.out.print("Insira o nome do condutor: ");
         String nome = Leitura.lePalavra();
 
-		System.out.print("Insira o telefone do cliente: ");
+		System.out.print("Insira o telefone do condutor: ");
 		String telefone = Leitura.leString();
 		
-		System.out.print("Insira o endereço do cliente: ");
+		System.out.print("Insira o endereço do condutor: ");
 		String endereco = Leitura.leString();
 		
-		System.out.print("Insira o e-mail do cliente: ");
+		System.out.print("Insira o e-mail do condutor: ");
 		String email = Leitura.leString();
 
-		System.out.print("Insira a data de nascimento do cliente [dd/mm/aaaa]: ");
+		System.out.print("Insira a data de nascimento do condutor [dd/mm/aaaa]: ");
 		LocalDate dataNascimento = Leitura.leData();
 
 		return new Condutor(cpf, nome, telefone, endereco, email, dataNascimento, new ArrayList<Sinistro>());
@@ -843,11 +843,68 @@ public class Main
 		} while(opSubmenu != SubmenuOperacoes.VOLTAR);
 	}
 
+	public static void instanciarObjetos(String objetos, String genero)
+	{
+		int numObjs;
+
+		System.out.printf("Quant%ss %s deseja cadastrar?\n", genero, objetos);
+		numObjs = Leitura.leInt();
+
+		for (int i = 0; i < numObjs; i++)
+		{
+			switch (objetos)
+			{
+				case "seguradoras":
+				Seguradora seguradora = instanciarSeguradora();
+				listaSeguradoras.add(seguradora);
+				break;
+
+				case "clientes PF":
+				ClientePF clientePF = instanciarPF();
+				listaClientes.add(clientePF);
+				break;
+
+				case "clientes PJ":
+				ClientePJ clientePJ = instanciarPJ();
+				listaClientes.add(clientePJ);
+				break;
+
+				case "veículos":
+				Veiculo veiculo = instanciarVeiculo();
+				listaVeiculos.add(veiculo);
+				break;
+
+				case "frotas":
+				Frota frota = instanciarFrota();
+				listaFrotas.add(frota);
+				break;
+			}
+		}
+	}
+
 	public static void main(String[] args) 
 	{
 		MenuOperacoes op;
+		String[] classes = new String[]{"seguradoras", "a", "clientes PF", "o", "clientes PJ", "o", "veículos", "o", "frotas", "a"};
 
 		System.out.println("/-------- Sistema de seguros Mirinho SA --------/");
+
+		System.out.println("Vamos iniciar com alguns cadastros para o funcionamento do sistema");
+
+		for (int i = 0; i < classes.length - 1; i++)
+			instanciarObjetos(classes[i], classes[i + 1]);
+
+		System.out.println("Quantos seguros deseja gerar?");
+		int numSeguros = Leitura.leInt();
+	
+		for (int i = 0; i < numSeguros; i++)
+		{
+			Seguradora seguradora = selecionarSeguradora();
+			Seguro seguro = instanciarSeguro(seguradora);
+			seguradora.gerarSeguro(seguro);
+		}
+
+		System.out.println("Seguindo para as funções do sistema...");
 
 		do 
 		{
