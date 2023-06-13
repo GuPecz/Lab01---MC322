@@ -60,15 +60,9 @@ public class Leitura
         {
             inteiro = input.nextLine();
 
-            try
-            {
-                Integer.parseInt(inteiro);
-                intValido = true;
-            } 
-            catch (NumberFormatException e)
-            {
+            intValido = Validacao.validarInt(inteiro);
+            if (!intValido)
                 System.out.println("ERRO: Número inválido");
-            }
         } while (!intValido);
 
         return Integer.parseInt(inteiro);
