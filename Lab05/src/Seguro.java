@@ -162,11 +162,19 @@ public abstract class Seguro
         
     public void desautorizarCondutor(Condutor condutor)
     {
+        if (!listaCondutores.contains(condutor))
+            System.out.println("ERRO: Este condutor não está autorizado neste seguro");
+        else if (listaCondutores.isEmpty())
+            System.out.println("ERRO: Não há condutores autorizados neste seguro");
+        
         listaCondutores.remove(condutor);
     }
 
     public void autorizarCondutor(Condutor condutor)
     {
+        if (listaCondutores.contains(condutor))
+            System.out.println("ERRO: Este condutor já está autorizado");
+            
         listaCondutores.add(condutor);
     }
 
