@@ -269,7 +269,10 @@ public class Main
 		System.out.printf("%ss cadastrad%ss:\n", objeto, genero);
 		
 		for (int i = 0; i < tam; i++)
-			System.out.printf("%s %d\n%s", objeto, i, objeto.toString());
+		{
+			System.out.printf("%s %d\n", objeto, (i + 1));
+			System.out.println(objeto.toString());
+		}
 	}
 
 	/* Métodos de seleção de objetos */
@@ -781,7 +784,7 @@ public class Main
 					clientePJ = (ClientePJ)selecionarCliente();
 					segurosCliente = seguradora.getSegurosPorCliente(clientePJ.getCnpj());
 				}
-				
+
 				listarObjetos(segurosCliente, "Seguro", "o");
 				System.out.println("Digite uma opção:");
 				do
