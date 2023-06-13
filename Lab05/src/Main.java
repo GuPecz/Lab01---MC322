@@ -517,6 +517,9 @@ public class Main
 		Frota frota;
 		Seguradora seguradora;
 		Seguro seguro;
+		Condutor condutor;
+		ClientePF clientePF;
+		ClientePJ clientePJ;
 
 		switch(opSubmenu) 
 		{
@@ -548,7 +551,7 @@ public class Main
 				break;
 
 			case CADASTRAR_VEICULO_PF:
-				ClientePF clientePF = (ClientePF)selecionarCliente();		
+				clientePF = (ClientePF)selecionarCliente();		
 				veiculo = clientePF.selecionarVeiculo();
 				if (veiculo.equals(null))
 				{
@@ -575,7 +578,7 @@ public class Main
 
 					if (opcao.equals("s"))
 					{
-						ClientePJ clientePJ = (ClientePJ)selecionarCliente();
+						clientePJ = (ClientePJ)selecionarCliente();
 						clientePJ.cadastrarFrota(frota);
 					}
 				}
@@ -608,7 +611,7 @@ public class Main
 
 						if (opUsuario == 1)
 						{
-							ClientePJ clientePJ = (ClientePJ)selecionarCliente();
+							clientePJ = (ClientePJ)selecionarCliente();
 							frota = clientePJ.selecionarFrota();
 							frota.cadastrarVeiculo(veiculo);
 						}
@@ -645,26 +648,33 @@ public class Main
 
 			case LISTAR_CONDUTOR_POR_SEGURO:
 				seguro = selecionarSeguro();
+				listarObjetos(seguro.getListaCondutores(), "Condutore", "o");
 				break;
 
 			case LISTAR_SINISTROS_POR_SEGURO:
-				// Stub
+				seguro = selecionarSeguro();
+				listarObjetos(seguro.getListaSinistros(), "Sinistro", "o");
 				break;
 
 			case LISTAR_SINISTROS_POR_CONDUTOR:
-				// Stub
+				seguro = selecionarSeguro();
+				condutor = selecionarCondutor(seguro);
+				listarObjetos(condutor.getListaSinistros(), "Sinistro", "o");
 				break;
 
 			case LISTAR_VEICULOS_POR_PF:
-				// Stub
+				clientePF = (ClientePF)selecionarCliente();
+				System.out.println(clientePF.listarVeiculosPorCliente());
 				break;
 
 			case LISTAR_FROTAS_POR_PJ:
-				// Stub
+				clientePJ = (ClientePJ)selecionarCliente();
+				System.out.println(clientePJ.listarFrotas());
 				break;
 
 			case LISTAR_VEICULOS_POR_FROTA:
-				// Stub
+				frota = selecionarFrota();
+				System.out.println(frota.imprimirVeiculos());
 				break;
 
 			case EXCLUIR_CLIENTE:
