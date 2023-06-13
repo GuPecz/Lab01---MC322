@@ -292,24 +292,14 @@ public class Seguradora
 
         return sinistrosCliente;
     }
-
-    public double calcularReceita()
-    {
-        double receita = 0.0;
-        
-        for (Seguro seguro: listaSeguros)
-            receita += seguro.getValorMensal();
-        
-        return receita;
-    }
-
+    
     public String listarClientesPorSeguradora()
     {
         int tam = listaClientes.size();
         String clientes = "";
-
+        
         if (tam == 0)
-            return "ERRO: Não há clientes cadastrados nesta seguradora";
+        return "ERRO: Não há clientes cadastrados nesta seguradora";
 
         for (int i = 0; i < tam; i++)
         {
@@ -326,10 +316,10 @@ public class Seguradora
                 ClientePJ clientePJ = (ClientePJ)cliente;
                 clientes += "(PJ)" + "\n" + clientePJ.toString();
             }
-
+            
             clientes += "\n";
         }
-
+        
         return clientes;
     }
     
@@ -337,15 +327,15 @@ public class Seguradora
     {
         int tam = listaSeguros.size();
         String seguros = "";
-
+        
         if (tam == 0)
-            return "ERRO: Não há seguros cadastrados nesta seguradora";
-
+        return "ERRO: Não há seguros cadastrados nesta seguradora";
+        
         for (int i = 0; i < tam; i++)
         {
             Seguro seguro = listaSeguros.get(i);
             seguros += "Seguro " + (i + 1);
-
+            
             if (seguro instanceof SeguroPF)
             {
                 SeguroPF seguroPF = (SeguroPF)seguro;
@@ -356,52 +346,52 @@ public class Seguradora
                 SeguroPJ seguroPJ = (SeguroPJ)seguro;
                 seguros = "(PJ)" + "\n" + seguroPJ.toString();
             }
-
+            
             seguros += "\n";
         }
 
         return seguros;
     }
-
+    
     public String listarSegurosPorCliente(Cliente cliente)
     {
         int tam = listaSeguros.size();
         String seguros = "Seguradora " + nome + "(CNPJ: " + cnpj + ")\n";
-
+        
         if (tam == 0)
-            return "ERRO: Não há seguros cadastrados nesta seguradora";
-
+        return "ERRO: Não há seguros cadastrados nesta seguradora";
+        
         for (int i = 0; i < tam; i++)
         {
             Seguro seguro = listaSeguros.get(i);
             seguros += "Seguro " + (i + 1);
-
+            
             if (cliente instanceof ClientePF && seguro instanceof SeguroPF)
             {
                 ClientePF clientePf = (ClientePF)cliente;
                 SeguroPF seguroPf = (SeguroPF)seguro;
-
+                
                 if (seguroPf.getCliente().equals(clientePf))
-                    seguros += "\n" + seguroPf.toString();
+                seguros += "\n" + seguroPf.toString();
             }
             else if (cliente instanceof ClientePJ && seguro instanceof SeguroPJ)
             {
                 ClientePJ clientePj = (ClientePJ)cliente;
                 SeguroPJ seguroPj = (SeguroPJ)seguro;
-
+                
                 if (seguroPj.getCliente().equals(clientePj))
                     seguros += "\n" + seguroPj.toString();
             }
 
             seguros += "\n";
         }
-
+        
         return seguros;
     }
 
     public Cliente selecionarCliente()
 	{
-		Cliente cliente;
+        Cliente cliente;
 		
 		if (getListaClientes().isEmpty())
 		{
@@ -411,19 +401,54 @@ public class Seguradora
 		else
 		{
 			int opcao;
-
+            
 			System.out.println("Selecione um cliente");
 			listarClientesPorSeguradora();
 			do
 			{	
-				opcao = Leitura.leInt() - 1;
+                opcao = Leitura.leInt() - 1;
 			} while (!Validacao.validarIndice(opcao, listaClientes));
 			cliente = listaClientes.get(opcao);
 		}
 		
 		return cliente;
 	}
+    
+	public Seguro selecionarSeguro()
+	{
+		Seguro seguro;
+		
+		if (listaSeguros.isEmpty())
+		{
+			System.out.println("Por favor, primeiro cadastre um seguro");
+			seguro = null;
+		}
+		else
+		{
+			int opcao;
+			
+			System.out.println("Selecione um seguro");
+			System.out.println(listarSegurosPorSeguradora());
+			do
+			{	
+				opcao = Leitura.leInt() - 1;
+			} while (!Validacao.validarIndice(opcao, listaSeguros));
+			seguro = listaSeguros.get(opcao);
+		}
+		
+		return seguro;
+	}
 
+    public double calcularReceita()
+    {
+        double receita = 0.0;
+        
+        for (Seguro seguro: listaSeguros)
+            receita += seguro.getValorMensal();
+        
+        return receita;
+    }
+    
     @Override
     public String toString()
     {
