@@ -112,6 +112,19 @@ public class Validacao
             return false;
     }
 
+    public static boolean validarInt(String inteiro)
+    {
+        try
+        {
+            Integer.parseInt(inteiro);
+            return true;
+        } 
+        catch (NumberFormatException e)
+        {
+            return false;
+        }
+    }
+
     public static boolean validarNome(String nome)
     {
         for (char c: nome.toCharArray())
