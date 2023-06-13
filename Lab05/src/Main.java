@@ -504,6 +504,7 @@ public class Main
 		Veiculo veiculo;
 		Frota frota;
 		Seguradora seguradora;
+		Seguro seguro;
 
 		switch(opSubmenu) 
 		{
@@ -636,7 +637,7 @@ public class Main
 				break;
 
 			case LISTAR_CONDUTOR_POR_SEGURO:
-				// Stub
+				seguro = selecionarSeguro(listaSeguradoras);
 				break;
 
 			case LISTAR_SINISTROS_POR_SEGURO:
