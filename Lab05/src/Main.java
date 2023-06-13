@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Main 
 {
@@ -197,11 +198,11 @@ public class Main
 	{
 		ClientePF cliente = (ClientePF)seguradora.selecionarCliente();
 
-		if (cliente.equals(null))
+		if (Objects.isNull(cliente))
 			cliente = (ClientePF)instanciarCliente();
 
 		Veiculo veiculo = cliente.selecionarVeiculo();
-		if (veiculo.equals(null))
+		if (Objects.isNull(veiculo))
 		{
 			System.out.println("Por favor, primeiro, cadastre um veículo");
 			veiculo = instanciarVeiculo();
@@ -217,7 +218,7 @@ public class Main
 	{
 		ClientePJ cliente = (ClientePJ)seguradora.selecionarCliente();
 
-		if (cliente.equals(null))
+		if (Objects.isNull(cliente))
 			cliente = (ClientePJ)instanciarCliente();
 
 		Frota frota = cliente.selecionarFrota();
@@ -558,7 +559,7 @@ public class Main
 			case CADASTRAR_VEICULO_PF:
 				clientePF = (ClientePF)selecionarCliente();		
 				veiculo = clientePF.selecionarVeiculo();
-				if (veiculo.equals(null))
+				if (Objects.isNull(veiculo))
 				{
 					System.out.println("Por favor, primeiro, cadastre um veículo");
 					veiculo = instanciarVeiculo();
@@ -702,7 +703,7 @@ public class Main
 			case EXCLUIR_VEICULO_PF:
 				clientePF = (ClientePF)selecionarCliente();
 				veiculo = clientePF.selecionarVeiculo();
-				if (veiculo.equals(null))
+				if (Objects.isNull(veiculo))
 				{
 					System.out.println("Por favor, primeiro, cadastre um veículo");
 					veiculo = instanciarVeiculo();
@@ -714,7 +715,7 @@ public class Main
 			case EXCLUIR_VEICULO_FROTA:
 				frota = selecionarFrota();
 				veiculo = frota.selecionarVeiculo();
-				if (veiculo.equals(null))
+				if (Objects.isNull(veiculo))
 					System.out.println("ERRO: Não há veículos cadastrados nesta frota");
 				else
 				{
