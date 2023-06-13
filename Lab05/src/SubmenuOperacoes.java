@@ -1,6 +1,7 @@
 public enum SubmenuOperacoes 
 {
 	CADASTRAR_CLIENTE("Cliente"),
+	CADASTRAR_VEICULO("Veículo"),
 	CADASTRAR_VEICULO_PF("Veículo em um cliente PF"),
 	CADASTRAR_FROTA("Frota"),
 	CADASTRAR_VEICULO_FROTA("Veículo em uma frota"),

@@ -3,6 +3,7 @@ public enum MenuOperacoes
 	CADASTRAR("Cadastrar", new SubmenuOperacoes[] 
 	{
 			SubmenuOperacoes.CADASTRAR_CLIENTE,
+			SubmenuOperacoes.CADASTRAR_VEICULO,
 			SubmenuOperacoes.CADASTRAR_VEICULO_PF,
 			SubmenuOperacoes.CADASTRAR_FROTA,
 			SubmenuOperacoes.CADASTRAR_VEICULO_FROTA,
