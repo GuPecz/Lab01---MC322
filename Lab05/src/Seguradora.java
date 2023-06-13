@@ -428,7 +428,7 @@ public class Seguradora
     public String toString()
     {
         return "Informações da seguradora" + "\nCNPJ: " + cnpj + "\nNome: " + nome
-        + "\nTelefone: " + telefone + "\nEndereço: " + endereco + "E-mail: " + email
-        + "Clientes: " + listaClientes + "Seguros: " + listaSeguros;
+        + "\nTelefone: " + telefone + "\nEndereço: " + endereco + "\nE-mail: " + email
+        + "\nClientes: " + listaClientes + "\nSeguros: " + listaSeguros;
     }
 }
