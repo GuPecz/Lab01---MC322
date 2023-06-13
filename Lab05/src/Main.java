@@ -2,6 +2,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/* AFAZER:
+ * Atualizar seguro onde precisa
+ * Implementar seleção de objetos a partir das listas globais quando for instanciar objeto relacionado
+ * Remover redundância dos métodos listar e selecionar
+ */
+
 public class Main 
 {
 	/* Atributos globais */
@@ -158,7 +164,18 @@ public class Main
 	
 	public static Frota instanciarFrota()
 	{
-		System.out.println("Frota cadastrada");
+		System.out.println("Quantos veículos deseja cadastrar veículos nesta frota? [s/n]");
+		String opcao;
+
+		do	
+		{
+			opcao = Leitura.leString();
+		} while (!(opcao.equals("s") || opcao.equals("n")));
+
+		if (opcao.equals("s"))
+		{
+			// Stub
+		}
 
 		return new Frota(new ArrayList<Veiculo>());
 	}
@@ -274,13 +291,54 @@ public class Main
 
         System.out.print("Insira o endereço do sinistro: ");
         String endereco = Leitura.leString();
-
+		
 		Seguro seguro = selecionarSeguradora().selecionarSeguro();
-
+		
 		Condutor condutor = seguro.selecionarCondutor();
-
+		
         return new Sinistro(dataSinistro, endereco, condutor, seguro);
     }
+	
+	public static void instanciarObjetos(String objetos, String genero)
+	{
+		int numObjs;
+
+		System.out.printf("Quant%ss %s deseja cadastrar?\n", genero, objetos);
+		numObjs = Leitura.leInt();
+
+		for (int i = 0; i < numObjs; i++)
+		{
+			System.out.printf("Instância %d\n", (i + 1));
+
+			switch (objetos)
+			{
+				case "seguradoras":
+				Seguradora seguradora = instanciarSeguradora();
+				listaSeguradoras.add(seguradora);
+				break;
+
+				case "clientes PF":
+				ClientePF clientePF = instanciarPF();
+				listaClientes.add(clientePF);
+				break;
+
+				case "clientes PJ":
+				ClientePJ clientePJ = instanciarPJ();
+				listaClientes.add(clientePJ);
+				break;
+
+				case "veículos":
+				Veiculo veiculo = instanciarVeiculo();
+				listaVeiculos.add(veiculo);
+				break;
+
+				case "frotas":
+				Frota frota = instanciarFrota();
+				listaFrotas.add(frota);
+				break;
+			}
+		}
+	}
 
 	/* Método de listagem de objetos */
 
@@ -825,47 +883,6 @@ public class Main
 			opSubmenu = lerOpcaoSubmenu(op);
 			executarOpcaoSubMenu(opSubmenu);
 		} while(opSubmenu != SubmenuOperacoes.VOLTAR);
-	}
-
-	public static void instanciarObjetos(String objetos, String genero)
-	{
-		int numObjs;
-
-		System.out.printf("Quant%ss %s deseja cadastrar?\n", genero, objetos);
-		numObjs = Leitura.leInt();
-
-		for (int i = 0; i < numObjs; i++)
-		{
-			System.out.printf("Instância %d\n", (i + 1));
-
-			switch (objetos)
-			{
-				case "seguradoras":
-				Seguradora seguradora = instanciarSeguradora();
-				listaSeguradoras.add(seguradora);
-				break;
-
-				case "clientes PF":
-				ClientePF clientePF = instanciarPF();
-				listaClientes.add(clientePF);
-				break;
-
-				case "clientes PJ":
-				ClientePJ clientePJ = instanciarPJ();
-				listaClientes.add(clientePJ);
-				break;
-
-				case "veículos":
-				Veiculo veiculo = instanciarVeiculo();
-				listaVeiculos.add(veiculo);
-				break;
-
-				case "frotas":
-				Frota frota = instanciarFrota();
-				listaFrotas.add(frota);
-				break;
-			}
-		}
 	}
 
 	public static void main(String[] args) 
