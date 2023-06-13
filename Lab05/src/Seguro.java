@@ -113,7 +113,7 @@ public abstract class Seguro
 
         return sinistros;
     }
-    
+
     @Override
     public String toString() 
     {
