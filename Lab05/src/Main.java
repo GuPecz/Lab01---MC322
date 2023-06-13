@@ -896,7 +896,7 @@ public class Main
 				seguro.gerarSinistro(instanciarSinistro());
 		}
 
-		System.out.println("Seguindo para as funções do sistema...");
+		System.out.println("Seguindo para o menu de operações...");
 
 		do 
 		{
