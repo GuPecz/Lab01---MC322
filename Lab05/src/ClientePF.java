@@ -109,6 +109,31 @@ public class ClientePF extends Cliente
         }
     }
 
+	public Veiculo selecionarVeiculo()
+	{
+		Veiculo veiculo;
+		
+		if (listaVeiculos.isEmpty())
+		{
+			System.out.println("Por favor cadastre um veículo primeiro");
+			veiculo = null;
+		}
+		else
+		{
+			int opcao;
+
+			System.out.println("Selecione um veículo");
+			System.out.println(listarVeiculosPorCliente());
+			do
+			{	
+				opcao = Leitura.leInt() - 1;
+			} while (!Validacao.validarIndice(opcao, listaVeiculos));
+			veiculo = listaVeiculos.get(opcao);
+		}
+		
+		return veiculo;
+	}
+
     public int calculaIdade()
     {
         return LocalDate.now().getYear() - dataNascimento.getYear();
