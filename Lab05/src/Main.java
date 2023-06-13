@@ -208,7 +208,7 @@ public class Main
 		if (cliente.equals(null))
 			cliente = (ClientePJ)instanciarCliente();
 
-		Frota frota = selecionarFrota(cliente);
+		Frota frota = cliente.selecionarFrota();
 
 		SeguroPJ seguro = new SeguroPJ(LocalDate.now(), LocalDate.now().plusMonths(6), seguradora, new ArrayList<Sinistro>(), new ArrayList<Condutor>(), frota, cliente);
 
@@ -338,11 +338,11 @@ public class Main
 		return veiculo;
 	}
 	
-	public static Frota selecionarFrota(ClientePJ cliente)
+	public static Frota selecionarFrota(ArrayList<Frota> listaFrotas)
 	{
 		Frota frota;
 		
-		if (cliente.getListaFrotas().isEmpty())
+		if (listaFrotas.isEmpty())
 		{	
 			System.out.println("Por favor, primeiro cadastre uma frota");
 			frota = instanciarFrota();
@@ -352,12 +352,12 @@ public class Main
 			int opcao;
 			
 			System.out.println("Selecione uma frota");
-			System.out.println(cliente.listarFrotas());
+			listarObjetos(listaFrotas, "Frota", "a");
 			do
 			{	
 				opcao = Leitura.leInt() - 1;
-			} while (!Validacao.validarIndice(opcao, cliente.getListaFrotas()));
-			frota = cliente.getListaFrotas().get(opcao);
+			} while (!Validacao.validarIndice(opcao, listaFrotas));
+			frota = listaFrotas.get(opcao);
 		}
 		
 		return frota;
@@ -589,9 +589,26 @@ public class Main
 
 					if (opcao.equals("s"))
 					{
-						ClientePJ clientePJ = (ClientePJ)selecionarCliente(listaClientes);
-						frota = clientePJ.selecionarFrota();
-						frota.cadastrarVeiculo(veiculo);
+						System.out.println("1 - Frota de um Cliente PJ\n2 - Frota independente");
+						int opUsuario;
+
+						do 
+						{
+							System.out.println("Digite uma opção: ");
+							opUsuario = Leitura.leInt();
+						} while(!(opUsuario == 1 || opUsuario == 2));
+
+						if (opUsuario == 1)
+						{
+							ClientePJ clientePJ = (ClientePJ)selecionarCliente(listaClientes);
+							frota = clientePJ.selecionarFrota();
+							frota.cadastrarVeiculo(veiculo);
+						}
+						else
+						{
+							frota = selecionarFrota(listaFrotas);
+							listaFrotas.add(frota);
+						}
 					}
 				}
 				break;
