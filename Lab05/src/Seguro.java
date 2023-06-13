@@ -100,20 +100,20 @@ public abstract class Seguro
     
     public abstract boolean gerarSinistro(Sinistro sinistro);
 
-    public void listarSinistrosPorSeguro()
+    public String listarSinistros()
     {
+        String sinistros = "";
+        int tam = listaSinistros.size();
+
         if (listaSinistros.isEmpty())
-            System.out.println("ERRO: Não há sinistros registrados nesta seguro");
+            System.out.println("ERRO: Não há sinistros registrados neste seguro");
 
-        int i = 1;
-        for (Sinistro sinistro: listaSinistros)
-        {
-            System.out.println("Sinistro " + (i + 1));
-            System.out.println(sinistro);
-            i++;
-        }
+        for (int i = 0; i < tam; i++)
+            sinistros += "Sinistro " + (i + 1) + "\n" + listaSinistros.get(i);
+
+        return sinistros;
     }
-
+    
     @Override
     public String toString() 
     {
