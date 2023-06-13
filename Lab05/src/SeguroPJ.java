@@ -11,6 +11,7 @@ public class SeguroPJ extends Seguro
         super(dataInicio, dataFim, seguradora, listaSinistros, listaCondutores);
         this.frota = frota;
         this.cliente = cliente;
+        super.setValorMensal(calcularValor());
     }
 
     public Frota getFrota() 

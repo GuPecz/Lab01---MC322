@@ -11,6 +11,7 @@ public class SeguroPF extends Seguro
         super(dataInicio, dataFim, seguradora, listaSinistros, listaCondutores);
         this.veiculo = veiculo;
         this.cliente = cliente;
+        super.setValorMensal(calcularValor());
     }
 
     public Veiculo getVeiculo() 
