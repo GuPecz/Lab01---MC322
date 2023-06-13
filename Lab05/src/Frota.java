@@ -60,7 +60,7 @@ public class Frota
         return false;
     }
 
-    private String imprimirVeiculos()
+    public String imprimirVeiculos()
     {
         String veiculos = "";
         int qtdVeiculos = listaVeiculos.size();

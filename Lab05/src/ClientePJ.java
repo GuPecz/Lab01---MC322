@@ -118,12 +118,11 @@ public class ClientePJ extends Cliente
         
         for (Frota frota: listaFrotas)
         {
-            ArrayList<Veiculo> listaVeiculos = frota.getListaVeiculos();
             int tam = frota.getListaVeiculos().size();
 
             System.out.println("Veículos da frota " + frota.getCodigo());
             for (int i = 0; i < tam - 1; i++)
-                System.out.print("\n" + (i + 1) + listaVeiculos.get(i).getPlaca());
+                System.out.print(frota.imprimirVeiculos());
         }
         
         return true;
