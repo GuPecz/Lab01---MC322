@@ -45,19 +45,10 @@ public class Frota
         return true;
     }
 
-    public boolean removerVeiculo(String placa)
+    public void removerVeiculo(Veiculo veiculo)
     {
-        for (Veiculo veiculo: listaVeiculos)
-        {
-            if (veiculo.getPlaca().equals(placa))
-            {
-                listaVeiculos.remove(veiculo);
-                System.out.println("Veículo " + placa + " removido");
-                return true;
-            }
-        }
-
-        return false;
+        listaVeiculos.remove(veiculo);
+        System.out.println("Veículo " + veiculo.getPlaca() + " removido");
     }
 
     public String imprimirVeiculos()
@@ -70,6 +61,31 @@ public class Frota
 
         return veiculos;
     }
+
+	public Veiculo selecionarVeiculo()
+	{
+		Veiculo veiculo;
+		
+		if (listaVeiculos.isEmpty())
+		{
+			System.out.println("Por favor cadastre um veículo primeiro");
+			veiculo = null;
+		}
+		else
+		{
+			int opcao;
+
+			System.out.println("Selecione um veículo");
+			System.out.println(imprimirVeiculos());
+			do
+			{	
+				opcao = Leitura.leInt() - 1;
+			} while (!Validacao.validarIndice(opcao, listaVeiculos));
+			veiculo = listaVeiculos.get(opcao);
+		}
+		
+		return veiculo;
+	}
 
     public String toString()
     {

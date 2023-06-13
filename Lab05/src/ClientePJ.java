@@ -55,24 +55,13 @@ public class ClientePJ extends Cliente
         return false;
     }
     
-    private Frota buscaFrota(String codigo)
-    {
-        for (Frota frota: listaFrotas)
-            if (frota.getCodigo().equals(codigo))
-                return frota;
-
-        return null;
-    }
-    
-    public boolean atualizarFrota(int operacao, String codigo, Veiculo veiculo)
+    public boolean atualizarFrota(int operacao, Frota frota, Veiculo veiculo)
     {
         /* Operações
         * 1: Adicionar veículo
         * 2: Remover veículo
         * 3: Excluir frota
         */
-        
-        Frota frota = buscaFrota(codigo);
 
         switch(operacao)
         {
@@ -81,7 +70,7 @@ public class ClientePJ extends Cliente
             break;
             
             case 2:
-            frota.removerVeiculo(veiculo.getPlaca());
+            frota.removerVeiculo(veiculo);
             break;
             
             case 3:
