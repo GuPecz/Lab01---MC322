@@ -9,6 +9,7 @@ public class Main
 	private static ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
 	private static ArrayList<Frota> listaFrotas = new ArrayList<Frota>();
 	private static ArrayList<Veiculo> listaVeiculos = new ArrayList<Veiculo>();
+	private static ArrayList<Condutor> listaCondutores = new ArrayList<Condutor>();
 
 	/* Métodos de instanciação de objetos */
 
@@ -194,6 +195,18 @@ public class Main
 		return new Condutor(cpf, nome, telefone, endereco, email, dataNascimento, new ArrayList<Sinistro>());
 	}
 	
+	public static void iniciarSeguro(Seguro seguro)
+	{
+		System.out.print("Meses de contrato: ");
+		int duracao = Leitura.leInt();
+		seguro.setDataFim(LocalDate.now().plusMonths(duracao));
+
+		System.out.print("Quantidade de condutores: ");
+		int qtdCondutores = Leitura.leInt();
+		for (int i = 0; i < qtdCondutores; i++)
+			seguro.autorizarCondutor(selecionarCondutor());
+	}
+
 	public static SeguroPF instanciarSeguroPF(Seguradora seguradora)
 	{
 		ClientePF cliente = (ClientePF)seguradora.selecionarCliente();
@@ -207,6 +220,7 @@ public class Main
 			System.out.println("Por favor, primeiro, cadastre um veículo");
 			veiculo = instanciarVeiculo();
 			listaVeiculos.add(veiculo);
+			cliente.cadastrarVeiculo(veiculo);
 		}
 
 		SeguroPF seguro = new SeguroPF(LocalDate.now(), LocalDate.now().plusMonths(6), seguradora, new ArrayList<Sinistro>(), new ArrayList<Condutor>(), veiculo, cliente);
@@ -239,11 +253,19 @@ public class Main
 		{
 			tipoSeguro = Leitura.leString();
 		} while (!(tipoSeguro.equals("f") || tipoSeguro.equals("j")));
-		
+
 		if (tipoSeguro.equals("f"))
-			return instanciarSeguroPF(seguradora);
+		{
+			SeguroPF seguroPF = instanciarSeguroPF(seguradora);
+			iniciarSeguro(seguroPF);
+			return seguroPF;
+		}
 		else
-			return instanciarSeguroPJ(seguradora);
+		{
+			SeguroPJ seguroPJ = instanciarSeguroPJ(seguradora);
+			iniciarSeguro(seguroPJ);
+			return seguroPJ;
+		}
 	}
 
     public static Sinistro instanciarSinistro()
@@ -254,9 +276,9 @@ public class Main
         System.out.print("Insira o endereço do sinistro: ");
         String endereco = Leitura.leString();
 
-		Seguro seguro = selecionarSeguro();
+		Seguro seguro = selecionarSeguradora().selecionarSeguro();
 
-		Condutor condutor = selecionarCondutor(seguro);
+		Condutor condutor = seguro.selecionarCondutor();
 
         return new Sinistro(dataSinistro, endereco, condutor, seguro);
     }
@@ -379,53 +401,26 @@ public class Main
 		return frota;
 	}
 	
-	public static Seguro selecionarSeguro()
-	{
-		Seguro seguro;
-		Seguradora seguradora = selecionarSeguradora();
-		
-		if (seguradora.getListaSeguros().isEmpty())
-		{
-			System.out.println("Por favor, primeiro cadastre um seguro");
-			seguro = instanciarSeguro(seguradora);
-		}
-		else
-		{
-			int opcao;
-			
-			System.out.println("Selecione um seguro");
-			listarObjetos(seguradora.getListaSeguros(), "Seguro", "o");
-			do
-			{	
-				opcao = Leitura.leInt() - 1;
-			} while (!Validacao.validarIndice(opcao, seguradora.getListaSeguros()));
-			seguro = seguradora.getListaSeguros().get(opcao);
-		}
-		
-		return seguro;
-	}
-	
-	private static Condutor selecionarCondutor(Seguro seguro) 
+	private static Condutor selecionarCondutor() 
 	{
 		Condutor condutor;
 
-		if (seguro.getListaCondutores().isEmpty())
+		if (listaCondutores.isEmpty())
 		{
 			System.out.println("Por favor, primeiro cadastre um condutor");
 			condutor = instanciarCondutor();
-			seguro.autorizarCondutor(condutor);
 		}
 		else
 		{
 			int opcao;
 			
 			System.out.println("Selecione um condutor");
-			listarObjetos(seguro.getListaCondutores(), "Condutore", "o");
+			listarObjetos(listaCondutores, "Condutore", "o");
 			do
 			{	
 				opcao = Leitura.leInt() - 1;
-			} while (!Validacao.validarIndice(opcao, seguro.getListaCondutores()));
-			condutor = seguro.getListaCondutores().get(opcao);
+			} while (!Validacao.validarIndice(opcao, listaCondutores));
+			condutor = listaCondutores.get(opcao);
 		}
 
 		return condutor;
@@ -638,18 +633,17 @@ public class Main
 				break;
 
 			case LISTAR_CONDUTOR_POR_SEGURO:
-				seguro = selecionarSeguro();
+				seguro = selecionarSeguradora().selecionarSeguro();
 				listarObjetos(seguro.getListaCondutores(), "Condutore", "o");
 				break;
 
 			case LISTAR_SINISTROS_POR_SEGURO:
-				seguro = selecionarSeguro();
+				seguro = selecionarSeguradora().selecionarSeguro();
 				listarObjetos(seguro.getListaSinistros(), "Sinistro", "o");
 				break;
 
 			case LISTAR_SINISTROS_POR_CONDUTOR:
-				seguro = selecionarSeguro();
-				condutor = selecionarCondutor(seguro);
+				condutor = selecionarSeguradora().selecionarSeguro().selecionarCondutor();
 				listarObjetos(condutor.getListaSinistros(), "Sinistro", "o");
 				break;
 
@@ -798,32 +792,29 @@ public class Main
 
 			case GERAR_SINISTRO_POR_CONDUTOR:
 				sinistro = instanciarSinistro();
-				seguro = selecionarSeguro();
-				selecionarCondutor(seguro).adicionarSinistro(sinistro);
+				selecionarSeguradora().selecionarSeguro().selecionarCondutor().adicionarSinistro(sinistro);
 				break;
 
 			case GERAR_SEGURO:
 				seguradora = selecionarSeguradora();
-				seguro = instanciarSeguro(seguradora);
+				seguro = seguradora.selecionarSeguro();
 				seguradora.gerarSeguro(seguro);
 				break;
 
 			case CANCELAR_SEGURO:
 				seguradora = selecionarSeguradora();
-				seguro = selecionarSeguro();
+				seguro = seguradora.selecionarSeguro();
 				seguradora.cancelarSeguro(seguro);
 				break;
 
 			case AUTORIZAR_CONDUTOR:
-				seguro = selecionarSeguro();
-				condutor = selecionarCondutor(seguro);
-				seguro.autorizarCondutor(condutor);
+				seguro = selecionarSeguradora().selecionarSeguro();
+				seguro.autorizarCondutor(seguro.selecionarCondutor());
 				break;
 
 			case DESAUTORIZAR_CONDUTOR:
-				seguro = selecionarSeguro();
-				condutor = selecionarCondutor(seguro);
-				seguro.desautorizarCondutor(condutor);
+				seguro = selecionarSeguradora().selecionarSeguro();
+				seguro.desautorizarCondutor(seguro.selecionarCondutor());
 				break;
 
 			case VOLTAR:
@@ -852,6 +843,8 @@ public class Main
 
 		for (int i = 0; i < numObjs; i++)
 		{
+			System.out.printf("Instância %d\n", (i + 1));
+
 			switch (objetos)
 			{
 				case "seguradoras":
