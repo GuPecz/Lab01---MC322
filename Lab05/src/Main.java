@@ -3,6 +3,12 @@ import java.util.ArrayList;
 
 public class Main 
 {
+	/* Atributos globais */
+	private static ArrayList<Seguradora> listaSeguradoras = new ArrayList<Seguradora>();
+	private static ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
+	private static ArrayList<Frota> listaFrotas = new ArrayList<Frota>();
+	private static ArrayList<Veiculo> listaVeiculos = new ArrayList<Veiculo>();
+
 	/* Métodos de instanciação de objetos */
 
 	public static Seguradora instanciarSeguradora()
@@ -194,7 +200,13 @@ public class Main
 		if (cliente.equals(null))
 			cliente = (ClientePF)instanciarCliente();
 
-		Veiculo veiculo = selecionarVeiculo(cliente);
+		Veiculo veiculo = cliente.selecionarVeiculo();
+		if (veiculo.equals(null))
+		{
+			System.out.println("Por favor, primeiro, cadastre um veículo");
+			veiculo = instanciarVeiculo();
+			listaVeiculos.add(veiculo);
+		}
 
 		SeguroPF seguro = new SeguroPF(LocalDate.now(), LocalDate.now().plusMonths(6), seguradora, new ArrayList<Sinistro>(), new ArrayList<Condutor>(), veiculo, cliente);
 
@@ -233,7 +245,7 @@ public class Main
 			return instanciarSeguroPJ(seguradora);
 	}
 
-    public static Sinistro instanciarSinistro(ArrayList<Seguradora> listaSeguradoras)
+    public static Sinistro instanciarSinistro()
     {
         System.out.print("Insira a data do sinistro [dd/mm/aaaa]: ");
 		LocalDate dataSinistro = Leitura.leData();
@@ -241,7 +253,7 @@ public class Main
         System.out.print("Insira o endereço do sinistro: ");
         String endereco = Leitura.leString();
 
-		Seguro seguro = selecionarSeguro(listaSeguradoras);
+		Seguro seguro = selecionarSeguro();
 
 		Condutor condutor = selecionarCondutor(seguro);
 
@@ -262,7 +274,7 @@ public class Main
 
 	/* Métodos de seleção de objetos */
 
-	public static Seguradora selecionarSeguradora(ArrayList<Seguradora> listaSeguradoras)
+	public static Seguradora selecionarSeguradora()
 	{
 		Seguradora seguradora;
 		
@@ -287,7 +299,7 @@ public class Main
 		return seguradora;
 	}
 	
-	public static Cliente selecionarCliente(ArrayList<Cliente> listaClientes)
+	public static Cliente selecionarCliente()
 	{
 		Cliente cliente;
 		
@@ -313,11 +325,11 @@ public class Main
 		return cliente;
 	}
 	
-	public static Veiculo selecionarVeiculo(ClientePF cliente)
+	public static Veiculo selecionarVeiculo()
 	{
 		Veiculo veiculo;
 		
-		if (cliente.getListaVeiculos().isEmpty())
+		if (listaVeiculos.isEmpty())
 		{
 			System.out.println("Por favor cadastre um veículo primeiro");
 			veiculo = instanciarVeiculo();
@@ -327,18 +339,18 @@ public class Main
 			int opcao;
 
 			System.out.println("Selecione um veículo");
-			System.out.println(cliente.listarVeiculosPorCliente());
+			listarObjetos(listaVeiculos, "Veículo", "o");
 			do
 			{	
 				opcao = Leitura.leInt() - 1;
-			} while (!Validacao.validarIndice(opcao, cliente.getListaVeiculos()));
-			veiculo = cliente.getListaVeiculos().get(opcao);
+			} while (!Validacao.validarIndice(opcao, listaVeiculos));
+			veiculo = listaVeiculos.get(opcao);
 		}
 		
 		return veiculo;
 	}
 	
-	public static Frota selecionarFrota(ArrayList<Frota> listaFrotas)
+	public static Frota selecionarFrota()
 	{
 		Frota frota;
 		
@@ -363,10 +375,10 @@ public class Main
 		return frota;
 	}
 	
-	public static Seguro selecionarSeguro(ArrayList<Seguradora> listaSeguradoras)
+	public static Seguro selecionarSeguro()
 	{
 		Seguro seguro;
-		Seguradora seguradora = selecionarSeguradora(listaSeguradoras);
+		Seguradora seguradora = selecionarSeguradora();
 		
 		if (seguradora.getListaSeguros().isEmpty())
 		{
@@ -465,7 +477,7 @@ public class Main
 		return opUsuarioConst;
 	}
 	
-	public static void executarOpcaoMenuExterno(MenuOperacoes op, ArrayList<Seguradora> listaSeguradoras, ArrayList<Cliente> listaClientes, ArrayList<Veiculo> listaVeiculos, ArrayList<Frota> listaFrotas) 
+	public static void executarOpcaoMenuExterno(MenuOperacoes op)
 	{
 		Seguradora seguradora;
 
@@ -480,11 +492,11 @@ public class Main
 			case GERAR_SINISTRO:
 			
 			case SEGURO:
-			executarSubmenu(op, listaSeguradoras, listaClientes, listaVeiculos, listaFrotas);
+			executarSubmenu(op);
 			break;
 
 			case CALCULAR_RECEITA:
-				seguradora = selecionarSeguradora(listaSeguradoras);
+				seguradora = selecionarSeguradora();
 				double receita = seguradora.calcularReceita();
 
 				System.out.print("Receita = ");
@@ -499,7 +511,7 @@ public class Main
 		}
 	}
 
-	public static void executarOpcaoSubMenu(SubmenuOperacoes opSubmenu, ArrayList<Seguradora> listaSeguradoras, ArrayList<Cliente> listaClientes, ArrayList<Veiculo> listaVeiculos, ArrayList<Frota> listaFrotas) 
+	public static void executarOpcaoSubMenu(SubmenuOperacoes opSubmenu) 
 	{
 		Veiculo veiculo;
 		Frota frota;
@@ -524,32 +536,27 @@ public class Main
 
 					if (opcao.equals("s"))
 					{
-						seguradora = selecionarSeguradora(listaSeguradoras);
+						seguradora = selecionarSeguradora();
 						seguradora.cadastrarCliente(cliente);
 					}
 				}
 				break;
 
-			case CADASTRAR_VEICULO_PF:
+			case CADASTRAR_VEICULO:
 				veiculo = instanciarVeiculo();
 				listaVeiculos.add(veiculo);
+				break;
 
-				if (!listaClientes.isEmpty())
+			case CADASTRAR_VEICULO_PF:
+				ClientePF clientePF = (ClientePF)selecionarCliente();		
+				veiculo = clientePF.selecionarVeiculo();
+				if (veiculo.equals(null))
 				{
-					System.out.println("Deseja registrá-lo em um cliente? [s/n]");
-					String opcao;
-
-					do
-					{
-						opcao = Leitura.leString();
-					} while (!(opcao.equals("s") || opcao.equals("n")));
-
-					if (opcao.equals("s"))
-					{
-						ClientePF clientePF = (ClientePF)selecionarCliente(listaClientes);
-						clientePF.cadastrarVeiculo(veiculo);
-					}
+					System.out.println("Por favor, primeiro, cadastre um veículo");
+					veiculo = instanciarVeiculo();
+					listaVeiculos.add(veiculo);
 				}
+				clientePF.cadastrarVeiculo(veiculo);
 				break;
 
 			case CADASTRAR_FROTA:
@@ -568,7 +575,7 @@ public class Main
 
 					if (opcao.equals("s"))
 					{
-						ClientePJ clientePJ = (ClientePJ)selecionarCliente(listaClientes);
+						ClientePJ clientePJ = (ClientePJ)selecionarCliente();
 						clientePJ.cadastrarFrota(frota);
 					}
 				}
@@ -601,13 +608,13 @@ public class Main
 
 						if (opUsuario == 1)
 						{
-							ClientePJ clientePJ = (ClientePJ)selecionarCliente(listaClientes);
+							ClientePJ clientePJ = (ClientePJ)selecionarCliente();
 							frota = clientePJ.selecionarFrota();
 							frota.cadastrarVeiculo(veiculo);
 						}
 						else
 						{
-							frota = selecionarFrota(listaFrotas);
+							frota = selecionarFrota();
 							listaFrotas.add(frota);
 						}
 					}
@@ -620,24 +627,24 @@ public class Main
 				break;
 
 			case LISTAR_SEGUROS_POR_SEGURADORA:
-				seguradora = selecionarSeguradora(listaSeguradoras);
+				seguradora = selecionarSeguradora();
 				listarObjetos(seguradora.getListaSeguros(), "Seguro", "o");
 				break;
 
 			case LISTAR_CLIENTES_POR_SEGURADORA:
-				seguradora = selecionarSeguradora(listaSeguradoras);
+				seguradora = selecionarSeguradora();
 				seguradora.listarClientesPorSeguradora();
 				break;
 
 			case LISTAR_SEGUROS_POR_CLIENTE:
-				cliente = selecionarCliente(listaClientes);
+				cliente = selecionarCliente();
 				for (Seguradora seg: listaSeguradoras)
 					if (seg.getListaClientes().contains(cliente))
 						seg.listarSegurosPorCliente(cliente);
 				break;
 
 			case LISTAR_CONDUTOR_POR_SEGURO:
-				seguro = selecionarSeguro(listaSeguradoras);
+				seguro = selecionarSeguro();
 				break;
 
 			case LISTAR_SINISTROS_POR_SEGURO:
@@ -710,7 +717,7 @@ public class Main
 		}
 	}
 	
-	public static void executarSubmenu(MenuOperacoes op, ArrayList<Seguradora> listaSeguradoras, ArrayList<Cliente> listaClientes, ArrayList<Veiculo> listaVeiculos, ArrayList<Frota> listaFrotas) 
+	public static void executarSubmenu(MenuOperacoes op) 
 	{
 		SubmenuOperacoes opSubmenu;
 
@@ -718,17 +725,13 @@ public class Main
 		{
 			exibirSubmenu(op);
 			opSubmenu = lerOpcaoSubmenu(op);
-			executarOpcaoSubMenu(opSubmenu, listaSeguradoras, listaClientes, listaVeiculos, listaFrotas);
+			executarOpcaoSubMenu(opSubmenu);
 		} while(opSubmenu != SubmenuOperacoes.VOLTAR);
 	}
 
 	public static void main(String[] args) 
 	{
 		MenuOperacoes op;
-		ArrayList<Seguradora> listaSeguradoras = new ArrayList<Seguradora>();
-		ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
-		ArrayList<Frota> listaFrotas = new ArrayList<Frota>();
-		ArrayList<Veiculo> listaVeiculos = new ArrayList<Veiculo>();
 
 		System.out.println("/-------- Sistema de seguros Mirinho SA --------/");
 
@@ -736,7 +739,7 @@ public class Main
 		{
 			exibirMenuExterno();
 			op = lerOpcaoMenuExterno();
-			executarOpcaoMenuExterno(op, listaSeguradoras, listaClientes, listaVeiculos, listaFrotas);
+			executarOpcaoMenuExterno(op);
 		} while(op != MenuOperacoes.SAIR);
 
 		System.out.println("Sistema encerrado");
