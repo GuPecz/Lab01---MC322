@@ -1,97 +1,8 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Scanner;
-
-/* A FAZER:
- * - Lidar com condutor e seguro na instanciação do sinistro
- * - Implementar impressão decente das listas
- * - Cuidar da data fim do seguro
- * - Pedir quantidade de sinistros na instanciação do seguro
- * - Melhorar implementação do gerarCodigo em Frota
- * - Refatorar listagens em Seguradora para retornarem uma String
- */
 
 public class Main 
 {
-	public class Leitura 
-	{
-		public static Scanner input = new Scanner(System.in);
-		
-		public static LocalDate leData()
-		{
-			String data;
-			int dia = 0, mes = 0, ano = 0;
-			boolean dataValida;
-		
-			do
-			{
-				data = input.nextLine();
-				data = data.replaceAll("\\D", "");
-		
-				if (data.length() != 8)
-				{
-					System.out.println("ERRO: Data inválida");
-					dataValida = false;
-				}
-				else
-				{
-					dia = Integer.parseInt(data.substring(0, 2));
-					mes = Integer.parseInt(data.substring(2, 4));
-					ano = Integer.parseInt(data.substring(4, 8));
-		
-					dataValida = Validacao.validarData(dia, mes, ano);
-				}
-			} while (!dataValida);
-		
-			return LocalDate.of(ano, mes, dia);
-		}
-
-		public static String lePalavra()
-		{
-			String nome;
-			boolean nomeValido;
-
-			do
-			{
-				nome = input.nextLine();
-
-				nomeValido = Validacao.validarNome(nome);
-				if (!nomeValido)
-					System.out.println("ERRO: Palavra inválida");
-			} while (!nomeValido);
-
-			return nome;
-		}
-
-		public static int leInt()
-		{
-			String inteiro;
-			boolean intValido = false;
-
-			do
-			{
-				inteiro = input.nextLine();
-
-				try
-				{
-					Integer.parseInt(inteiro);
-					intValido = true;
-				} 
-				catch (NumberFormatException e)
-				{
-					System.out.println("ERRO: Número inválido");
-				}
-			} while (!intValido);
-
-			return Integer.parseInt(inteiro);
-		}
-
-		public static String leString()
-		{
-			return input.nextLine();
-		}
-	}
-
 	/* Métodos de instanciação de objetos */
 
 	public static Seguradora instanciarSeguradora()
@@ -278,7 +189,10 @@ public class Main
 	
 	public static SeguroPF instanciarSeguroPF(Seguradora seguradora)
 	{
-		ClientePF cliente = (ClientePF)selecionarClientePorSeguradora(seguradora);
+		ClientePF cliente = (ClientePF)seguradora.selecionarCliente();
+
+		if (cliente.equals(null))
+			cliente = (ClientePF)instanciarCliente();
 
 		Veiculo veiculo = selecionarVeiculo(cliente);
 
@@ -289,7 +203,10 @@ public class Main
 
 	public static SeguroPJ instanciarSeguroPJ(Seguradora seguradora)
 	{
-		ClientePJ cliente = (ClientePJ)selecionarClientePorSeguradora(seguradora);
+		ClientePJ cliente = (ClientePJ)seguradora.selecionarCliente();
+
+		if (cliente.equals(null))
+			cliente = (ClientePJ)instanciarCliente();
 
 		Frota frota = selecionarFrota(cliente);
 
@@ -385,7 +302,7 @@ public class Main
 			int opcao;
 			
 			System.out.println("Selecione um cliente");
-			System.out.print(listaClientes);
+			listarObjetos(listaClientes, "Cliente", "o");
 			do
 			{	
 				opcao = Leitura.leInt() - 1;
@@ -393,32 +310,6 @@ public class Main
 			cliente = listaClientes.get(opcao);
 		}
 
-		return cliente;
-	}
-	
-	public static Cliente selecionarClientePorSeguradora(Seguradora seguradora)
-	{
-		Cliente cliente;
-		
-		if (seguradora.getListaClientes().isEmpty())
-		{
-			System.out.println("Por favor, cadastre um cliente primeiro");
-			cliente = instanciarCliente();
-			seguradora.getListaClientes().add(cliente);
-		}
-		else
-		{
-			int opcao;
-
-			System.out.println("Selecione um cliente");
-			seguradora.listarClientesPorSeguradora();
-			do
-			{	
-				opcao = Leitura.leInt() - 1;
-			} while (!Validacao.validarIndice(opcao, seguradora.getListaClientes()));
-			cliente = seguradora.getListaClientes().get(opcao);
-		}
-		
 		return cliente;
 	}
 	
@@ -699,7 +590,7 @@ public class Main
 					if (opcao.equals("s"))
 					{
 						ClientePJ clientePJ = (ClientePJ)selecionarCliente(listaClientes);
-						frota = selecionarFrota(clientePJ);
+						frota = clientePJ.selecionarFrota();
 						frota.cadastrarVeiculo(veiculo);
 					}
 				}
