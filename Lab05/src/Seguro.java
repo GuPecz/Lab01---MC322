@@ -143,7 +143,6 @@ public abstract class Seguro
             {
                 System.out.println("Por favor, primeiro cadastre um condutor");
                 condutor = null;
-                autorizarCondutor();
             }
             else
             {
