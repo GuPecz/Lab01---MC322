@@ -271,7 +271,7 @@ public class Main
 		for (int i = 0; i < tam; i++)
 		{
 			System.out.printf("%s %d\n", objeto, (i + 1));
-			System.out.println(objeto.toString());
+			System.out.println(listaObjetos.get(i).toString());
 		}
 	}
 
