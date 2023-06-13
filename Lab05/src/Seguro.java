@@ -161,14 +161,14 @@ public abstract class Seguro
             return condutor;
         }
         
-    public void desautorizarCondutor()
+    public void desautorizarCondutor(Condutor condutor)
     {
-        listaCondutores.remove(selecionarCondutor());
+        listaCondutores.remove(condutor);
     }
 
-    public void autorizarCondutor()
+    public void autorizarCondutor(Condutor condutor)
     {
-        listaCondutores.add(selecionarCondutor());
+        listaCondutores.add(condutor);
     }
 
     public abstract double calcularValor();
