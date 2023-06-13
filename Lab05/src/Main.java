@@ -520,6 +520,8 @@ public class Main
 		Condutor condutor;
 		ClientePF clientePF;
 		ClientePJ clientePJ;
+		Sinistro sinistro;
+		String opcao;
 		int opUsuario;
 
 		switch(opSubmenu) 
@@ -531,7 +533,6 @@ public class Main
 				if (!listaSeguradoras.isEmpty())
 				{
 					System.out.println("Deseja registrá-lo em uma seguradora? [s/n]");
-					String opcao;
 
 					do
 					{
@@ -570,7 +571,6 @@ public class Main
 				if (!listaFrotas.isEmpty())
 				{
 					System.out.println("Deseja registrá-la em um cliente? [s/n]");
-					String opcao;
 
 					do
 					{
@@ -666,7 +666,6 @@ public class Main
 
 			case EXCLUIR_CLIENTE:
 				System.out.println("Selecione o tipo de cliente [f/j]");
-				String opcao;
 
 				do
 				{
@@ -763,27 +762,64 @@ public class Main
 				break;
 
 			case GERAR_SINISTRO_POR_CLIENTE:
-				// Stub
+				seguradora = selecionarSeguradora();
+				System.out.println("Selecione o tipo de cliente [f/j]");
+
+				do
+				{
+					opcao = Leitura.leString();
+				} while (!(opcao.equals("f") || opcao.equals("j")));
+				
+				ArrayList<Seguro> segurosCliente;
+				if (opcao.equals("f"))
+				{
+					clientePF = (ClientePF)selecionarCliente();
+					segurosCliente = seguradora.getSegurosPorCliente(clientePF.getCpf());
+				}
+				else
+				{
+					clientePJ = (ClientePJ)selecionarCliente();
+					segurosCliente = seguradora.getSegurosPorCliente(clientePJ.getCnpj());
+				}
+				
+				listarObjetos(segurosCliente, "Seguro", "o");
+				System.out.println("Digite uma opção:");
+				do
+				{
+					opUsuario = Leitura.leInt() - 1;
+				} while (!Validacao.validarIndice(opUsuario, segurosCliente));
+				seguro = seguradora.getListaSeguros().get(opUsuario);
+				seguro.gerarSinistro(instanciarSinistro());
 				break;
 
 			case GERAR_SINISTRO_POR_CONDUTOR:
-				// Stub
+				sinistro = instanciarSinistro();
+				seguro = selecionarSeguro();
+				selecionarCondutor(seguro).adicionarSinistro(sinistro);
 				break;
 
 			case GERAR_SEGURO:
-				// Stub
+				seguradora = selecionarSeguradora();
+				seguro = instanciarSeguro(seguradora);
+				seguradora.gerarSeguro(seguro);
 				break;
 
 			case CANCELAR_SEGURO:
-				// Stub
+				seguradora = selecionarSeguradora();
+				seguro = selecionarSeguro();
+				seguradora.cancelarSeguro(seguro);
 				break;
 
 			case AUTORIZAR_CONDUTOR:
-				// Stub
+				seguro = selecionarSeguro();
+				condutor = selecionarCondutor(seguro);
+				seguro.autorizarCondutor(condutor);
 				break;
 
 			case DESAUTORIZAR_CONDUTOR:
-				// Stub
+				seguro = selecionarSeguro();
+				condutor = selecionarCondutor(seguro);
+				seguro.desautorizarCondutor(condutor);
 				break;
 
 			case VOLTAR:
