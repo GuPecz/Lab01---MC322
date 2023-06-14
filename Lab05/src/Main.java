@@ -164,20 +164,27 @@ public class Main
 	
 	public static Frota instanciarFrota()
 	{
-		System.out.println("Quantos veículos deseja cadastrar veículos nesta frota? [s/n]");
+		System.out.println("Quantos veículos deseja cadastrar veículos nesta frota?");
+		int numObjs = Leitura.leInt();
 		String opcao;
+		ArrayList<Veiculo> veiculos = new ArrayList<Veiculo>();
 
-		do	
+		for (int i = 0; i < numObjs; i++)
 		{
-			opcao = Leitura.leString();
-		} while (!(opcao.equals("s") || opcao.equals("n")));
+			System.out.println("Instanciar veículo novo?");
 
-		if (opcao.equals("s"))
-		{
-			// Stub
+			do
+			{
+				opcao = Leitura.leString();
+			} while (!(opcao.equals("s") || opcao.equals("n")));
+
+			if (opcao.equals("s"))
+				veiculos.add(instanciarVeiculo());
+			else
+				veiculos.add(selecionarVeiculo());
 		}
 
-		return new Frota(new ArrayList<Veiculo>());
+		return new Frota(veiculos);
 	}
 	
 	public static Condutor instanciarCondutor()
