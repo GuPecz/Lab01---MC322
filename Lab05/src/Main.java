@@ -11,6 +11,7 @@ import java.util.Objects;
 public class Main 
 {
 	/* Atributos globais */
+
 	private static ArrayList<Seguradora> listaSeguradoras = new ArrayList<Seguradora>();
 	private static ArrayList<Cliente> listaClientes = new ArrayList<Cliente>();
 	private static ArrayList<Frota> listaFrotas = new ArrayList<Frota>();
@@ -164,7 +165,7 @@ public class Main
 	
 	public static Frota instanciarFrota()
 	{
-		System.out.println("Quantos veículos deseja cadastrar veículos nesta frota?");
+		System.out.println("Quantos veículos deseja cadastrar nesta frota?");
 		int numObjs = Leitura.leInt();
 		String opcao;
 		ArrayList<Veiculo> veiculos = new ArrayList<Veiculo>();
