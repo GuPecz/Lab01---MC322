@@ -57,7 +57,7 @@ public class Frota
         int qtdVeiculos = listaVeiculos.size();
 
         for (int i = 0; i < qtdVeiculos; i++)
-            veiculos += "Veículo " + i + "\n" + listaVeiculos.get(i);
+            veiculos += "Veículo " + (i + 1) + "\n" + listaVeiculos.get(i) + "\n";
 
         return veiculos;
     }
@@ -89,7 +89,6 @@ public class Frota
 
     public String toString()
     {
-        return "Informações da frota" + "\nCódigo: " + codigo
-                + "Lista de veículos: " + imprimirVeiculos();
+        return "Informações da frota" + "\nCódigo: " + codigo;
     }
 }
