@@ -2,10 +2,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Objects;
 
-/* AFAZER:
-* Remover redundância dos métodos listar e selecionar
-*/
-
 public class Main 
 {
 	/* Atributos globais */
