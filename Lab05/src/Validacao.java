@@ -150,23 +150,33 @@ public class Validacao
             return false;
     }
 
-    public static boolean validarData(int dia, int mes, int ano)
+    public static boolean ValidarAno(int ano)
     {
-        int[] mes31dias = {1, 3, 5, 7, 8, 10, 11};
-        int[] mes30dias = {4, 6, 9, 12};
-
         if (ano < 1945 || ano > 2023)
         {
             System.out.println("ERRO: Ano inválido");
             return false;
         }
-        
+        else
+            return true;
+    }
+
+    public static boolean validarMes(int mes)
+    {
         if (mes < 1 || mes > 12)
         {
             System.out.println("ERRO: Mês inválido");
             return false;
         }
-        
+        else
+            return true;
+    }
+
+    public static boolean validarDia(int dia, int mes, int ano)
+    {
+        int[] mes31dias = {1, 3, 5, 7, 8, 10, 11};
+        int[] mes30dias = {4, 6, 9, 12};
+
         if (dia < 1)
         {
             System.out.println("ERRO: Dia inválido");
@@ -193,8 +203,16 @@ public class Validacao
                     System.out.println("ERRO: Dia inválido");
                     return false;
             }
-            
+        
         return true;
+    }
+    
+    public static boolean validarData(int dia, int mes, int ano)
+    {
+        if (ValidarAno(ano) && validarMes(mes) && validarDia(dia, mes, ano))
+            return true;
+        else
+            return false;
     }
 
     public static boolean validarIndice(int indice, List<?> lista)
