@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 /* AFAZER:
-* Atualizar seguro onde precisa
 * Remover redundância dos métodos listar e selecionar
 */
 
@@ -692,18 +691,19 @@ public class Main
 				break;
 
 			case CADASTRAR_VEICULO:
-				veiculo = instanciarVeiculo();
-				listaVeiculos.add(veiculo);
+				listaVeiculos.add(instanciarVeiculo());
 				break;
 
 			case CADASTRAR_VEICULO_PF:
 				clientePF = (ClientePF)selecionarCliente();		
 				veiculo = clientePF.selecionarVeiculo();
+
 				if (Objects.isNull(veiculo))
 				{
 					veiculo = instanciarVeiculo();
 					listaVeiculos.add(veiculo);
 				}
+
 				clientePF.cadastrarVeiculo(veiculo);
 				break;
 
@@ -711,20 +711,17 @@ public class Main
 				frota = instanciarFrota();
 				listaFrotas.add(frota);
 
-				if (!listaFrotas.isEmpty())
+				System.out.println("Deseja registrá-la em um cliente? [s/n]");
+
+				do
 				{
-					System.out.println("Deseja registrá-la em um cliente? [s/n]");
+					opcao = Leitura.leString();
+				} while (!(opcao.equals("s") || opcao.equals("n")));
 
-					do
-					{
-						opcao = Leitura.leString();
-					} while (!(opcao.equals("s") || opcao.equals("n")));
-
-					if (opcao.equals("s"))
-					{
-						clientePJ = (ClientePJ)selecionarCliente();
-						clientePJ.cadastrarFrota(frota);
-					}
+				if (opcao.equals("s"))
+				{
+					clientePJ = (ClientePJ)selecionarCliente();
+					clientePJ.cadastrarFrota(frota);
 				}
 				break;
 

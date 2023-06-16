@@ -339,11 +339,13 @@ public class Seguradora
             if (seguro instanceof SeguroPF)
             {
                 SeguroPF seguroPF = (SeguroPF)seguro;
+                seguroPF.setValorMensal(seguroPF.calcularValor());
                 seguros += "(PF)" + "\n" + seguroPF.toString();
             }
             else
             {
                 SeguroPJ seguroPJ = (SeguroPJ)seguro;
+                seguroPJ.setValorMensal(seguroPJ.calcularValor());
                 seguros = "(PJ)" + "\n" + seguroPJ.toString();
             }
             
@@ -370,14 +372,16 @@ public class Seguradora
             {
                 ClientePF clientePf = (ClientePF)cliente;
                 SeguroPF seguroPf = (SeguroPF)seguro;
-                
+                seguroPf.setValorMensal(seguroPf.calcularValor());
+
                 if (seguroPf.getCliente().equals(clientePf))
-                seguros += "\n" + seguroPf.toString();
+                    seguros += "\n" + seguroPf.toString();
             }
             else if (cliente instanceof ClientePJ && seguro instanceof SeguroPJ)
             {
                 ClientePJ clientePj = (ClientePJ)cliente;
                 SeguroPJ seguroPj = (SeguroPJ)seguro;
+                seguroPj.setValorMensal(seguroPj.calcularValor());
                 
                 if (seguroPj.getCliente().equals(clientePj))
                     seguros += "\n" + seguroPj.toString();
@@ -444,8 +448,10 @@ public class Seguradora
         double receita = 0.0;
         
         for (Seguro seguro: listaSeguros)
+        {
+            seguro.setValorMensal(seguro.calcularValor());
             receita += seguro.getValorMensal();
-        
+        }
         return receita;
     }
     
