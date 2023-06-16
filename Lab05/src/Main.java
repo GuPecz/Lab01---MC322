@@ -4,7 +4,6 @@ import java.util.Objects;
 
 /* AFAZER:
  * Atualizar seguro onde precisa
- * Implementar seleção de objetos a partir das listas globais quando for instanciar objeto relacionado
  * Remover redundância dos métodos listar e selecionar
  */
 
@@ -48,7 +47,29 @@ public class Main
 		System.out.print("Insira o e-mail da seguradora: ");
 		String email = Leitura.leString();
 
-		return new Seguradora(cnpj, nome, telefone, endereco, email, new ArrayList<Cliente>(), new ArrayList<Seguro>());
+		ArrayList<Cliente> clientes = new ArrayList<Cliente>();
+		String opcao;
+		int numObjs;
+		
+		System.out.println("Quantos clientes deseja cadastrar nesta seguradora?");
+		numObjs = Leitura.leInt();
+
+		for (int i = 0; i < numObjs; i++)
+		{
+			System.out.println("Instanciar cliente novo? [s/n]");
+
+			do
+			{
+				opcao = Leitura.leString();
+			} while (!(opcao.equals("s") || opcao.equals("n")));
+
+			if (opcao.equals("s"))
+				clientes.add(instanciarCliente());
+			else
+				clientes.add(instanciarCliente());
+		}
+
+		return new Seguradora(cnpj, nome, telefone, endereco, email, clientes, new ArrayList<Seguro>());
 	}
 
 	public static void iniciarCliente(Cliente cliente)
@@ -84,7 +105,7 @@ public class Main
 				System.out.println("ERRO: CPF inválido\nTente novamente");
 		} while (!cpfValido);
         
-        ClientePF cliente = new ClientePF(null, null, null, null, cpf, null, null, null, new ArrayList<Veiculo>());
+        ClientePF cliente = new ClientePF(null, null, null, null, cpf, null, null, null, null);
         
         iniciarCliente(cliente);
         
@@ -100,6 +121,30 @@ public class Main
 		LocalDate dataNascimento = Leitura.leData();
         cliente.setDataNascimento(dataNascimento);
         
+		ArrayList<Veiculo> veiculos = new ArrayList<Veiculo>();
+		String opcao;
+		int numObjs;
+		
+		System.out.println("Quantos veículos deseja cadastrar neste cliente PF?");
+		numObjs = Leitura.leInt();
+
+		for (int i = 0; i < numObjs; i++)
+		{
+			System.out.println("Instanciar veículo novo? [s/n]");
+
+			do
+			{
+				opcao = Leitura.leString();
+			} while (!(opcao.equals("s") || opcao.equals("n")));
+
+			if (opcao.equals("s"))
+				veiculos.add(instanciarVeiculo());
+			else
+				veiculos.add(selecionarVeiculo());
+		}
+
+		cliente.setListaVeiculos(veiculos);
+
         return cliente;
     }
 
@@ -117,13 +162,37 @@ public class Main
 				System.out.println("ERRO: CNPJ inválido\nTente novamente");
 		} while (!cnpjValido);
 
-        ClientePJ cliente = new ClientePJ(null, null, null, null, cnpj, null, new ArrayList<Frota>());
+        ClientePJ cliente = new ClientePJ(null, null, null, null, cnpj, null, null);
 
         iniciarCliente(cliente);
 
         System.out.print("Insira a data de fundação do cliente [dd/mm/aaaa]: ");
 		LocalDate dataFundacao = Leitura.leData();
         cliente.setDataFundacao(dataFundacao);
+
+		ArrayList<Frota> frotas = new ArrayList<Frota>();
+		String opcao;
+		int numObjs;
+		
+		System.out.println("Quantas frotas deseja cadastrar neste cliente PJ?");
+		numObjs = Leitura.leInt();
+
+		for (int i = 0; i < numObjs; i++)
+		{
+			System.out.println("Instanciar frota nova? [s/n]");
+
+			do
+			{
+				opcao = Leitura.leString();
+			} while (!(opcao.equals("s") || opcao.equals("n")));
+
+			if (opcao.equals("s"))
+				frotas.add(instanciarFrota());
+			else
+				frotas.add(selecionarFrota());
+		}
+
+		cliente.setListaFrotas(frotas);
 
         return cliente;
     }
@@ -158,21 +227,23 @@ public class Main
         String modelo = Leitura.leString();
 
         System.out.print("Insira o ano de fabricação do veículo: ");
-        int anoFabricacao = Leitura.leInt();
+        int anoFabricacao = Leitura.leAno();
 
         return new Veiculo(placa, modelo, marca, anoFabricacao);
     }
 	
 	public static Frota instanciarFrota()
 	{
-		System.out.println("Quantos veículos deseja cadastrar nesta frota?");
-		int numObjs = Leitura.leInt();
-		String opcao;
 		ArrayList<Veiculo> veiculos = new ArrayList<Veiculo>();
+		String opcao;
+		int numObjs;
+		
+		System.out.println("Quantos veículos deseja cadastrar nesta frota?");
+		numObjs = Leitura.leInt();
 
 		for (int i = 0; i < numObjs; i++)
 		{
-			System.out.println("Instanciar veículo novo?");
+			System.out.println("Instanciar veículo novo? [s/n]");
 
 			do
 			{
@@ -230,6 +301,15 @@ public class Main
 		int qtdCondutores = Leitura.leInt();
 		for (int i = 0; i < qtdCondutores; i++)
 			seguro.autorizarCondutor(selecionarCondutor());
+
+		ArrayList<Sinistro> sinistros = new ArrayList<Sinistro>();
+		int numObjs;
+		
+		System.out.println("Quantos sinistros deseja cadastrar neste seguro?");
+		numObjs = Leitura.leInt();
+
+		for (int i = 0; i < numObjs; i++)
+			sinistros.add(instanciarSinistro());
 	}
 
 	public static SeguroPF instanciarSeguroPF(Seguradora seguradora)
