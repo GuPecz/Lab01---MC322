@@ -46,17 +46,22 @@ public class Main
 
 		for (int i = 0; i < numObjs; i++)
 		{
-			System.out.println("Instanciar veículo novo? [s/n]");
+			if (!listaVeiculos.isEmpty())
+			{	
+				System.out.println("Instanciar veículo novo? [s/n]");
 
-			do
-			{
-				opcao = Leitura.leString();
-			} while (!(opcao.equals("s") || opcao.equals("n")));
+				do
+				{
+					opcao = Leitura.leString();
+				} while (!(opcao.equals("s") || opcao.equals("n")));
 
-			if (opcao.equals("s"))
-				veiculos.add(instanciarVeiculo());
+				if (opcao.equals("s"))
+					veiculos.add(instanciarVeiculo());
+				else
+					veiculos.add(selecionarVeiculo());
+			}
 			else
-				veiculos.add(selecionarVeiculo());
+				veiculos.add(instanciarVeiculo());
 		}
 
 		return new Frota(veiculos);
@@ -101,17 +106,22 @@ public class Main
 
 		for (int i = 0; i < numObjs; i++)
 		{
-			System.out.println("Instanciar veículo novo? [s/n]");
-
-			do
+			if (!listaVeiculos.isEmpty())
 			{
-				opcao = Leitura.leString();
-			} while (!(opcao.equals("s") || opcao.equals("n")));
+				System.out.println("Instanciar veículo novo? [s/n]");
 
-			if (opcao.equals("s"))
-				veiculos.add(instanciarVeiculo());
+				do
+				{
+					opcao = Leitura.leString();
+				} while (!(opcao.equals("s") || opcao.equals("n")));
+
+				if (opcao.equals("s"))
+					veiculos.add(instanciarVeiculo());
+				else
+					veiculos.add(selecionarVeiculo());
+			}
 			else
-				veiculos.add(selecionarVeiculo());
+				veiculos.add(instanciarVeiculo());
 		}
 
 		cliente.setListaVeiculos(veiculos);
@@ -150,17 +160,22 @@ public class Main
 
 		for (int i = 0; i < numObjs; i++)
 		{
-			System.out.println("Instanciar frota nova? [s/n]");
-
-			do
+			if (!listaFrotas.isEmpty())
 			{
-				opcao = Leitura.leString();
-			} while (!(opcao.equals("s") || opcao.equals("n")));
+				System.out.println("Instanciar frota nova? [s/n]");
 
-			if (opcao.equals("s"))
-				frotas.add(instanciarFrota());
+				do
+				{
+					opcao = Leitura.leString();
+				} while (!(opcao.equals("s") || opcao.equals("n")));
+
+				if (opcao.equals("s"))
+					frotas.add(instanciarFrota());
+				else
+					frotas.add(selecionarFrota());
+			}
 			else
-				frotas.add(selecionarFrota());
+				frotas.add(instanciarFrota());
 		}
 
 		cliente.setListaFrotas(frotas);
@@ -370,15 +385,20 @@ public class Main
 
 		for (int i = 0; i < numObjs; i++)
 		{
-			System.out.println("Instanciar cliente novo? [s/n]");
-
-			do
+			if (!listaClientes.isEmpty())
 			{
-				opcao = Leitura.leString();
-			} while (!(opcao.equals("s") || opcao.equals("n")));
+				System.out.println("Instanciar cliente novo? [s/n]");
 
-			if (opcao.equals("s"))
-				clientes.add(instanciarCliente());
+				do
+				{
+					opcao = Leitura.leString();
+				} while (!(opcao.equals("s") || opcao.equals("n")));
+
+				if (opcao.equals("s"))
+					clientes.add(instanciarCliente());
+				else
+					clientes.add(selecionarCliente());
+			}
 			else
 				clientes.add(instanciarCliente());
 		}
