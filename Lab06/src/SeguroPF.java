@@ -34,7 +34,6 @@ public class SeguroPF extends Seguro
         this.cliente = cliente;
     }
     
-    // esse
     public int calculaQtdVeiculos()
     {
         /* Cada seguroPF tem apenas um veículo, logo a quantidade de seguros de 

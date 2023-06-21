@@ -102,7 +102,7 @@ public abstract class Seguro
         else
         {
             listaSinistros.add(sinistro);
-            valorMensal = calcularValor();
+            sinistro.getCondutor().adicionarSinistro(sinistro);
             return true;
         }
     }

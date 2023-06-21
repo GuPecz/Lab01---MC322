@@ -68,6 +68,18 @@ public class Leitura
         return Integer.parseInt(inteiro);
     }
 
+    public static int leAno()
+    {
+        int ano;
+
+        do
+        {
+            ano = leInt();
+        } while (!Validacao.ValidarAno(ano));
+
+        return ano;
+    }
+
     public static String leString()
     {
         return input.nextLine();
